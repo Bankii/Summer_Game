@@ -42,19 +42,34 @@ public class CVector
         _vector = new Vector3(x, y, 0);
     }
 
-    public float X()
+    public float x()
     {
         return _vector.x;
     }
 
-    public float Y()
+    public float y()
     {
         return _vector.y;
     }
 
-    public float Z()
+    public float z()
     {
         return _vector.y;
+    }
+
+    public void setX(float aX)
+    {
+        _vector = new Vector3(aX, _vector.y, _vector.z);
+    }
+
+    public void setY(float aY)
+    {
+        _vector = new Vector3(_vector.x, aY, _vector.z);
+    }
+
+    public void setZ(float aZ)
+    {
+        _vector = new Vector3(_vector.x, _vector.y, aZ);
     }
 
     public static CVector operator *(CVector aVector, float aScalar)
