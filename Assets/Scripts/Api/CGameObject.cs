@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class CGameObject : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private Transform _transform;
+
+    void Awake()
+    {
+        _transform = GetComponent<Transform>();
+    }
 }
