@@ -84,6 +84,9 @@
     <Compile Include="Assets\Scripts\api\math\CMath.cs" />
     <Compile Include="Assets\Scripts\api\math\CVector.cs" />
     <Compile Include="Assets\Scripts\api\sprites\CGameObject.cs" />
+    <Compile Include="Assets\Scripts\game\CGameConstants.cs" />
+    <Compile Include="Assets\Scripts\game\CPlatform.cs" />
+    <Compile Include="Assets\Scripts\game\CPlayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

@@ -179,10 +179,8 @@ public class CGameObject : MonoBehaviour {
         mVel = mVel * mFriction;
 
         mVel.truncate(mMaxSpeed);
-
-        //TODO: Revisar
-        //mPos = mPos + mVel * Time.deltaTime;
-        _transform.position = _transform.position + mVel._vector * Time.deltaTime;//new Vector3 (_transform.position.x + mVel.x(), _transform.position.y + mVel.y(), _transform.position.z + mVel.z()) * Time.deltaTime;
+        
+        _transform.position = _transform.position + mVel._vector * Time.deltaTime;
     }
 
     virtual public void render()
