@@ -90,7 +90,7 @@ public class CVector
     // Generates a copy of this vector.
     public CVector Clone()
     {
-        return new CVector(X(), Y(), Z());
+        return new CVector(x(), y(), z());
     }
 
     public CVector zero()
@@ -102,7 +102,7 @@ public class CVector
     // Returns true if the vector is Zero.
     public bool isZero()
     {
-        return X() == 0.0f && Y() == 0.0f && Z() == 0.0f;
+        return x() == 0.0f && y() == 0.0f && z() == 0.0f;
     }
 
     // Set the lenght or magnitude of this vector. 2D

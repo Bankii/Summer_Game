@@ -171,7 +171,7 @@ public class CGameObject : MonoBehaviour {
         return mAccel;
     }
 
-    virtual public void update()
+    virtual public void apiUpdate()
     {
         mTimeState = mTimeState + Time.deltaTime;
 
@@ -182,7 +182,7 @@ public class CGameObject : MonoBehaviour {
 
         //TODO: Revisar
         //mPos = mPos + mVel * Time.deltaTime;
-        _transform.position = new Vector3 (_transform.position.x + mVel.x(), _transform.position.y + mVel.y(), _transform.position.z + mVel.z()) * Time.deltaTime;
+        _transform.position = _transform.position + mVel._vector * Time.deltaTime;//new Vector3 (_transform.position.x + mVel.x(), _transform.position.y + mVel.y(), _transform.position.z + mVel.z()) * Time.deltaTime;
     }
 
     virtual public void render()
