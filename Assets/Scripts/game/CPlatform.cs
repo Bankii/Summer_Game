@@ -21,21 +21,24 @@ public class CPlatform : CGameObject {
         if (getType() == PLATFORM_GREEN)
         {
             //prefab GREEN
+            setName("Platform_Green");
         }
         else if (getType() == PLATFORM_RED)
         {
             //prefab RED
+            setName("Platform_Red");
         }
         else if (getType() == PLATFORM_YELLOW)
         {
             //prefab YELLOW
+            setName("Platform_Yellow");
         }
         else if (getType() == PLATFORM_BLUE)
         {
             //prefab BLUE
+            setName("Platform_Blue");
         }
-
-        setName("Platform " + getType());
+                
         
     }
 
