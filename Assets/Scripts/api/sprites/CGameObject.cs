@@ -130,6 +130,11 @@ public class CGameObject : MonoBehaviour {
         return mVel;
     }
 
+    public void setAccel(CVector aAccel)
+    {
+        mAccel = aAccel;
+    }
+
     public void setAccelX(float aAccelX)
     {
         mAccel.setX(aAccelX);
