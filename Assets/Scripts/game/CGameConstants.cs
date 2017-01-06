@@ -6,4 +6,6 @@ public class CGameConstants
 {
     public const int SCREEN_WIDTH = 1920;
     public const int SCREEN_HEIGHT = 1080;
+
+    public const int DIFFICULTY_INCREMENT = 1;
 }

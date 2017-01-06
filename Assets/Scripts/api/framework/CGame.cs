@@ -8,9 +8,14 @@ public class CGame : MonoBehaviour
 
 	private CCamera mCamera;
 	private CPlayer mPlayer;
-	//private CShip mShip;
+    //private CShip mShip;
 
-	void Awake()
+    public GameObject _platform_Green;
+    public GameObject _platform_Red;
+    public GameObject _platform_Yellow;
+    public GameObject _platform_Blue;
+
+    void Awake()
 	{
 		if (mInstance != null) 
 		{
@@ -19,10 +24,10 @@ public class CGame : MonoBehaviour
 
 		mInstance = this;
 
-		//CMouse.init();
-		//CKeyboard.init ();
+		CMouse.init();
+		CKeyboard.init ();
 
-		setState(new CLevelState ());
+		setState(new CLevelState (_platform_Green, _platform_Red, _platform_Yellow, _platform_Blue));
 		//setState(new CMainMenuState ());
 	}
 
@@ -49,8 +54,8 @@ public class CGame : MonoBehaviour
 
 	private void update()
 	{
-		//CMouse.update ();
-		//CKeyboard.update ();
+		CMouse.update ();
+		CKeyboard.update ();
 		mState.update ();
 	}
 
@@ -61,8 +66,8 @@ public class CGame : MonoBehaviour
 
 	public void destroy()
 	{
-		//CMouse.destroy ();
-		//CKeyboard.destroy ();
+		CMouse.destroy ();
+		CKeyboard.destroy ();
 		if (mState != null) 
 		{
 			mState.destroy ();

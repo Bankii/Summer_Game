@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CLevelState : CGameState
 {
@@ -15,25 +16,49 @@ public class CLevelState : CGameState
 
 	private CCamera mCamera;
 
-	public CLevelState()
-	{
-  //      mPlayer = new CPlayer();
-  //      CGame.inst().setPlayer(mPlayer);
+    //Simon variables
+    private List<int> _simonSecuence;
+    private int _randomNum;
+    private int _difficulty;
+    bool _isSolved;
+    bool _isGameOver; //testing
 
-  //      mPlayer = new CShip();
-  //      CGame.inst().setShip(mPlayer);
+    CPlatform _platformGreen;
+    CPlatform _platformRed;
+    CPlatform _platformYellow;
+    CPlatform _platformBlue;
+    
 
-  //      mBulletManager = new CBulletManager();
-  //      mEnemyManager = new CEnemyManager();
+    public CLevelState(GameObject aPlatformGreen, GameObject aPlatformRed, GameObject aPlatformYellow, GameObject aPlatformBlue)
+    {
+        _difficulty = 0;
+        _simonSecuence = new List<int>();
+        _isSolved = true;
+        _isGameOver = false;
 
-  //      mMap = new CTileMap(1);
+        _platformGreen = new CPlatform(0, aPlatformGreen);
+        _platformRed = new CPlatform(1, aPlatformRed);
+        _platformYellow = new CPlatform(2, aPlatformYellow);
+        _platformBlue = new CPlatform(3, aPlatformBlue);
+        
 
-  //      mCamera = new CCamera ();
-		//mCamera.setXY (0, 0);
-		//mCamera.setVelX (30);
-		//CGame.inst ().setCamera (mCamera);
-		//mCamera.setGameObjectToFollow (mPlayer);
-	}
+        //      mPlayer = new CPlayer();
+        //      CGame.inst().setPlayer(mPlayer);
+
+        //      mPlayer = new CShip();
+        //      CGame.inst().setShip(mPlayer);
+
+        //      mBulletManager = new CBulletManager();
+        //      mEnemyManager = new CEnemyManager();
+
+        //      mMap = new CTileMap(1);
+
+        //      mCamera = new CCamera ();
+        //mCamera.setXY (0, 0);
+        //mCamera.setVelX (30);
+        //CGame.inst ().setCamera (mCamera);
+        //mCamera.setGameObjectToFollow (mPlayer);
+    }
 
 	override public void init()
 	{
@@ -52,8 +77,113 @@ public class CLevelState : CGameState
 	override public void update()
 	{
 		base.update ();
-        
-		/*if (CKeyboard.firstPress (CKeyboard.ESCAPE)) 
+
+        if (_isSolved && !_isGameOver)
+        {
+            //If the previous secuence was solved or it's the first, show Simon Secuence
+            for(int i=0; i<=_difficulty; i++)
+            {
+                _randomNum = CMath.randomIntBetween(0, 3);
+                _simonSecuence.Add(_randomNum);
+                switch (_randomNum)
+                {
+                    case 0:
+                        //Green
+                        Debug.Log("Secuence: Green");
+                        //_platformGreen.GetComponent<SpriteRenderer>().sprite = _platformGreen.getPlatformSprites()[1];
+                        break;
+                    case 1:
+                        //Red
+                        Debug.Log("Secuence: Red");
+                        //_platformGreen.GetComponent<SpriteRenderer>().sprite = _platformGreen.getPlatformSprites()[3];
+                        break;
+                    case 2:
+                        //Yellow
+                        Debug.Log("Secuence: Yellow");
+                        //_platformGreen.GetComponent<SpriteRenderer>().sprite = _platformGreen.getPlatformSprites()[5];
+                        break;
+                    case 3:
+                        //Blue
+                        Debug.Log("Secuence: Blue");
+                        //_platformGreen.GetComponent<SpriteRenderer>().sprite = _platformGreen.getPlatformSprites()[7];
+                        break;
+                    default:
+                        break;
+                }
+                _isSolved = false;
+            }
+        }
+        else if(!_isSolved && !_isGameOver)
+        {
+            //Player Input Secuence
+            //Replace CKeyboard.pressed with collision detection
+            if (CKeyboard.pressed(KeyCode.G))
+            {
+                Debug.Log("G");
+                if (_simonSecuence[0] == 0)
+                {
+                    Debug.Log("Green: Correct");
+                    _simonSecuence.RemoveAt(0);
+                }
+                else
+                {
+                    _isGameOver = true;
+                }
+            }
+            else if(CKeyboard.pressed(KeyCode.R))
+            {
+                Debug.Log("R");
+                if (_simonSecuence[0] == 1)
+                {
+                    Debug.Log("Red: Correct");
+                    _simonSecuence.RemoveAt(0);
+                }
+                else
+                {
+                    _isGameOver = true;
+                }
+            }
+            else if (CKeyboard.pressed(KeyCode.Y))
+            {
+                Debug.Log("Y");
+                if (_simonSecuence[0] == 2)
+                {
+                    Debug.Log("Yellow: Correct");
+                    _simonSecuence.RemoveAt(0);
+                }
+                else
+                {
+                    _isGameOver = true;
+                }
+            }
+            else if (CKeyboard.pressed(KeyCode.B))
+            {
+                Debug.Log("B");
+                if (_simonSecuence[0] == 3)
+                {
+                    Debug.Log("Blue: Correct");
+                    _simonSecuence.RemoveAt(0);
+                }
+                else
+                {
+                    _isGameOver = true;
+                }
+            }
+
+            if (_simonSecuence.Count == 0)
+            {
+                _isSolved = true;
+                _difficulty = _difficulty + CGameConstants.DIFFICULTY_INCREMENT;
+                Debug.Log("You WIN, next secuence...");
+            }
+        }
+        else if(_isGameOver)
+        {
+            Debug.Log("You LOSE");
+        }
+
+
+        /*if (CKeyboard.firstPress (CKeyboard.ESCAPE)) 
 		{
 			CGame.inst().setState(new CMainMenuState());
 			return;
@@ -65,8 +195,8 @@ public class CLevelState : CGameState
 		mEnemyManager.update ();
 		mMap.update ();*/
 
-		//mCamera.update ();
-	}
+        //mCamera.update ();
+    }
 
 	//override public void render()
 	//{
