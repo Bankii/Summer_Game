@@ -176,6 +176,7 @@ public class CGameObject : MonoBehaviour {
         return mAccel;
     }
 
+
     virtual public void apiUpdate()
     {
         mTimeState = mTimeState + Time.deltaTime;

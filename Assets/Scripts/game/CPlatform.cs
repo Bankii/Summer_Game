@@ -16,17 +16,17 @@ public class CPlatform : CGameObject {
     private const int PLATFORM_HEIGHT = 40;
     private const int PLATFORM_WIDTH = 85;
 
-    GameObject _platformType;
+    private GameObject _platformType;
     public Sprite[] _platformSprite;
-    SpriteRenderer _spriteRendererGreen;
-    SpriteRenderer _spriteRendererRed;
-    SpriteRenderer _spriteRendererYellow;
-    SpriteRenderer _spriteRendererBlue;
+    private SpriteRenderer _spriteRendererGreen;
+    private SpriteRenderer _spriteRendererRed;
+    private SpriteRenderer _spriteRendererYellow;
+    private SpriteRenderer _spriteRendererBlue;
 
 
     public CPlatform(int aColor, GameObject aPlatformGameObject)
     {     
-           
+       
         _platformType = aPlatformGameObject;
 
         setType(aColor);
@@ -36,21 +36,19 @@ public class CPlatform : CGameObject {
             //prefab GREEN
             Instantiate(_platformType, new Vector3(1200,-600), Quaternion.identity);
             _spriteRendererGreen = _platformType.GetComponent<SpriteRenderer>();
-            Debug.Log("Constructor Renderer Green " + _spriteRendererGreen);
-            setName("Platform_Green");            
+            setName("Platform_Green");
         }
         else if (getType() == PLATFORM_RED)
         {
             //prefab RED
             Instantiate(_platformType, new Vector3(1200 + PLATFORM_WIDTH, -600), Quaternion.identity);
             _spriteRendererRed = _platformType.GetComponent<SpriteRenderer>();
-            Debug.Log("Constructor Renderer Red " + _spriteRendererGreen);
             setName("Platform_Red");
         }
         else if (getType() == PLATFORM_YELLOW)
         {
             //prefab YELLOW
-            Instantiate(_platformType, new Vector3(1200 + PLATFORM_WIDTH *2, -600), Quaternion.identity);
+            Instantiate(_platformType, new Vector3(1200 + PLATFORM_WIDTH * 2, -600), Quaternion.identity);
             _spriteRendererYellow = _platformType.GetComponent<SpriteRenderer>();
             setName("Platform_Yellow");
         }
@@ -62,7 +60,7 @@ public class CPlatform : CGameObject {
             setName("Platform_Blue");
         }
 
-        
+
     }
 
 
@@ -80,13 +78,14 @@ public class CPlatform : CGameObject {
 
     // Use this for initialization
     void Start () {
-        setState(STATE_OFF);        
+        setState(STATE_ON);        
         // load all frames in _platformSprites array
         _platformSprite = Resources.LoadAll<Sprite>("Art/Colors_Placeholders");
     }
 
     void Update()
     {
+
         apiUpdate();
     }
     
@@ -94,13 +93,15 @@ public class CPlatform : CGameObject {
     public override void apiUpdate()
     {
         base.apiUpdate();
-        /*if (getState() == STATE_OFF)
+        Debug.Log("CPlatform apiUpdate");
+        if (getState() == STATE_OFF)
         {
-            Debug.Log("OFF " + getType());
+            Debug.Log(getState());
             if (getType() == PLATFORM_GREEN)
             {
+                Debug.Log("State OFF Renderer Green " + _platformSprite[0]);
                 _spriteRendererGreen.sprite = _platformSprite[0];
-                Debug.Log("State OFF Renderer Green " + _spriteRendererGreen);
+                
             }
             else if (getType() == PLATFORM_RED)
             {
@@ -118,9 +119,10 @@ public class CPlatform : CGameObject {
         }
         if (getState() == STATE_ON)
         {
-            Debug.Log("ON");
+            Debug.Log(getState());
             if (getType() == PLATFORM_GREEN)
-            {
+            {                
+                Debug.Log("State ON Renderer Green " + _platformSprite[1]);
                 _spriteRendererGreen.sprite = _platformSprite[1];
             }
             else if (getType() == PLATFORM_RED)
@@ -135,7 +137,7 @@ public class CPlatform : CGameObject {
             {
                 _spriteRendererBlue.sprite = _platformSprite[7];
             }
-        }*/
+        }
 
     }
 }

@@ -20,13 +20,13 @@ public class CLevelState : CGameState
     private List<int> _simonSecuence;
     private int _randomNum;
     private int _difficulty;
-    bool _isSolved;
-    bool _isGameOver; //testing
+    private bool _isSolved;
+    private bool _isGameOver; //testing
 
-    CPlatform _platformGreen;
-    CPlatform _platformRed;
-    CPlatform _platformYellow;
-    CPlatform _platformBlue;
+    private CPlatform _platformGreen;
+    private CPlatform _platformRed;
+    private CPlatform _platformYellow;
+    private CPlatform _platformBlue;
     
 
     public CLevelState(GameObject aPlatformGreen, GameObject aPlatformRed, GameObject aPlatformYellow, GameObject aPlatformBlue)
@@ -72,6 +72,7 @@ public class CLevelState : CGameState
 
 		//createAsteroids ();
 		//createCannons ();
+        
 	}
 
 	override public void update()
@@ -111,7 +112,7 @@ public class CLevelState : CGameState
                         break;
                 }
                 _isSolved = false;
-            }
+            }            
         }
         else if(!_isSolved && !_isGameOver)
         {
@@ -196,23 +197,29 @@ public class CLevelState : CGameState
 		mMap.update ();*/
 
         //mCamera.update ();
+
+        _platformGreen.apiUpdate();
+        /*_platformRed.apiUpdate();
+        _platformYellow.apiUpdate();
+        _platformBlue.apiUpdate();*/
     }
 
-	//override public void render()
-	//{
-	//	base.render ();
+    //override public void render()
+    //{
+    //	base.render ();
 
-	//	/*mBackground.render ();
-	//	mPlayer.render ();
-	//	mBulletManager.render ();
-	//	mEnemyManager.render ();
-	//	mMap.render ();*/
+    //	/*mBackground.render ();
+    //	mPlayer.render ();
+    //	mBulletManager.render ();
+    //	mEnemyManager.render ();
+    //	mMap.render ();*/
 
-	//	mCamera.render ();
-	//}
+    //	mCamera.render ();
+    //}
 
-	// TODO: Al apretar Escape da error.
-	override public void destroy()
+
+    // TODO: Al apretar Escape da error.
+    override public void destroy()
 	{
 		base.destroy ();
 
