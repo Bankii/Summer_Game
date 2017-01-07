@@ -90,56 +90,56 @@ public class CPlatform : CGameObject {
 
         apiUpdate();
     }
-    
 
-    //public override void apiUpdate()
-    //{
-    //    base.apiUpdate();
-    //    Debug.Log("CPlatform apiUpdate");
-    //    if (getState() == STATE_OFF)
-    //    {
-    //        Debug.Log(getState());
-    //        if (getType() == PLATFORM_GREEN)
-    //        {
-    //            Debug.Log("State OFF Renderer Green " + _platformSprite[0]);
-    //            _spriteRendererGreen.sprite = _platformSprite[0];
-                
-    //        }
-    //        else if (getType() == PLATFORM_RED)
-    //        {
-    //            _spriteRendererRed.sprite = _platformSprite[2];
-    //            Debug.Log("State OFF Renderer Red " + _spriteRendererRed);
-    //        }
-    //        else if (getType() == PLATFORM_YELLOW)
-    //        {
-    //            _spriteRendererYellow.sprite = _platformSprite[4];
-    //        }
-    //        else if (getType() == PLATFORM_BLUE)
-    //        {
-    //            _spriteRendererBlue.sprite = _platformSprite[6];
-    //        }
-    //    }
-    //    if (getState() == STATE_ON)
-    //    {
-    //        Debug.Log(getState());
-    //        if (getType() == PLATFORM_GREEN)
-    //        {                
-    //            Debug.Log("State ON Renderer Green " + _platformSprite[1]);
-    //            _spriteRendererGreen.sprite = _platformSprite[1];
-    //        }
-    //        else if (getType() == PLATFORM_RED)
-    //        {
-    //            _spriteRendererRed.sprite = _platformSprite[3];
-    //        }
-    //        else if (getType() == PLATFORM_YELLOW)
-    //        {
-    //            _spriteRendererYellow.sprite = _platformSprite[5];
-    //        }
-    //        else if (getType() == PLATFORM_BLUE)
-    //        {
-    //            _spriteRendererBlue.sprite = _platformSprite[7];
-    //        }
-    //    }
 
-    //}
+    public override void apiUpdate()
+    {
+        base.apiUpdate();
+        Debug.Log("CPlatform apiUpdate");
+        if (getState() == STATE_OFF)
+        {
+            Debug.Log(getState());
+            if (getType() == PLATFORM_GREEN)
+            {
+                Debug.Log("State OFF Renderer Green " + _platformSprite[0]);
+                _spriteRenderer.sprite = _platformSprite[0];
+
+            }
+            //else if (getType() == PLATFORM_RED)
+            //{
+            //    _spriteRendererRed.sprite = _platformSprite[2];
+            //    Debug.Log("State OFF Renderer Red " + _spriteRendererRed);
+            //}
+            //else if (getType() == PLATFORM_YELLOW)
+            //{
+            //    _spriteRendererYellow.sprite = _platformSprite[4];
+            //}
+            //else if (getType() == PLATFORM_BLUE)
+            //{
+            //    _spriteRendererBlue.sprite = _platformSprite[6];
+            //}
+        }
+        if (getState() == STATE_ON)
+        {
+            Debug.Log(getState());
+            if (getType() == PLATFORM_GREEN)
+            {
+                Debug.Log("State ON Renderer Green " + _platformSprite[1]);
+                _spriteRenderer.sprite = _platformSprite[1];
+            }
+            //else if (getType() == PLATFORM_RED)
+            //{
+            //    _spriteRendererRed.sprite = _platformSprite[3];
+            //}
+            //else if (getType() == PLATFORM_YELLOW)
+            //{
+            //    _spriteRendererYellow.sprite = _platformSprite[5];
+            //}
+            //else if (getType() == PLATFORM_BLUE)
+            //{
+            //    _spriteRendererBlue.sprite = _platformSprite[7];
+            //}
+        }
+
+    }
 }
