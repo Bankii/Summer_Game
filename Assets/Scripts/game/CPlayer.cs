@@ -45,12 +45,56 @@ public class CPlayer : CGameObject
                 }
                 break;
             case STATE_WALKING:
+                // setear velocidad y flipear segun lado.
                 if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
+                {
+                    setState(STATE_IDLE);
+                }
+                if (getPos().x + _width >= _maxX && Input.GetKey(KeyCode.RightArrow))
+                {
+                    setState(STATE_IDLE);
+                }
+                if (getPos().x <= _minX && Input.GetKey(KeyCode.LeftArrow))
                 {
                     setState(STATE_IDLE);
                 }
                 break;
             case STATE_JUMPING:
+                if (getPos().y + _height >= _maxY)
+                {
+                    setState(STATE_IDLE);
+                }
+                if (getPos().y <= _minY)
+                {
+                    // corregir posicion.
+                    // poner velY en 0.
+                }
+                if (getPos().x + _width >= _maxX && Input.GetKey(KeyCode.RightArrow))
+                {
+                    // set velX 0.
+                }
+                if (getPos().x <= _minX && Input.GetKey(KeyCode.LeftArrow))
+                {
+                    // set velX 0.
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public override void setState(int aState)
+    {
+        base.setState(aState);
+        switch (getState())
+        {
+            case STATE_IDLE:
+                setVel(new CVector(Vector3.zero));
+                //setAccel(new CVector(Vector3.zero));
+                break;
+            case STATE_JUMPING:
+                setVelY(_verticalSpeed);
+                setAccelY(_GRAVITY);
                 break;
             default:
                 break;
