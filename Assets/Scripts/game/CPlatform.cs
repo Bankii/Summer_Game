@@ -18,47 +18,49 @@ public class CPlatform : CGameObject {
 
     private GameObject _platformType;
     public Sprite[] _platformSprite;
-    private SpriteRenderer _spriteRendererGreen;
-    private SpriteRenderer _spriteRendererRed;
-    private SpriteRenderer _spriteRendererYellow;
-    private SpriteRenderer _spriteRendererBlue;
+    private SpriteRenderer _spriteRenderer;
+    //private SpriteRenderer _spriteRendererGreen;
+    //private SpriteRenderer _spriteRendererRed;
+    //private SpriteRenderer _spriteRendererYellow;
+    //private SpriteRenderer _spriteRendererBlue;
 
 
     public CPlatform(int aColor, GameObject aPlatformGameObject)
     {     
        
-        _platformType = aPlatformGameObject;
+        //_platformType = aPlatformGameObject;
 
         setType(aColor);
 
         if (getType() == PLATFORM_GREEN)
         {
             //prefab GREEN
-            Instantiate(_platformType, new Vector3(1200,-600), Quaternion.identity);
-            _spriteRendererGreen = _platformType.GetComponent<SpriteRenderer>();
+            _platformType = Instantiate(aPlatformGameObject, new Vector3(1200,-600), Quaternion.identity);
+            _spriteRenderer = _platformType.GetComponent<SpriteRenderer>();
+            //_spriteRenderer.sprite = el sprite que quieras.
             setName("Platform_Green");
         }
-        else if (getType() == PLATFORM_RED)
-        {
-            //prefab RED
-            Instantiate(_platformType, new Vector3(1200 + PLATFORM_WIDTH, -600), Quaternion.identity);
-            _spriteRendererRed = _platformType.GetComponent<SpriteRenderer>();
-            setName("Platform_Red");
-        }
-        else if (getType() == PLATFORM_YELLOW)
-        {
-            //prefab YELLOW
-            Instantiate(_platformType, new Vector3(1200 + PLATFORM_WIDTH * 2, -600), Quaternion.identity);
-            _spriteRendererYellow = _platformType.GetComponent<SpriteRenderer>();
-            setName("Platform_Yellow");
-        }
-        else if (getType() == PLATFORM_BLUE)
-        {
-            //prefab BLUE
-            Instantiate(_platformType, new Vector3(1200 + PLATFORM_WIDTH * 3, -600), Quaternion.identity);
-            _spriteRendererBlue = _platformType.GetComponent<SpriteRenderer>();
-            setName("Platform_Blue");
-        }
+        //else if (getType() == PLATFORM_RED)
+        //{
+        //    //prefab RED
+        //    Instantiate(_platformType, new Vector3(1200 + PLATFORM_WIDTH, -600), Quaternion.identity);
+        //    _spriteRendererRed = _platformType.GetComponent<SpriteRenderer>();
+        //    setName("Platform_Red");
+        //}
+        //else if (getType() == PLATFORM_YELLOW)
+        //{
+        //    //prefab YELLOW
+        //    Instantiate(_platformType, new Vector3(1200 + PLATFORM_WIDTH * 2, -600), Quaternion.identity);
+        //    _spriteRendererYellow = _platformType.GetComponent<SpriteRenderer>();
+        //    setName("Platform_Yellow");
+        //}
+        //else if (getType() == PLATFORM_BLUE)
+        //{
+        //    //prefab BLUE
+        //    Instantiate(_platformType, new Vector3(1200 + PLATFORM_WIDTH * 3, -600), Quaternion.identity);
+        //    _spriteRendererBlue = _platformType.GetComponent<SpriteRenderer>();
+        //    setName("Platform_Blue");
+        //}
 
 
     }
