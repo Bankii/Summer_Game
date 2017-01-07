@@ -12,6 +12,9 @@ public class CPlayer : CGameObject
     public float _verticalSpeed;
     public float _GRAVITY;
 
+    public Transform _spriteTransf;
+    public SpriteRenderer _spriteRenderer;
+
     public int _height;
     public int _width;
 
@@ -57,6 +60,16 @@ public class CPlayer : CGameObject
                 if (getPos().x <= _minX && Input.GetKey(KeyCode.LeftArrow))
                 {
                     setState(STATE_IDLE);
+                }
+                if (Input.GetKey(KeyCode.RightArrow))
+                {
+                    setVelX(_horizontalSpeed);
+                }
+                else if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    setVelX(-_horizontalSpeed);
+                    _spriteRenderer.flipX = true;
+                    _spriteTransf.position = new Vector3(transform.position.x + _width, transform.position.y, transform.position.z);
                 }
                 break;
             case STATE_JUMPING:
