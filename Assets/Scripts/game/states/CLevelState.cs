@@ -40,7 +40,13 @@ public class CLevelState : CGameState
         _platformRed = new CPlatform(1, aPlatformRed);
         _platformYellow = new CPlatform(2, aPlatformYellow);
         _platformBlue = new CPlatform(3, aPlatformBlue);
-        
+
+
+        //_platformGreen.setVel(new CVector(100, 100, 200));
+        //Debug.Log(_platformGreen.getVel());
+
+        //_platformGreen.setAccel(new CVector(100, 100, 200));
+        //Debug.Log(_platformGreen.getAccel());
 
         //      mPlayer = new CPlayer();
         //      CGame.inst().setPlayer(mPlayer);

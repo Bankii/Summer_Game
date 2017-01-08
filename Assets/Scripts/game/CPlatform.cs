@@ -35,7 +35,7 @@ public class CPlatform : CGameObject {
         if (getType() == PLATFORM_GREEN)
         {
             //prefab GREEN
-            _platformType = Instantiate(aPlatformGameObject, new Vector3(1200,-600), Quaternion.identity);
+            _platformType = Instantiate(aPlatformGameObject, new Vector3(1200, -600), Quaternion.identity);
             _spriteRenderer = _platformType.GetComponent<SpriteRenderer>();
             //_spriteRenderer.sprite = el sprite que quieras.
             setName("Platform_Green");
@@ -87,7 +87,6 @@ public class CPlatform : CGameObject {
 
     void Update()
     {
-
         apiUpdate();
     }
 

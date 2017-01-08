@@ -26,9 +26,9 @@ public class CVector
     }
 
     // Constructor
-    public CVector(Vector3 vector)
+    public CVector(Vector3 aVector)
     {
-        _vector = vector;
+        _vector = aVector;
     }
 
     // Constructor
@@ -74,17 +74,20 @@ public class CVector
 
     public static CVector operator *(CVector aVector, float aScalar)
     {
-        return new CVector(aVector._vector * aScalar);
+        //return new CVector(aVector._vector * aScalar);
+        return new CVector(aVector._vector.x * aScalar, aVector._vector.y * aScalar, aVector._vector.z * aScalar);
     }
 
     public static CVector operator +(CVector aVector1, CVector aVector2)
     {
-        return new CVector(aVector1._vector + aVector2._vector);
+        //return new CVector(aVector1._vector + aVector2._vector);
+        return new CVector(aVector1._vector.x + aVector2._vector.x, aVector1._vector.y + aVector2._vector.y, aVector1._vector.z + aVector2._vector.z);
     }
 
     public static CVector operator -(CVector aVector1, CVector aVector2)
     {
-        return new CVector(aVector1._vector - aVector2._vector);
+        //return new CVector(aVector1._vector - aVector2._vector);
+        return new CVector(aVector1._vector.x - aVector2._vector.x, aVector1._vector.y - aVector2._vector.y, aVector1._vector.z - aVector2._vector.z);
     }
 
     // Generates a copy of this vector.
