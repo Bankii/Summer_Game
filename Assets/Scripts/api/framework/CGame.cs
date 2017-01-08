@@ -66,25 +66,27 @@ public class CGame : MonoBehaviour
         _difficulty = 0;
         _simonSecuence = new List<int>();
         _isSolved = true;
-        _isGameOver = false;
-
-        _spriteRendererGreen = _platformGreen.GetComponent<SpriteRenderer>();
-        _spriteRendererRed = _platformRed.GetComponent<SpriteRenderer>();
-        _spriteRendererYellow = _platformYellow.GetComponent<SpriteRenderer>();
-        _spriteRendererBlue = _platformBlue.GetComponent<SpriteRenderer>();
-
-        _spriteRendererGreen.sprite = _platformGreenInactive;
+        _isGameOver = false;  
+                
         _platformGreen = Instantiate(_platformGreen, new Vector3(1200, -600), Quaternion.identity);
+        _spriteRendererGreen = _platformGreen.GetComponent<SpriteRenderer>();
+        _spriteRendererGreen.sprite = _platformGreenInactive;
 
-        _spriteRendererRed.sprite = _platformRedInactive;
-        _platformRed = Instantiate(_platformRed, new Vector3(1200 + PLATFORM_WIDTH, -600), Quaternion.identity);
-
-        _spriteRendererYellow.sprite = _platformYellowInactive;
-        _platformYellow = Instantiate(_platformYellow, new Vector3(1200 + PLATFORM_WIDTH * 2, -600), Quaternion.identity);
-
-        _spriteRendererBlue.sprite = _platformBlueInactive;
-        _platformBlue = Instantiate(_platformBlue, new Vector3(1200 + PLATFORM_WIDTH * 3, -600), Quaternion.identity);
         
+        _platformRed = Instantiate(_platformRed, new Vector3(1200 + PLATFORM_WIDTH, -600), Quaternion.identity);
+        _spriteRendererRed = _platformRed.GetComponent<SpriteRenderer>();
+        _spriteRendererRed.sprite = _platformRedInactive;
+
+        
+        _platformYellow = Instantiate(_platformYellow, new Vector3(1200 + PLATFORM_WIDTH * 2, -600), Quaternion.identity);
+        _spriteRendererYellow = _platformYellow.GetComponent<SpriteRenderer>();
+        _spriteRendererYellow.sprite = _platformYellowInactive;
+
+        
+        _platformBlue = Instantiate(_platformBlue, new Vector3(1200 + PLATFORM_WIDTH * 3, -600), Quaternion.identity);
+        _spriteRendererBlue = _platformBlue.GetComponent<SpriteRenderer>();
+        _spriteRendererBlue.sprite = _platformBlueInactive;
+
 
     }
 	
@@ -110,36 +112,33 @@ public class CGame : MonoBehaviour
             //If the previous secuence was solved or it's the first, show Simon Secuence
             for (int i = 0; i <= _difficulty; i++)
             {
-                //_randomNum = CMath.randomIntBetween(0, 3);
-                _randomNum = 0;
+                _randomNum = CMath.randomIntBetween(0, 3);
+                
                 _simonSecuence.Add(_randomNum);
+
+                StartCoroutine(AnimatePlatform(_randomNum));
+
                 switch (_randomNum)
                 {
                     case 0:
                         //Green
-                        Debug.Log("Secuence: Green");
-                        _spriteRendererGreen.sprite = _platformGreenActive;
-                        Debug.Log(_spriteRendererGreen.sprite);
-                        StartCoroutine(AnimatePlatform());
-                        //_platformGreen.GetComponent<CPlatform>().setState(1);
-
-                        //_platformGreen.GetComponent<CPlatform>().setState(0);
-                        //_platformGreen.GetComponent<SpriteRenderer>().sprite = _platformGreen.getPlatformSprites()[1];
+                        Debug.Log("Secuence: Green");                        
+                        
                         break;
                     case 1:
                         //Red
-                        Debug.Log("Secuence: Red");
-                        //_platformGreen.GetComponent<SpriteRenderer>().sprite = _platformGreen.getPlatformSprites()[3];
+                        Debug.Log("Secuence: Red");                        
+                        
                         break;
                     case 2:
                         //Yellow
                         Debug.Log("Secuence: Yellow");
-                        //_platformGreen.GetComponent<SpriteRenderer>().sprite = _platformGreen.getPlatformSprites()[5];
+                        
                         break;
                     case 3:
                         //Blue
-                        Debug.Log("Secuence: Blue");
-                        //_platformGreen.GetComponent<SpriteRenderer>().sprite = _platformGreen.getPlatformSprites()[7];
+                        Debug.Log("Secuence: Blue");                        
+                       
                         break;
                     default:
                         break;
@@ -300,17 +299,35 @@ public class CGame : MonoBehaviour
 		return mPlayer;
 	}
 
-    public IEnumerator AnimatePlatform()
+    public IEnumerator AnimatePlatform(int aPlatform)
     {
+        switch (_randomNum)
+        {
+            case 0:
+                //Green
+                _spriteRendererGreen.sprite = _platformGreenActive;
+                break;
+            case 1:
+                //Red
+                _spriteRendererRed.sprite = _platformRedActive;
+                break;
+            case 2:
+                //Yellow
+                _spriteRendererYellow.sprite = _platformYellowActive;
+                break;
+            case 3:
+                //Blue
+                _spriteRendererBlue.sprite = _platformBlueActive;
+                break;
+            default:
+                break;
+        }    
         
-        _spriteRendererGreen.sprite = _platformGreenActive;
-
-        Debug.Log("Hola");
-
-        yield return new WaitForSeconds(5.5f);
-
-        Debug.Log("Chau");
-
+        yield return new WaitForSeconds(0.5f);
+        
         _spriteRendererGreen.sprite = _platformGreenInactive;
+        _spriteRendererRed.sprite = _platformRedInactive;
+        _spriteRendererYellow.sprite = _platformYellowInactive;
+        _spriteRendererBlue.sprite = _platformBlueInactive;
     }
 }
