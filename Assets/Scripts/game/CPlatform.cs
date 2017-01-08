@@ -15,17 +15,21 @@ public class CPlatform : CGameObject {
 
     private const int PLATFORM_HEIGHT = 40;
     private const int PLATFORM_WIDTH = 85;
+    
+    //private SpriteRenderer _spriteRenderer;
 
-    private GameObject _platformType;
-    public Sprite[] _platformSprite;
-    private SpriteRenderer _spriteRenderer;
+    //public Sprite _platformInactive;
+    //public Sprite _platformActive;
+
+    //public int _platformType;
+    
     //private SpriteRenderer _spriteRendererGreen;
     //private SpriteRenderer _spriteRendererRed;
     //private SpriteRenderer _spriteRendererYellow;
     //private SpriteRenderer _spriteRendererBlue;
 
 
-    public CPlatform(int aColor, GameObject aPlatformGameObject)
+    /*public CPlatform(int aColor, GameObject aPlatformGameObject)
     {     
        
         //_platformType = aPlatformGameObject;
@@ -35,7 +39,7 @@ public class CPlatform : CGameObject {
         if (getType() == PLATFORM_GREEN)
         {
             //prefab GREEN
-            _platformType = Instantiate(aPlatformGameObject, new Vector3(1200, -600), Quaternion.identity);
+            //_platformType = Instantiate(aPlatformGameObject, new Vector3(1200, -600), Quaternion.identity);
             _spriteRenderer = _platformType.GetComponent<SpriteRenderer>();
             //_spriteRenderer.sprite = el sprite que quieras.
             setName("Platform_Green");
@@ -63,26 +67,15 @@ public class CPlatform : CGameObject {
         //}
 
 
-    }
-
-
-
-    public GameObject getPlatformType()
-    {
-        return _platformType;
-    }
-
-    public Sprite[] getPlatformSprites()
-    {
-        return _platformSprite;
-    }
-
+    }*/
 
     // Use this for initialization
     void Start () {
-        setState(STATE_ON);        
+        setState(STATE_OFF);
+        //setType(_platformType);
+        //_spriteRenderer = GetComponent<SpriteRenderer>();
         // load all frames in _platformSprites array
-        _platformSprite = Resources.LoadAll<Sprite>("Art/Colors_Placeholders");
+        //_platformSprite = Resources.LoadAll<Sprite>("Art/Colors_Placeholders");
     }
 
     void Update()
@@ -94,51 +87,18 @@ public class CPlatform : CGameObject {
     public override void apiUpdate()
     {
         base.apiUpdate();
-        Debug.Log("CPlatform apiUpdate");
-        if (getState() == STATE_OFF)
+        
+        /*if (getState() == STATE_OFF)
         {
-            Debug.Log(getState());
-            if (getType() == PLATFORM_GREEN)
-            {
-                Debug.Log("State OFF Renderer Green " + _platformSprite[0]);
-                _spriteRenderer.sprite = _platformSprite[0];
-
-            }
-            //else if (getType() == PLATFORM_RED)
-            //{
-            //    _spriteRendererRed.sprite = _platformSprite[2];
-            //    Debug.Log("State OFF Renderer Red " + _spriteRendererRed);
-            //}
-            //else if (getType() == PLATFORM_YELLOW)
-            //{
-            //    _spriteRendererYellow.sprite = _platformSprite[4];
-            //}
-            //else if (getType() == PLATFORM_BLUE)
-            //{
-            //    _spriteRendererBlue.sprite = _platformSprite[6];
-            //}
+            _spriteRenderer.sprite = _platformInactive;            
         }
+
         if (getState() == STATE_ON)
         {
-            Debug.Log(getState());
-            if (getType() == PLATFORM_GREEN)
-            {
-                Debug.Log("State ON Renderer Green " + _platformSprite[1]);
-                _spriteRenderer.sprite = _platformSprite[1];
-            }
-            //else if (getType() == PLATFORM_RED)
-            //{
-            //    _spriteRendererRed.sprite = _platformSprite[3];
-            //}
-            //else if (getType() == PLATFORM_YELLOW)
-            //{
-            //    _spriteRendererYellow.sprite = _platformSprite[5];
-            //}
-            //else if (getType() == PLATFORM_BLUE)
-            //{
-            //    _spriteRendererBlue.sprite = _platformSprite[7];
-            //}
-        }
+            _spriteRenderer.sprite = _platformActive;
+        }*/
 
     }
+
+
 }

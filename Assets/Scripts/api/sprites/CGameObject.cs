@@ -5,8 +5,8 @@ using UnityEngine;
 public class CGameObject : MonoBehaviour {
 
     private Transform _transform;
-    private CVector mVel = new CVector();
-    private CVector mAccel = new CVector();
+    private CVector mVel;
+    private CVector mAccel;
 
     private bool mIsDead = false;
 
@@ -31,8 +31,8 @@ public class CGameObject : MonoBehaviour {
     void Awake()
     {
         _transform = GetComponent<Transform>();
-        //mVel = new CVector();
-        //mAccel = new CVector();
+        mVel = new CVector();
+        mAccel = new CVector();
     }
 
 

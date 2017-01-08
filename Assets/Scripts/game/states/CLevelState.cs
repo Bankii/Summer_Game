@@ -27,6 +27,8 @@ public class CLevelState : CGameState
     private CPlatform _platformRed;
     private CPlatform _platformYellow;
     private CPlatform _platformBlue;
+
+    private CGameObject _gameObject;
     
 
     public CLevelState(GameObject aPlatformGreen, GameObject aPlatformRed, GameObject aPlatformYellow, GameObject aPlatformBlue)
@@ -36,17 +38,12 @@ public class CLevelState : CGameState
         _isSolved = true;
         _isGameOver = false;
 
-        _platformGreen = new CPlatform(0, aPlatformGreen);
+        /*_platformGreen = new CPlatform(0, aPlatformGreen);
         _platformRed = new CPlatform(1, aPlatformRed);
         _platformYellow = new CPlatform(2, aPlatformYellow);
-        _platformBlue = new CPlatform(3, aPlatformBlue);
+        _platformBlue = new CPlatform(3, aPlatformBlue);*/
 
-
-        //_platformGreen.setVel(new CVector(100, 100, 200));
-        //Debug.Log(_platformGreen.getVel());
-
-        //_platformGreen.setAccel(new CVector(100, 100, 200));
-        //Debug.Log(_platformGreen.getAccel());
+                
 
         //      mPlayer = new CPlayer();
         //      CGame.inst().setPlayer(mPlayer);
@@ -84,7 +81,7 @@ public class CLevelState : CGameState
 	override public void update()
 	{
 		base.update ();
-
+        
         if (_isSolved && !_isGameOver)
         {
             //If the previous secuence was solved or it's the first, show Simon Secuence
@@ -189,6 +186,10 @@ public class CLevelState : CGameState
             Debug.Log("You LOSE");
         }
 
+        //_platformGreen.apiUpdate();
+        /*_platformRed.apiUpdate();
+        _platformYellow.apiUpdate();
+        _platformBlue.apiUpdate();*/
 
         /*if (CKeyboard.firstPress (CKeyboard.ESCAPE)) 
 		{
@@ -203,11 +204,6 @@ public class CLevelState : CGameState
 		mMap.update ();*/
 
         //mCamera.update ();
-
-        _platformGreen.apiUpdate();
-        /*_platformRed.apiUpdate();
-        _platformYellow.apiUpdate();
-        _platformBlue.apiUpdate();*/
     }
 
     //override public void render()
