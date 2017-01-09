@@ -35,6 +35,7 @@ public class CGameObject : MonoBehaviour {
         mAccel = new CVector();
     }
 
+
     public void setX(float aX)
     {
         _transform.position = new Vector3(aX, _transform.position.y, _transform.position.z);
