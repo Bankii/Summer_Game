@@ -7,6 +7,8 @@ public class CPlayer : CGameObject
     private const int STATE_IDLE = 0;
     private const int STATE_WALKING = 1;
     private const int STATE_JUMPING = 2;
+    private const int STATE_FALLING = 3;
+    private const int STATE_DYING = 4;
 
     public float _horizontalSpeed;
     public float _verticalSpeed;
@@ -65,7 +67,7 @@ public class CPlayer : CGameObject
                 {
                     setVelX(_horizontalSpeed);
                 }
-                else if (Input.GetKey(KeyCode.LeftArrow))
+                if (Input.GetKey(KeyCode.LeftArrow))
                 {
                     setVelX(-_horizontalSpeed);
                     _spriteRenderer.flipX = true;
@@ -79,8 +81,8 @@ public class CPlayer : CGameObject
                 }
                 if (getPos().y <= _minY)
                 {
-                    // corregir posicion.
-                    // poner velY en 0.
+                    setY(_minY + 1);
+                    setState(STATE_FALLING);
                 }
                 if (getPos().x + _width >= _maxX && Input.GetKey(KeyCode.RightArrow))
                 {
@@ -90,6 +92,11 @@ public class CPlayer : CGameObject
                 {
                     // set velX 0.
                 }
+                break;
+            case STATE_FALLING:
+
+                break;
+            case STATE_DYING:
                 break;
             default:
                 break;
@@ -107,6 +114,9 @@ public class CPlayer : CGameObject
                 break;
             case STATE_JUMPING:
                 setVelY(_verticalSpeed);
+                setAccelY(_GRAVITY);
+                break;
+            case STATE_FALLING:
                 setAccelY(_GRAVITY);
                 break;
             default:
