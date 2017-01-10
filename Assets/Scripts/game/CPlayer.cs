@@ -14,7 +14,6 @@ public class CPlayer : CGameObject
     public float _verticalSpeed;
     public float _GRAVITY;
 
-    public Transform _spriteTransf;
     public SpriteRenderer _spriteRenderer;
 
     public int _height;
@@ -34,10 +33,14 @@ public class CPlayer : CGameObject
         apiUpdate();
     }
 
+    void FixedUpdate()
+    {
+        checkPoints();
+    }
+
     public override void apiUpdate()
     {
         base.apiUpdate();
-        checkPoints();
         switch (getState())
         {
             case STATE_IDLE:
@@ -75,7 +78,13 @@ public class CPlayer : CGameObject
                 {
                     setVelX(-_horizontalSpeed);
                     _spriteRenderer.flipX = true;
-                    _spriteTransf.position = new Vector3(transform.position.x + _width, transform.position.y, transform.position.z);
+                    _spriteRenderer.gameObject.transform.position = new Vector3(transform.position.x + _width, transform.position.y, transform.position.z);
+                }
+                else if(Input.GetKey(KeyCode.RightArrow))
+                {
+                    setVelX(_horizontalSpeed);
+                    _spriteRenderer.flipX = false;
+                    _spriteRenderer.gameObject.transform.position = getPos();
                 }
                 break;
             case STATE_JUMPING:
@@ -150,7 +159,6 @@ public class CPlayer : CGameObject
             //&& hitInfo.collider.tag == "Platform")
         {
             rightY = hitInfo.point.y;
-            Debug.Log(rightY);
         }
         // Setting the down variable.
         _maxY = Mathf.Max(rightY, leftY);
@@ -218,8 +226,5 @@ public class CPlayer : CGameObject
         // Setting the down variable.
         _minX = Mathf.Min(upX, downX);
     }
-    void OnDrawGizmos()
-    {
-        Gizmos.DrawRay(getPos(), Vector3.down *1000f);
-    }
+    
 }

@@ -253,7 +253,7 @@ public class CGame : MonoBehaviour
             {
                 if (_platformGreenScript.getState() == STATE_PLATFORM_OFF)
                 {
-                    Debug.Log("Green ON");
+                    //Debug.Log("Green ON");
                     _platformGreenScript.setState(STATE_PLATFORM_ON);
                 }
 

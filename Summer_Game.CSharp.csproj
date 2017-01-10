@@ -86,8 +86,6 @@
     <Compile Include="Assets\Scripts\game\CGameConstants.cs" />
     <Compile Include="Assets\Scripts\game\CPlatform.cs" />
     <Compile Include="Assets\Scripts\game\CPlayer.cs" />
-    <Compile Include="Assets\Scripts\game\states\CLevelState.cs" />
-    <Compile Include="Assets\Scripts\game\states\CMainMenuState.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
