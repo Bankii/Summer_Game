@@ -41,12 +41,16 @@ public class CPlayer : CGameObject
         switch (getState())
         {
             case STATE_IDLE:
-                if(getPos().x != _maxX && getPos().x != _minX)
+                if(getX() != _maxX && getX() != _minX)
                 { 
                     if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
                     {
                         setState(STATE_WALKING);
                     }
+                }
+                if (getY() - _height > _maxY)
+                {
+                    setState(STATE_FALLING);
                 }
                 break;
             case STATE_WALKING:
@@ -94,7 +98,11 @@ public class CPlayer : CGameObject
                 }
                 break;
             case STATE_FALLING:
-
+                if (getY() - _height <= _maxY)
+                {
+                    setY(_maxY + _height);
+                    setState(STATE_IDLE);
+                }
                 break;
             case STATE_DYING:
                 break;
@@ -110,7 +118,7 @@ public class CPlayer : CGameObject
         {
             case STATE_IDLE:
                 setVel(new CVector(Vector3.zero));
-                //setAccel(new CVector(Vector3.zero));
+                setAccelY(0);
                 break;
             case STATE_JUMPING:
                 setVelY(_verticalSpeed);
@@ -127,61 +135,60 @@ public class CPlayer : CGameObject
     private void checkPoints()
     {
         // --------Checking the floor.--------
-        float leftY = 0;
-        float rightY = 0;
+        float leftY = -CGameConstants.SCREEN_HEIGHT; ;
+        float rightY = -CGameConstants.SCREEN_HEIGHT; ;
         RaycastHit hitInfo;
 
         // Down left.
-        Physics.Raycast(getPos(),Vector3.down, out hitInfo);
-        if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
+        if (Physics.Raycast(getPos(), Vector3.down, out hitInfo))// && hitInfo.collider.tag == "Platform")
         {
-            leftY = hitInfo.point.x;
+            leftY = hitInfo.point.y;
         }
 
         // Down right.
-        Physics.Raycast(getPos() + new Vector3(0, _width, 0), Vector3.down, out hitInfo);
-        if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
+        if (Physics.Raycast(new Vector3(getX() + _width, getY(), getZ()), Vector3.down, out hitInfo) )
+            //&& hitInfo.collider.tag == "Platform")
         {
-            rightY = hitInfo.point.x;
+            rightY = hitInfo.point.y;
+            Debug.Log(rightY);
         }
-
         // Setting the down variable.
-        _minY = CGameConstants.SCREEN_HEIGHT - Mathf.Max(leftY, rightY);
+        _maxY = Mathf.Max(rightY, leftY);
 
         // --------Checking the Roof.--------
-        leftY = CGameConstants.SCREEN_HEIGHT;
-        rightY = CGameConstants.SCREEN_HEIGHT;
+        leftY = 0;// CGameConstants.SCREEN_HEIGHT;
+        rightY = 0;// CGameConstants.SCREEN_HEIGHT;
 
         // Up left.
-        Physics.Raycast(getPos() + new Vector3(0,- _height, 0), Vector3.up, out hitInfo);
+        Physics.Raycast(new Vector3(getX(),getY() - _height,getZ()), Vector3.up, out hitInfo, 1000f);
         if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
         {
-            leftY = hitInfo.point.x;
+            leftY = hitInfo.point.y;
         }
 
         // Up right.
-        Physics.Raycast(getPos() + new Vector3(_width,- _height, 0), Vector3.up, out hitInfo);
+        Physics.Raycast(new Vector3(getX() + _width, getY() - _height, getZ()), Vector3.up, out hitInfo, 1000f);
         if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
         {
-            rightY = hitInfo.point.x;
+            rightY = hitInfo.point.y;
         }
 
         // Setting the down variable.
-        _maxY = CGameConstants.SCREEN_HEIGHT - Mathf.Min(leftY, rightY);
+        _minY = Mathf.Min(leftY, rightY);
 
         // --------Checking the Right.--------
         float upX = CGameConstants.SCREEN_WIDTH;
         float downX = CGameConstants.SCREEN_WIDTH;
 
         // Down right.
-        Physics.Raycast(getPos() + new Vector3(0,-_height, 0), Vector3.right, out hitInfo);
+        Physics.Raycast(getPos() + new Vector3(0,-_height, 0), Vector3.right, out hitInfo, 1000f);
         if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
         {
-            downX = hitInfo.point.y;
+            downX = hitInfo.point.x;
         }
 
         // Up right.
-        Physics.Raycast(getPos(), Vector3.right, out hitInfo);
+        Physics.Raycast(getPos(), Vector3.right, out hitInfo, 1000f);
         if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
         {
             upX = hitInfo.point.x;
@@ -195,14 +202,14 @@ public class CPlayer : CGameObject
         downX = 0;
 
         // Down left.
-        Physics.Raycast(getPos() + new Vector3(_width, -_height, 0), Vector3.left, out hitInfo);
+        Physics.Raycast(getPos() + new Vector3(_width, -_height, 0), Vector3.left, out hitInfo, 1000f);
         if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
         {
-            downX = hitInfo.point.y;
+            downX = hitInfo.point.x;
         }
 
         // Up right.
-        Physics.Raycast(getPos() + new Vector3(_width, 0, 0), Vector3.left, out hitInfo);
+        Physics.Raycast(getPos() + new Vector3(_width, 0, 0), Vector3.left, out hitInfo, 1000f);
         if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
         {
             upX = hitInfo.point.x;
@@ -210,5 +217,9 @@ public class CPlayer : CGameObject
 
         // Setting the down variable.
         _minX = Mathf.Min(upX, downX);
+    }
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawRay(getPos(), Vector3.down *1000f);
     }
 }
