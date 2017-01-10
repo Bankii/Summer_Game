@@ -15,67 +15,25 @@ public class CPlatform : CGameObject {
 
     private const int PLATFORM_HEIGHT = 40;
     private const int PLATFORM_WIDTH = 85;
-    
-    //private SpriteRenderer _spriteRenderer;
 
-    //public Sprite _platformInactive;
-    //public Sprite _platformActive;
+    private SpriteRenderer _spriteRenderer;
 
-    //public int _platformType;
-    
-    //private SpriteRenderer _spriteRendererGreen;
-    //private SpriteRenderer _spriteRendererRed;
-    //private SpriteRenderer _spriteRendererYellow;
-    //private SpriteRenderer _spriteRendererBlue;
-
-
-    /*public CPlatform(int aColor, GameObject aPlatformGameObject)
-    {     
-       
-        //_platformType = aPlatformGameObject;
-
-        setType(aColor);
-
-        if (getType() == PLATFORM_GREEN)
-        {
-            //prefab GREEN
-            //_platformType = Instantiate(aPlatformGameObject, new Vector3(1200, -600), Quaternion.identity);
-            _spriteRenderer = _platformType.GetComponent<SpriteRenderer>();
-            //_spriteRenderer.sprite = el sprite que quieras.
-            setName("Platform_Green");
-        }
-        //else if (getType() == PLATFORM_RED)
-        //{
-        //    //prefab RED
-        //    Instantiate(_platformType, new Vector3(1200 + PLATFORM_WIDTH, -600), Quaternion.identity);
-        //    _spriteRendererRed = _platformType.GetComponent<SpriteRenderer>();
-        //    setName("Platform_Red");
-        //}
-        //else if (getType() == PLATFORM_YELLOW)
-        //{
-        //    //prefab YELLOW
-        //    Instantiate(_platformType, new Vector3(1200 + PLATFORM_WIDTH * 2, -600), Quaternion.identity);
-        //    _spriteRendererYellow = _platformType.GetComponent<SpriteRenderer>();
-        //    setName("Platform_Yellow");
-        //}
-        //else if (getType() == PLATFORM_BLUE)
-        //{
-        //    //prefab BLUE
-        //    Instantiate(_platformType, new Vector3(1200 + PLATFORM_WIDTH * 3, -600), Quaternion.identity);
-        //    _spriteRendererBlue = _platformType.GetComponent<SpriteRenderer>();
-        //    setName("Platform_Blue");
-        //}
-
-
-    }*/
+    public Sprite _platformGreenInactive;
+    public Sprite _platformGreenActive;
+    public Sprite _platformRedInactive;
+    public Sprite _platformRedActive;
+    public Sprite _platformYellowInactive;
+    public Sprite _platformYellowActive;
+    public Sprite _platformBlueInactive;
+    public Sprite _platformBlueActive;
 
     // Use this for initialization
     void Start () {
+
         setState(STATE_OFF);
-        //setType(_platformType);
-        //_spriteRenderer = GetComponent<SpriteRenderer>();
-        // load all frames in _platformSprites array
-        //_platformSprite = Resources.LoadAll<Sprite>("Art/Colors_Placeholders");
+        
+        _spriteRenderer = GetComponent<SpriteRenderer>();        
+        
     }
 
     void Update()
@@ -88,15 +46,51 @@ public class CPlatform : CGameObject {
     {
         base.apiUpdate();
         
-        /*if (getState() == STATE_OFF)
+        if (getState() == STATE_OFF)
         {
-            _spriteRenderer.sprite = _platformInactive;            
+            if (getType() == PLATFORM_GREEN)
+            {
+                _spriteRenderer.sprite = _platformGreenInactive;
+            }
+            else if (getType() == PLATFORM_RED)
+            {
+                _spriteRenderer.sprite = _platformRedInactive;
+            }
+            else if (getType() == PLATFORM_YELLOW)
+            {
+                _spriteRenderer.sprite = _platformYellowInactive;
+            }
+            else if (getType() == PLATFORM_BLUE)
+            {
+                _spriteRenderer.sprite = _platformBlueInactive;
+            }
+
         }
 
         if (getState() == STATE_ON)
         {
-            _spriteRenderer.sprite = _platformActive;
-        }*/
+            if (getType() == PLATFORM_GREEN)
+            {
+                _spriteRenderer.sprite = _platformGreenActive;                
+            }
+            else if (getType() == PLATFORM_RED)
+            {
+                _spriteRenderer.sprite = _platformRedActive;
+            }
+            else if (getType() == PLATFORM_YELLOW)
+            {
+                _spriteRenderer.sprite = _platformYellowActive;
+            }
+            else if (getType() == PLATFORM_BLUE)
+            {
+                _spriteRenderer.sprite = _platformBlueActive;
+            }
+
+            if (getTimeState() >= 1.0f)
+            {
+                setState(STATE_OFF);
+            }
+        }
 
     }
 

@@ -9,35 +9,36 @@ public class CGame : MonoBehaviour
 
 	private CCamera mCamera;
 	private CPlayer mPlayer;
-    //private CShip mShip;
 
     private List<int> _simonSecuence;
     private int _randomNum;
     private int _difficulty;
     private bool _isSolved;
+    private bool _isShowing;
     private bool _isGameOver; //testing
 
     public GameObject _platformGreen;
     public GameObject _platformRed;
     public GameObject _platformYellow;
     public GameObject _platformBlue;
-    
+
+    private CPlatform _platformGreenScript;
+    private CPlatform _platformRedScript;
+    private CPlatform _platformYellowScript;
+    private CPlatform _platformBlueScript;
+
+    public const int STATE_PLATFORM_OFF = 0;
+    public const int STATE_PLATFORM_ON = 1;
+
+    public const int PLATFORM_GREEN = 0;
+    public const int PLATFORM_RED = 1;
+    public const int PLATFORM_YELLOW = 2;
+    public const int PLATFORM_BLUE = 3;
+
     private const int PLATFORM_HEIGHT = 40;
     private const int PLATFORM_WIDTH = 85;
 
-    private SpriteRenderer _spriteRendererGreen;
-    private SpriteRenderer _spriteRendererRed;
-    private SpriteRenderer _spriteRendererYellow;
-    private SpriteRenderer _spriteRendererBlue;
 
-    public Sprite _platformGreenInactive;
-    public Sprite _platformGreenActive;
-    public Sprite _platformRedInactive;
-    public Sprite _platformRedActive;
-    public Sprite _platformYellowInactive;
-    public Sprite _platformYellowActive;
-    public Sprite _platformBlueInactive;
-    public Sprite _platformBlueActive;
 
     void Awake()
 	{
@@ -66,27 +67,25 @@ public class CGame : MonoBehaviour
         _difficulty = 0;
         _simonSecuence = new List<int>();
         _isSolved = true;
+        _isShowing = false;
         _isGameOver = false;  
-                
+         
+        //Instantiating Platforms       
         _platformGreen = Instantiate(_platformGreen, new Vector3(1200, -600), Quaternion.identity);
-        _spriteRendererGreen = _platformGreen.GetComponent<SpriteRenderer>();
-        _spriteRendererGreen.sprite = _platformGreenInactive;
+        _platformGreenScript =  _platformGreen.GetComponent<CPlatform>();
+        _platformGreenScript.setType(PLATFORM_GREEN);
 
-        
         _platformRed = Instantiate(_platformRed, new Vector3(1200 + PLATFORM_WIDTH, -600), Quaternion.identity);
-        _spriteRendererRed = _platformRed.GetComponent<SpriteRenderer>();
-        _spriteRendererRed.sprite = _platformRedInactive;
+        _platformRedScript = _platformRed.GetComponent<CPlatform>();
+        _platformRedScript.setType(PLATFORM_RED);
 
-        
         _platformYellow = Instantiate(_platformYellow, new Vector3(1200 + PLATFORM_WIDTH * 2, -600), Quaternion.identity);
-        _spriteRendererYellow = _platformYellow.GetComponent<SpriteRenderer>();
-        _spriteRendererYellow.sprite = _platformYellowInactive;
+        _platformYellowScript = _platformYellow.GetComponent<CPlatform>();
+        _platformYellowScript.setType(PLATFORM_YELLOW);
 
-        
         _platformBlue = Instantiate(_platformBlue, new Vector3(1200 + PLATFORM_WIDTH * 3, -600), Quaternion.identity);
-        _spriteRendererBlue = _platformBlue.GetComponent<SpriteRenderer>();
-        _spriteRendererBlue.sprite = _platformBlueInactive;
-
+        _platformBlueScript = _platformBlue.GetComponent<CPlatform>();
+        _platformBlueScript.setType(PLATFORM_BLUE);
 
     }
 	
@@ -105,45 +104,85 @@ public class CGame : MonoBehaviour
 	{
 		CMouse.update ();
 		CKeyboard.update ();
-		//mState.update ();
 
+        //If the previous secuence was solved or it's the first, build and show Simon Secuence
         if (_isSolved && !_isGameOver)
-        {
-            //If the previous secuence was solved or it's the first, show Simon Secuence
+        {            
             for (int i = 0; i <= _difficulty; i++)
             {
                 _randomNum = CMath.randomIntBetween(0, 3);
-                
-                _simonSecuence.Add(_randomNum);
+                //_randomNum = 0;
 
-                StartCoroutine(AnimatePlatform(_randomNum));
+                _simonSecuence.Add(_randomNum);               
 
+                //Debug.Log for testing
                 switch (_randomNum)
                 {
                     case 0:
                         //Green
-                        Debug.Log("Secuence: Green");                        
-                        
+                        Debug.Log("Secuence: Green");
+
                         break;
                     case 1:
                         //Red
-                        Debug.Log("Secuence: Red");                        
-                        
+                        Debug.Log("Secuence: Red");
+
                         break;
                     case 2:
                         //Yellow
                         Debug.Log("Secuence: Yellow");
-                        
+
                         break;
                     case 3:
                         //Blue
-                        Debug.Log("Secuence: Blue");                        
-                       
+                        Debug.Log("Secuence: Blue");
+
                         break;
                     default:
                         break;
                 }
-                _isSolved = false;
+                
+            }                    
+
+            _isSolved = false;
+
+            //Show secuence in platforms
+            foreach (int platform in _simonSecuence)
+            {
+                Debug.Log("Showing: " + platform);
+                if (platform == PLATFORM_GREEN)
+                {
+                    _platformGreenScript.setState(STATE_PLATFORM_ON);
+                    _isShowing = true;
+                    return;
+                }
+                if (platform == PLATFORM_RED)
+                {
+                    _platformRedScript.setState(STATE_PLATFORM_ON);
+                    _isShowing = true;
+                    return;
+                }
+                if (platform == PLATFORM_YELLOW)
+                {
+                    _platformYellowScript.setState(STATE_PLATFORM_ON);
+                    _isShowing = true;
+                    return;
+                }
+                if (platform == PLATFORM_BLUE)
+                {
+                    _platformBlueScript.setState(STATE_PLATFORM_ON);
+                    _isShowing = true;
+                    return;
+                }
+
+                while (_isShowing)
+                {
+                    if (_platformGreenScript.getState() == STATE_PLATFORM_OFF && _platformRedScript.getState() == STATE_PLATFORM_OFF &&
+                        _platformYellowScript.getState() == STATE_PLATFORM_OFF && _platformBlueScript.getState() == STATE_PLATFORM_OFF)
+                    {
+                        _isShowing = false;
+                    }
+                }
             }
         }
         else if (!_isSolved && !_isGameOver)
@@ -215,34 +254,6 @@ public class CGame : MonoBehaviour
             Debug.Log("You LOSE");
         }
          
-        
-        /*if (_platformGreen.GetComponent<CPlatform>().getState() == 0)
-        {
-            _spriteRendererGreen.sprite = _platformGreenInactive;
-        }
-
-        if (_platformGreen.GetComponent<CPlatform>().getState() == 1)
-        {
-            _spriteRendererGreen.sprite = _platformGreenActive;
-        }*/
-        //_platformGreen.apiUpdate();
-        /*_platformRed.apiUpdate();
-        _platformYellow.apiUpdate();
-        _platformBlue.apiUpdate();*/
-
-        /*if (CKeyboard.firstPress (CKeyboard.ESCAPE)) 
-		{
-			CGame.inst().setState(new CMainMenuState());
-			return;
-		}
-
-		mBackground.update ();
-		mPlayer.update ();
-		mBulletManager.update ();
-		mEnemyManager.update ();
-		mMap.update ();*/
-
-        //mCamera.update ();
     }
 
     private void render()
@@ -298,36 +309,5 @@ public class CGame : MonoBehaviour
 	{
 		return mPlayer;
 	}
-
-    public IEnumerator AnimatePlatform(int aPlatform)
-    {
-        switch (_randomNum)
-        {
-            case 0:
-                //Green
-                _spriteRendererGreen.sprite = _platformGreenActive;
-                break;
-            case 1:
-                //Red
-                _spriteRendererRed.sprite = _platformRedActive;
-                break;
-            case 2:
-                //Yellow
-                _spriteRendererYellow.sprite = _platformYellowActive;
-                break;
-            case 3:
-                //Blue
-                _spriteRendererBlue.sprite = _platformBlueActive;
-                break;
-            default:
-                break;
-        }    
-        
-        yield return new WaitForSeconds(0.5f);
-        
-        _spriteRendererGreen.sprite = _platformGreenInactive;
-        _spriteRendererRed.sprite = _platformRedInactive;
-        _spriteRendererYellow.sprite = _platformYellowInactive;
-        _spriteRendererBlue.sprite = _platformBlueInactive;
-    }
+      
 }
