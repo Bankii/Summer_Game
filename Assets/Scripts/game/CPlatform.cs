@@ -17,6 +17,9 @@ public class CPlatform : CGameObject {
     private const int PLATFORM_WIDTH = 85;
 
     private SpriteRenderer _spriteRenderer;
+    public Collider _collider;
+
+    private bool _walkable = true;
 
     public Sprite _platformGreenInactive;
     public Sprite _platformGreenActive;
@@ -41,6 +44,11 @@ public class CPlatform : CGameObject {
         apiUpdate();
     }
 
+    public void setWalkable(bool aWalkable)
+    {
+        _walkable = aWalkable;
+        _collider.enabled = _walkable;
+    }
 
     public override void apiUpdate()
     {

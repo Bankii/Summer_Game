@@ -9,12 +9,19 @@ public class CPlayer : CGameObject
     private const int STATE_JUMPING = 2;
     private const int STATE_FALLING = 3;
     private const int STATE_DYING = 4;
+    private const int STATE_CHARGING = 5;
 
     public float _horizontalSpeed;
-    public float _verticalSpeed;
+    public float _verticalMaxSpeed;
+    public float _verticalMinSpeed;
     public float _GRAVITY;
+    private float _jumpMultiplyer = 0;
 
     public SpriteRenderer _spriteRenderer;
+    public Animator _anim;
+
+    public float _collitionOffsetLeft;
+    public float _collitionOffsetRight;
 
     public int _height;
     public int _width;
@@ -44,41 +51,68 @@ public class CPlayer : CGameObject
         switch (getState())
         {
             case STATE_IDLE:
+                // Checking if the player isn't against a wall.
                 if(getX() != _maxX && getX() != _minX)
                 { 
-                    if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+                    if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
                     {
                         setState(STATE_WALKING);
+                        break;
                     }
                 }
+                // Checking that the input of the player is the oposite of the wall it's against.
+                if (getX() == _maxX && Input.GetKey(KeyCode.LeftArrow))
+                {
+                    setState(STATE_WALKING);
+                    break;
+                }
+                if (getX() == _minX && Input.GetKey(KeyCode.RightArrow))
+                {
+                    setState(STATE_WALKING);
+                    break;
+                }
+
+                // Checking if there is no floor underneath.
                 if (getY() - _height > _maxY)
                 {
                     setState(STATE_FALLING);
+                    break;
+                }
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    setState(STATE_CHARGING);
+                    break;
                 }
                 break;
             case STATE_WALKING:
-                // setear velocidad y flipear segun lado.
+                
                 if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
                 {
                     setState(STATE_IDLE);
+                    break;
                 }
-                if (getPos().x + _width >= _maxX && Input.GetKey(KeyCode.RightArrow))
+                if (getX() + _width >= _maxX && Input.GetKey(KeyCode.RightArrow))
                 {
                     setState(STATE_IDLE);
+                    break;
                 }
-                if (getPos().x <= _minX && Input.GetKey(KeyCode.LeftArrow))
+                if (getX() <= _minX && Input.GetKey(KeyCode.LeftArrow))
                 {
                     setState(STATE_IDLE);
+                    break;
                 }
-                if (Input.GetKey(KeyCode.RightArrow))
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    setVelX(_horizontalSpeed);
+                    setState(STATE_CHARGING);
+                    break;
                 }
+                // Set vel and flip according to the side.
                 if (Input.GetKey(KeyCode.LeftArrow))
                 {
                     setVelX(-_horizontalSpeed);
                     _spriteRenderer.flipX = true;
-                    _spriteRenderer.gameObject.transform.position = new Vector3(transform.position.x + _width, transform.position.y, transform.position.z);
+                    _spriteRenderer.gameObject.transform.position = new Vector3(getX() + _width, getY(), getZ());
                 }
                 else if(Input.GetKey(KeyCode.RightArrow))
                 {
@@ -86,25 +120,70 @@ public class CPlayer : CGameObject
                     _spriteRenderer.flipX = false;
                     _spriteRenderer.gameObject.transform.position = getPos();
                 }
-                break;
-            case STATE_JUMPING:
-                if (getPos().y + _height >= _maxY)
+                
+                // Checking if there is no floor underneath.
+                if (getY() - _height > _maxY)
                 {
-                    setState(STATE_IDLE);
-                }
-                if (getPos().y <= _minY)
-                {
-                    setY(_minY + 1);
                     setState(STATE_FALLING);
                 }
-                if (getPos().x + _width >= _maxX && Input.GetKey(KeyCode.RightArrow))
+                break;
+            case STATE_CHARGING:
+                if (Input.GetKey(KeyCode.Space))
                 {
-                    // set velX 0.
+                    _jumpMultiplyer += 0.04f;
                 }
-                if (getPos().x <= _minX && Input.GetKey(KeyCode.LeftArrow))
+                if (Input.GetKeyUp(KeyCode.Space))
                 {
-                    // set velX 0.
+                    setState(STATE_JUMPING);
                 }
+                break;
+            case STATE_JUMPING:
+                if (getY() - _height <= _maxY && getVelY() != 0)
+                {
+                    setY(_maxY + _height);
+                    setState(STATE_IDLE);
+                }
+                if (getVelY() <= 0)
+                {
+                    setState(STATE_FALLING);
+                }
+                // if no arrow is pressed then no movement on the X axis.
+                if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
+                {
+                    setVelX(0);
+                }
+                // Set vel and flip according to the side.
+                else if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    setVelX(-_horizontalSpeed);
+                    _spriteRenderer.flipX = true;
+                    _spriteRenderer.gameObject.transform.position = new Vector3(getX() + _width, getY(), getZ());
+                }
+                else if (Input.GetKey(KeyCode.RightArrow))
+                {
+                    setVelX(_horizontalSpeed);
+                    _spriteRenderer.flipX = false;
+                    _spriteRenderer.gameObject.transform.position = getPos();
+                }
+
+                // if there are walls then no movement on the X axis.
+                if (getX() + _width >= _maxX && Input.GetKey(KeyCode.RightArrow))
+                {
+                    setVelX(0);
+                }
+                else if (getX() <= _minX && Input.GetKey(KeyCode.LeftArrow))
+                {
+                    setVelX(0);
+                }
+                
+                //if (getPos().x + _width >= _maxX && Input.GetKey(KeyCode.RightArrow))
+                //{
+                //    // set velX 0.
+                //}
+                //if (getPos().x <= _minX && Input.GetKey(KeyCode.LeftArrow))
+                //{
+                //    // set velX 0.
+                //}
                 break;
             case STATE_FALLING:
                 if (getY() - _height <= _maxY)
@@ -130,8 +209,17 @@ public class CPlayer : CGameObject
                 setAccelY(0);
                 break;
             case STATE_JUMPING:
-                setVelY(_verticalSpeed);
+                setVelY(_verticalMaxSpeed * _jumpMultiplyer);
                 setAccelY(_GRAVITY);
+                if (getVelY() < _verticalMinSpeed)
+                {
+                    setVelY(_verticalMinSpeed);
+                }
+                else if (getVelY() > _verticalMaxSpeed)
+                {
+                    setVelY(_verticalMaxSpeed);
+                }
+                _jumpMultiplyer = 0;
                 break;
             case STATE_FALLING:
                 setAccelY(_GRAVITY);
