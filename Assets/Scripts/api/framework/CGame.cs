@@ -99,10 +99,6 @@ public class CGame : MonoBehaviour
 		update ();
 	}
 
-	void LateUpdate()
-	{
-		render ();
-	}
 
 	private void update()
 	{
@@ -133,10 +129,6 @@ public class CGame : MonoBehaviour
 
     }
 
-    private void render()
-	{
-		//mState.render ();
-	}
 
 	public void destroy()
 	{
@@ -148,43 +140,6 @@ public class CGame : MonoBehaviour
 			mState = null;
 		}*/
 		mInstance = null;
-	}
-
-	public void setState(CGameState aState)
-	{
-		if (mState != null) 
-		{
-			mState.destroy();
-			mState = null;
-		}
-
-		mState = aState;
-		mState.init ();
-	}
-
-	public CGameState getState()
-	{
-		return mState;
-	}
-
-	public void setCamera(CCamera aCamera)
-	{
-		mCamera = aCamera;
-	}
-
-	public CCamera getCamera()
-	{
-		return mCamera;
-	}
-
-	public void setPlayer(CPlayer aPlayer)
-	{
-		mPlayer = aPlayer;
-	}
-
-	public CPlayer getPlayer()
-	{
-		return mPlayer;
 	}
 
     private void buildSimonSequence()
@@ -238,6 +193,7 @@ public class CGame : MonoBehaviour
     {
         if (_platformCount < _simonSequence.Count)
         {
+
             if (!_firstTimeShowSequence)
             {
                 if (_platformGreenScript.getState() == STATE_PLATFORM_OFF && _platformRedScript.getState() == STATE_PLATFORM_OFF &&
@@ -247,41 +203,45 @@ public class CGame : MonoBehaviour
                 }
             }
             
-            _firstTimeShowSequence = false;
+            _firstTimeShowSequence = false;            
+
+            if (_platformCount < _simonSequence.Count)
+            {
+                if (_simonSequence[_platformCount] == PLATFORM_GREEN)
+                {
+                    if (_platformGreenScript.getState() == STATE_PLATFORM_OFF && _platformRedScript.getState() == STATE_PLATFORM_OFF &&
+                        _platformYellowScript.getState() == STATE_PLATFORM_OFF && _platformBlueScript.getState() == STATE_PLATFORM_OFF)
+                    {
+                        _platformGreenScript.setState(STATE_PLATFORM_ON);
+                    }
+
+                }
+                if (_simonSequence[_platformCount] == PLATFORM_RED)
+                {
+                    if (_platformGreenScript.getState() == STATE_PLATFORM_OFF && _platformRedScript.getState() == STATE_PLATFORM_OFF &&
+                        _platformYellowScript.getState() == STATE_PLATFORM_OFF && _platformBlueScript.getState() == STATE_PLATFORM_OFF)
+                    {
+                        _platformRedScript.setState(STATE_PLATFORM_ON);
+                    }
+                }
+                if (_simonSequence[_platformCount] == PLATFORM_YELLOW)
+                {
+                    if (_platformGreenScript.getState() == STATE_PLATFORM_OFF && _platformRedScript.getState() == STATE_PLATFORM_OFF &&
+                        _platformYellowScript.getState() == STATE_PLATFORM_OFF && _platformBlueScript.getState() == STATE_PLATFORM_OFF)
+                    {
+                        _platformYellowScript.setState(STATE_PLATFORM_ON);
+                    }
+                }
+                if (_simonSequence[_platformCount] == PLATFORM_BLUE)
+                {
+                    if (_platformGreenScript.getState() == STATE_PLATFORM_OFF && _platformRedScript.getState() == STATE_PLATFORM_OFF &&
+                        _platformYellowScript.getState() == STATE_PLATFORM_OFF && _platformBlueScript.getState() == STATE_PLATFORM_OFF)
+                    {
+                        _platformBlueScript.setState(STATE_PLATFORM_ON);
+                    }
+                }
+            }
             
-            if (_simonSequence[_platformCount] == PLATFORM_GREEN)
-            {
-                if (_platformGreenScript.getState() == STATE_PLATFORM_OFF)
-                {
-                    //Debug.Log("Green ON");
-                    _platformGreenScript.setState(STATE_PLATFORM_ON);
-                }
-
-            }
-            if (_simonSequence[_platformCount] == PLATFORM_RED)
-            {
-                if (_platformRedScript.getState() == STATE_PLATFORM_OFF)
-                {                    
-                    _platformRedScript.setState(STATE_PLATFORM_ON);
-                }
-            }
-            if (_simonSequence[_platformCount] == PLATFORM_YELLOW)
-            {
-                if (_platformYellowScript.getState() == STATE_PLATFORM_OFF)
-                {
-                    _platformYellowScript.setState(STATE_PLATFORM_ON);
-                }
-            }
-            if (_simonSequence[_platformCount] == PLATFORM_BLUE)
-            {
-                if (_platformBlueScript.getState() == STATE_PLATFORM_OFF)
-                {
-                    _platformBlueScript.setState(STATE_PLATFORM_ON);
-                }
-            }
-
-            //_platformCount++;            
-
         }
         else
         {
@@ -297,6 +257,7 @@ public class CGame : MonoBehaviour
             Debug.Log("G");
             if (_simonSequence[0] == 0)
             {
+                _platformGreenScript.setState(STATE_PLATFORM_ON);
                 Debug.Log("Green: Correct");
                 _simonSequence.RemoveAt(0);
             }
@@ -310,6 +271,7 @@ public class CGame : MonoBehaviour
             Debug.Log("R");
             if (_simonSequence[0] == 1)
             {
+                _platformRedScript.setState(STATE_PLATFORM_ON);
                 Debug.Log("Red: Correct");
                 _simonSequence.RemoveAt(0);
             }
@@ -323,6 +285,7 @@ public class CGame : MonoBehaviour
             Debug.Log("Y");
             if (_simonSequence[0] == 2)
             {
+                _platformYellowScript.setState(STATE_PLATFORM_ON);
                 Debug.Log("Yellow: Correct");
                 _simonSequence.RemoveAt(0);
             }
@@ -336,6 +299,7 @@ public class CGame : MonoBehaviour
             Debug.Log("B");
             if (_simonSequence[0] == 3)
             {
+                _platformBlueScript.setState(STATE_PLATFORM_ON);
                 Debug.Log("Blue: Correct");
                 _simonSequence.RemoveAt(0);
             }
