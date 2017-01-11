@@ -12,6 +12,9 @@ public class CGame : MonoBehaviour
 
     private List<int> _simonSequence;
     private int _randomNum;
+    private int _randomPlatformX;
+    private int _randomPlatformY;
+    private int _prevPlatformY;
     private int _difficulty;
     private int _platformCount;
     private bool _isSolved;
@@ -73,23 +76,10 @@ public class CGame : MonoBehaviour
         _isGameOver = false;
         _firstTimeShowSequence = true;
         _platformCount = 0;
+        //_prevPlatformY = - CGameConstants.SCREEN_HEIGHT;
 
-        //Instantiating Platforms       
-        _platformGreen = Instantiate(_platformGreen, new Vector3(1200, -600), Quaternion.identity);
-        _platformGreenScript =  _platformGreen.GetComponent<CPlatform>();
-        _platformGreenScript.setType(PLATFORM_GREEN);
-
-        _platformRed = Instantiate(_platformRed, new Vector3(1200 + PLATFORM_WIDTH, -600), Quaternion.identity);
-        _platformRedScript = _platformRed.GetComponent<CPlatform>();
-        _platformRedScript.setType(PLATFORM_RED);
-
-        _platformYellow = Instantiate(_platformYellow, new Vector3(1200 + PLATFORM_WIDTH * 2, -600), Quaternion.identity);
-        _platformYellowScript = _platformYellow.GetComponent<CPlatform>();
-        _platformYellowScript.setType(PLATFORM_YELLOW);
-
-        _platformBlue = Instantiate(_platformBlue, new Vector3(1200 + PLATFORM_WIDTH * 3, -600), Quaternion.identity);
-        _platformBlueScript = _platformBlue.GetComponent<CPlatform>();
-        _platformBlueScript.setType(PLATFORM_BLUE);
+        //Instantiating Platforms
+        createPlatform();               
 
     }
 	
@@ -114,7 +104,7 @@ public class CGame : MonoBehaviour
         {
             //Player Input Sequence
             playerInput();
-            checkWin();
+            checkSuccess();
         }
         else if (_isGameOver)
         {
@@ -257,7 +247,7 @@ public class CGame : MonoBehaviour
             Debug.Log("G");
             if (_simonSequence[0] == 0)
             {
-                _platformGreenScript.setState(STATE_PLATFORM_ON);
+                //_platformGreenScript.setState(STATE_PLATFORM_ON);
                 Debug.Log("Green: Correct");
                 _simonSequence.RemoveAt(0);
             }
@@ -271,7 +261,7 @@ public class CGame : MonoBehaviour
             Debug.Log("R");
             if (_simonSequence[0] == 1)
             {
-                _platformRedScript.setState(STATE_PLATFORM_ON);
+                //_platformRedScript.setState(STATE_PLATFORM_ON);
                 Debug.Log("Red: Correct");
                 _simonSequence.RemoveAt(0);
             }
@@ -285,7 +275,7 @@ public class CGame : MonoBehaviour
             Debug.Log("Y");
             if (_simonSequence[0] == 2)
             {
-                _platformYellowScript.setState(STATE_PLATFORM_ON);
+                //_platformYellowScript.setState(STATE_PLATFORM_ON);
                 Debug.Log("Yellow: Correct");
                 _simonSequence.RemoveAt(0);
             }
@@ -299,7 +289,7 @@ public class CGame : MonoBehaviour
             Debug.Log("B");
             if (_simonSequence[0] == 3)
             {
-                _platformBlueScript.setState(STATE_PLATFORM_ON);
+                //_platformBlueScript.setState(STATE_PLATFORM_ON);
                 Debug.Log("Blue: Correct");
                 _simonSequence.RemoveAt(0);
             }
@@ -310,13 +300,40 @@ public class CGame : MonoBehaviour
         }
     }
 
-    private void checkWin()
+    private void createPlatform()
+    {
+        _randomPlatformX = CMath.randomIntBetween(500, 1500);
+        _randomPlatformY = CMath.randomIntBetween(-400, -1000);
+
+        _platformGreen = Instantiate(_platformGreen, new Vector3(_randomPlatformX, _randomPlatformY), Quaternion.identity);
+        _platformGreenScript = _platformGreen.GetComponent<CPlatform>();
+        _platformGreenScript.setType(PLATFORM_GREEN);
+
+        _platformRed = Instantiate(_platformRed, new Vector3(_randomPlatformX + PLATFORM_WIDTH, _randomPlatformY), Quaternion.identity);
+        _platformRedScript = _platformRed.GetComponent<CPlatform>();
+        _platformRedScript.setType(PLATFORM_RED);
+
+        _platformYellow = Instantiate(_platformYellow, new Vector3(_randomPlatformX + PLATFORM_WIDTH * 2, _randomPlatformY), Quaternion.identity);
+        _platformYellowScript = _platformYellow.GetComponent<CPlatform>();
+        _platformYellowScript.setType(PLATFORM_YELLOW);
+
+        _platformBlue = Instantiate(_platformBlue, new Vector3(_randomPlatformX + PLATFORM_WIDTH * 3, _randomPlatformY), Quaternion.identity);
+        _platformBlueScript = _platformBlue.GetComponent<CPlatform>();
+        _platformBlueScript.setType(PLATFORM_BLUE);
+
+        //_prevPlatformY = _randomPlatformY;
+    }
+
+    private void checkSuccess()
     {
         if (_simonSequence.Count == 0)
         {
             _isSolved = true;
             _difficulty = _difficulty + CGameConstants.DIFFICULTY_INCREMENT;
-            Debug.Log("You WIN, next sequence...");
+            createPlatform();
+            Debug.Log("You WIN, next platform...");
         }
     }
+
+
 }
