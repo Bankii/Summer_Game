@@ -22,15 +22,12 @@ public class CGame : MonoBehaviour
     private bool _firstTimeShowSequence;
     private bool _isGameOver; //testing
 
-    public GameObject _platformGreen;
-    public GameObject _platformRed;
-    public GameObject _platformYellow;
-    public GameObject _platformBlue;
+    public GameObject _platformPrefab;
 
-    private CPlatform _platformGreenScript;
-    private CPlatform _platformRedScript;
-    private CPlatform _platformYellowScript;
-    private CPlatform _platformBlueScript;
+    private CPlatform _platformGreen;
+    private CPlatform _platformRed;
+    private CPlatform _platformYellow;
+    private CPlatform _platformBlue;
 
     public const int STATE_PLATFORM_OFF = 0;
     public const int STATE_PLATFORM_ON = 1;
@@ -186,8 +183,8 @@ public class CGame : MonoBehaviour
 
             if (!_firstTimeShowSequence)
             {
-                if (_platformGreenScript.getState() == STATE_PLATFORM_OFF && _platformRedScript.getState() == STATE_PLATFORM_OFF &&
-                _platformYellowScript.getState() == STATE_PLATFORM_OFF && _platformBlueScript.getState() == STATE_PLATFORM_OFF)
+                if (_platformGreen.getState() == STATE_PLATFORM_OFF && _platformRed.getState() == STATE_PLATFORM_OFF &&
+                _platformYellow.getState() == STATE_PLATFORM_OFF && _platformBlue.getState() == STATE_PLATFORM_OFF)
                 {
                     _platformCount++;
                 }
@@ -199,35 +196,35 @@ public class CGame : MonoBehaviour
             {
                 if (_simonSequence[_platformCount] == PLATFORM_GREEN)
                 {
-                    if (_platformGreenScript.getState() == STATE_PLATFORM_OFF && _platformRedScript.getState() == STATE_PLATFORM_OFF &&
-                        _platformYellowScript.getState() == STATE_PLATFORM_OFF && _platformBlueScript.getState() == STATE_PLATFORM_OFF)
+                    if (_platformGreen.getState() == STATE_PLATFORM_OFF && _platformRed.getState() == STATE_PLATFORM_OFF &&
+                        _platformYellow.getState() == STATE_PLATFORM_OFF && _platformBlue.getState() == STATE_PLATFORM_OFF)
                     {
-                        _platformGreenScript.setState(STATE_PLATFORM_ON);
+                        _platformGreen.setState(STATE_PLATFORM_ON);
                     }
 
                 }
                 if (_simonSequence[_platformCount] == PLATFORM_RED)
                 {
-                    if (_platformGreenScript.getState() == STATE_PLATFORM_OFF && _platformRedScript.getState() == STATE_PLATFORM_OFF &&
-                        _platformYellowScript.getState() == STATE_PLATFORM_OFF && _platformBlueScript.getState() == STATE_PLATFORM_OFF)
+                    if (_platformGreen.getState() == STATE_PLATFORM_OFF && _platformRed.getState() == STATE_PLATFORM_OFF &&
+                        _platformYellow.getState() == STATE_PLATFORM_OFF && _platformBlue.getState() == STATE_PLATFORM_OFF)
                     {
-                        _platformRedScript.setState(STATE_PLATFORM_ON);
+                        _platformRed.setState(STATE_PLATFORM_ON);
                     }
                 }
                 if (_simonSequence[_platformCount] == PLATFORM_YELLOW)
                 {
-                    if (_platformGreenScript.getState() == STATE_PLATFORM_OFF && _platformRedScript.getState() == STATE_PLATFORM_OFF &&
-                        _platformYellowScript.getState() == STATE_PLATFORM_OFF && _platformBlueScript.getState() == STATE_PLATFORM_OFF)
+                    if (_platformGreen.getState() == STATE_PLATFORM_OFF && _platformRed.getState() == STATE_PLATFORM_OFF &&
+                        _platformYellow.getState() == STATE_PLATFORM_OFF && _platformBlue.getState() == STATE_PLATFORM_OFF)
                     {
-                        _platformYellowScript.setState(STATE_PLATFORM_ON);
+                        _platformYellow.setState(STATE_PLATFORM_ON);
                     }
                 }
                 if (_simonSequence[_platformCount] == PLATFORM_BLUE)
                 {
-                    if (_platformGreenScript.getState() == STATE_PLATFORM_OFF && _platformRedScript.getState() == STATE_PLATFORM_OFF &&
-                        _platformYellowScript.getState() == STATE_PLATFORM_OFF && _platformBlueScript.getState() == STATE_PLATFORM_OFF)
+                    if (_platformGreen.getState() == STATE_PLATFORM_OFF && _platformRed.getState() == STATE_PLATFORM_OFF &&
+                        _platformYellow.getState() == STATE_PLATFORM_OFF && _platformBlue.getState() == STATE_PLATFORM_OFF)
                     {
-                        _platformBlueScript.setState(STATE_PLATFORM_ON);
+                        _platformBlue.setState(STATE_PLATFORM_ON);
                     }
                 }
             }
@@ -305,23 +302,33 @@ public class CGame : MonoBehaviour
         _randomPlatformX = CMath.randomIntBetween(500, 1500);
         _randomPlatformY = CMath.randomIntBetween(-400, -1000);
 
-        _platformGreen = Instantiate(_platformGreen, new Vector3(_randomPlatformX, _randomPlatformY), Quaternion.identity);
-        _platformGreenScript = _platformGreen.GetComponent<CPlatform>();
-        _platformGreenScript.setType(PLATFORM_GREEN);
+        GameObject platform = Instantiate(_platformPrefab, new Vector3(_randomPlatformX, _randomPlatformY), Quaternion.identity);
+        _platformGreen = platform.GetComponent<CPlatform>();
+        _platformGreen.setType(PLATFORM_GREEN);
 
-        _platformRed = Instantiate(_platformRed, new Vector3(_randomPlatformX + PLATFORM_WIDTH, _randomPlatformY), Quaternion.identity);
-        _platformRedScript = _platformRed.GetComponent<CPlatform>();
-        _platformRedScript.setType(PLATFORM_RED);
+        platform = Instantiate(_platformPrefab, new Vector3(_randomPlatformX + PLATFORM_WIDTH, _randomPlatformY), Quaternion.identity);
+        _platformRed = platform.GetComponent<CPlatform>();
+        _platformRed.setType(PLATFORM_RED);
 
-        _platformYellow = Instantiate(_platformYellow, new Vector3(_randomPlatformX + PLATFORM_WIDTH * 2, _randomPlatformY), Quaternion.identity);
-        _platformYellowScript = _platformYellow.GetComponent<CPlatform>();
-        _platformYellowScript.setType(PLATFORM_YELLOW);
+        platform = Instantiate(_platformPrefab, new Vector3(_randomPlatformX + PLATFORM_WIDTH * 2, _randomPlatformY), Quaternion.identity);
+        _platformYellow = platform.GetComponent<CPlatform>();
+        _platformYellow.setType(PLATFORM_YELLOW);
 
-        _platformBlue = Instantiate(_platformBlue, new Vector3(_randomPlatformX + PLATFORM_WIDTH * 3, _randomPlatformY), Quaternion.identity);
-        _platformBlueScript = _platformBlue.GetComponent<CPlatform>();
-        _platformBlueScript.setType(PLATFORM_BLUE);
+        platform = Instantiate(_platformPrefab, new Vector3(_randomPlatformX + PLATFORM_WIDTH * 3, _randomPlatformY), Quaternion.identity);
+        _platformBlue = platform.GetComponent<CPlatform>();
+        _platformBlue.setType(PLATFORM_BLUE);
 
         //_prevPlatformY = _randomPlatformY;
+    }
+
+    // Makes all platforms not walkable. Other functionalitty can be added.
+    // Is called more that once and it's making the platform created after disabled too.
+    private void setAllPlatformsInacive()
+    {
+        _platformBlue.setWalkable(false);
+        _platformGreen.setWalkable(false);
+        _platformRed.setWalkable(false);
+        _platformYellow.setWalkable(false);
     }
 
     private void checkSuccess()
@@ -330,6 +337,7 @@ public class CGame : MonoBehaviour
         {
             _isSolved = true;
             _difficulty = _difficulty + CGameConstants.DIFFICULTY_INCREMENT;
+            setAllPlatformsInacive();
             createPlatform();
             Debug.Log("You WIN, next platform...");
         }
