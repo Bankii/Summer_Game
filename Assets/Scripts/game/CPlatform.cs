@@ -6,8 +6,9 @@ using UnityEngine;
 public class CPlatform : CGameObject {
 
     private const int STATE_OFF = 0;
-    private const int STATE_ON = 1;
-    private const int STATE_TRANSITION = 2;
+    private const int STATE_ON = 1;    
+    private const int STATE_SHUTDOWN = 2;
+    private const int STATE_TRANSITION = 3;
 
     public const int PLATFORM_GREEN = 0;
     public const int PLATFORM_RED = 1;
@@ -30,6 +31,7 @@ public class CPlatform : CGameObject {
     public Sprite _platformYellowActive;
     public Sprite _platformBlueInactive;
     public Sprite _platformBlueActive;
+    public Sprite _platformShutdown;
 
     private AudioSource _platformFX;
     public AudioClip _greenFX;
@@ -139,6 +141,11 @@ public class CPlatform : CGameObject {
             {
                 setState(STATE_OFF);
             }
+        }
+
+        if (getState() == STATE_SHUTDOWN)
+        {
+            _spriteRenderer.sprite = _platformShutdown;
         }
 
     }

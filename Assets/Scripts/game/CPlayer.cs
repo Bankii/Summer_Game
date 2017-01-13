@@ -33,7 +33,9 @@ public class CPlayer : CGameObject
 
     void Start()
     {
-        setState(STATE_IDLE);
+        setState(STATE_IDLE);        
+        _anim = GetComponentInChildren<Animator>();
+        
     }
 	void Update()
     {
@@ -48,11 +50,14 @@ public class CPlayer : CGameObject
     public override void apiUpdate()
     {
         base.apiUpdate();
+        _anim.SetFloat("Jump", getVelY());
+
         switch (getState())
         {
             case STATE_IDLE:
+                _anim.SetBool("isGrounded", true);
                 // Checking if the player isn't against a wall.
-                if(getX() != _maxX && getX() != _minX)
+                if (getX() != _maxX && getX() != _minX)
                 { 
                     if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
                     {
@@ -130,14 +135,17 @@ public class CPlayer : CGameObject
             case STATE_CHARGING:
                 if (Input.GetKey(KeyCode.Space))
                 {
+                    _anim.SetBool("isCharging", true);
                     _jumpMultiplyer += 0.04f;
                 }
                 if (Input.GetKeyUp(KeyCode.Space))
                 {
+                    _anim.SetBool("isCharging", false);
                     setState(STATE_JUMPING);
                 }
                 break;
             case STATE_JUMPING:
+                _anim.SetBool("isGrounded", false);
                 if (getY() - _height <= _maxY && getVelY() != 0)
                 {
                     setY(_maxY + _height);
@@ -186,6 +194,7 @@ public class CPlayer : CGameObject
                 //}
                 break;
             case STATE_FALLING:
+                _anim.SetBool("isGrounded", false);
                 if (getY() - _height <= _maxY)
                 {
                     setY(_maxY + _height);

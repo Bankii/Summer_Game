@@ -6,23 +6,21 @@ public class CGame : MonoBehaviour
 {
 	static private CGame mInstance;
 	private CGameState mState;
-
-	private CCamera mCamera;
-	private CPlayer mPlayer;
-
-    private List<int> _simonSequence;
-    private int _randomNum;
-    private int _randomPlatformX;
-    private int _randomPlatformY;
-    private int _prevPlatformY;
-    private int _difficulty;
-    private int _platformCount;
-    private bool _isSolved;
-    private bool _isShowed;
-    private bool _firstTimeShowSequence;
+    
+    private List<int> _simonSequence; //Color sequence for Simon
+    private int _randomNum; //random platform for Simon sequence
+    private int _randomPlatformX; // Random X for platform position
+    private int _randomPlatformY; // Random Y for platform position
+    private int _difficulty; //Simon difficulty
+    private int _platformCount; //Counts the platforms to show sequence
+    private bool _isSolved; //bool to check if is needed to build a new sequence
+    private bool _isShowed; //bool to check if is needed to show the sequence
+    private bool _isFirstTimeShowSequence;
+    private bool _isFirstPlatform; 
     private bool _isGameOver; //testing
 
     public GameObject _platformPrefab;
+    public GameObject _platformParent;
 
     private CPlatform _platformGreen;
     private CPlatform _platformRed;
@@ -31,6 +29,7 @@ public class CGame : MonoBehaviour
 
     public const int STATE_PLATFORM_OFF = 0;
     public const int STATE_PLATFORM_ON = 1;
+    public const int STATE_PLATFORM_SHUTDOWN = 2;
 
     public const int PLATFORM_GREEN = 0;
     public const int PLATFORM_RED = 1;
@@ -71,9 +70,12 @@ public class CGame : MonoBehaviour
         _isSolved = true;
         _isShowed = false;
         _isGameOver = false;
-        _firstTimeShowSequence = true;
+        _isFirstTimeShowSequence = true;
+        _isFirstPlatform = true;
         _platformCount = 0;
-        //_prevPlatformY = - CGameConstants.SCREEN_HEIGHT;
+        _platformParent = new GameObject();
+        _platformParent.transform.name = "Colored_Platforms";
+
 
         //Instantiating Platforms
         createPlatform();               
@@ -92,7 +94,7 @@ public class CGame : MonoBehaviour
 		CMouse.update ();
 		CKeyboard.update ();
 
-        //If the previous sequence was solved or it's the first, build and show Simon Sequence
+        //If the previous sequence was solved or it's the first, build the Simon Sequence
         if (_isSolved && !_isGameOver)
         {
             buildSimonSequence();
@@ -133,12 +135,11 @@ public class CGame : MonoBehaviour
     {
         //Reseting variables for showSimonSequence()
         _platformCount = 0;
-        _firstTimeShowSequence = true;
+        _isFirstTimeShowSequence = true;
 
         for (int i = 0; i <= _difficulty; i++)
         {
             _randomNum = CMath.randomIntBetween(0, 3);
-            //_randomNum = 0;
 
             _simonSequence.Add(_randomNum);
 
@@ -181,7 +182,7 @@ public class CGame : MonoBehaviour
         if (_platformCount < _simonSequence.Count)
         {
 
-            if (!_firstTimeShowSequence)
+            if (!_isFirstTimeShowSequence)
             {
                 if (_platformGreen.getState() == STATE_PLATFORM_OFF && _platformRed.getState() == STATE_PLATFORM_OFF &&
                 _platformYellow.getState() == STATE_PLATFORM_OFF && _platformBlue.getState() == STATE_PLATFORM_OFF)
@@ -190,7 +191,7 @@ public class CGame : MonoBehaviour
                 }
             }
             
-            _firstTimeShowSequence = false;            
+            _isFirstTimeShowSequence = false;            
 
             if (_platformCount < _simonSequence.Count)
             {
@@ -300,30 +301,47 @@ public class CGame : MonoBehaviour
     private void createPlatform()
     {
         _randomPlatformX = CMath.randomIntBetween(500, 1500);
-        _randomPlatformY = CMath.randomIntBetween(-400, -1000);
+
+        if (_isFirstPlatform)
+        {            
+            _randomPlatformY = CMath.randomIntBetween(-300, -1000);
+        }
+        else
+        {            
+            _randomPlatformY = CMath.randomIntBetween(-300, (int)_platformGreen.getY());
+        }
+        
 
         GameObject platform = Instantiate(_platformPrefab, new Vector3(_randomPlatformX, _randomPlatformY), Quaternion.identity);
+        platform.name = "Platform_Green";
+        platform.transform.SetParent(_platformParent.transform);
         _platformGreen = platform.GetComponent<CPlatform>();
         _platformGreen.setType(PLATFORM_GREEN);
 
         platform = Instantiate(_platformPrefab, new Vector3(_randomPlatformX + PLATFORM_WIDTH, _randomPlatformY), Quaternion.identity);
+        platform.name = "Platform_Red";
+        platform.transform.SetParent(_platformParent.transform);
         _platformRed = platform.GetComponent<CPlatform>();
         _platformRed.setType(PLATFORM_RED);
 
         platform = Instantiate(_platformPrefab, new Vector3(_randomPlatformX + PLATFORM_WIDTH * 2, _randomPlatformY), Quaternion.identity);
+        platform.name = "Platform_Yellow";
+        platform.transform.SetParent(_platformParent.transform);
         _platformYellow = platform.GetComponent<CPlatform>();
         _platformYellow.setType(PLATFORM_YELLOW);
 
         platform = Instantiate(_platformPrefab, new Vector3(_randomPlatformX + PLATFORM_WIDTH * 3, _randomPlatformY), Quaternion.identity);
+        platform.name = "Platform_Blue";
+        platform.transform.SetParent(_platformParent.transform);
         _platformBlue = platform.GetComponent<CPlatform>();
         _platformBlue.setType(PLATFORM_BLUE);
 
-        //_prevPlatformY = _randomPlatformY;
+        _isFirstPlatform = false;
     }
 
     // Makes all platforms not walkable. Other functionalitty can be added.
     // Is called more that once and it's making the platform created after disabled too.
-    private void setAllPlatformsInacive()
+    private void setAllPlatformsInactive()
     {
         _platformBlue.setWalkable(false);
         _platformGreen.setWalkable(false);
@@ -337,10 +355,19 @@ public class CGame : MonoBehaviour
         {
             _isSolved = true;
             _difficulty = _difficulty + CGameConstants.DIFFICULTY_INCREMENT;
-            setAllPlatformsInacive();
+            shutdownPlatforms();
+            setAllPlatformsInactive();
             createPlatform();
             Debug.Log("You WIN, next platform...");
         }
+    }
+
+    private void shutdownPlatforms()
+    {
+        _platformGreen.setState(STATE_PLATFORM_SHUTDOWN);
+        _platformRed.setState(STATE_PLATFORM_SHUTDOWN);
+        _platformYellow.setState(STATE_PLATFORM_SHUTDOWN);
+        _platformBlue.setState(STATE_PLATFORM_SHUTDOWN);
     }
 
 
