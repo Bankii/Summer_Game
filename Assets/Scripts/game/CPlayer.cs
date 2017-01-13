@@ -31,10 +31,17 @@ public class CPlayer : CGameObject
     private float _maxX;
     private float _maxY;
 
+    public string _idleAnim;
+    public string _landingAnim;
+    public string _walkingAnim;
+    public string _chargingAnim;
+    public string _jumpingAnim;
+    public string _fallingAnim;
+
     void Start()
     {
         setState(STATE_IDLE);        
-        _anim = GetComponentInChildren<Animator>();
+        //_anim = GetComponentInChildren<Animator>();
         
     }
 	void Update()
@@ -50,12 +57,12 @@ public class CPlayer : CGameObject
     public override void apiUpdate()
     {
         base.apiUpdate();
-        _anim.SetFloat("Jump", getVelY());
+        //_anim.SetFloat("Jump", getVelY());
 
         switch (getState())
         {
             case STATE_IDLE:
-                _anim.SetBool("isGrounded", true);
+                //_anim.SetBool("isGrounded", true);
                 // Checking if the player isn't against a wall.
                 if (getX() != _maxX && getX() != _minX)
                 { 
@@ -135,17 +142,17 @@ public class CPlayer : CGameObject
             case STATE_CHARGING:
                 if (Input.GetKey(KeyCode.Space))
                 {
-                    _anim.SetBool("isCharging", true);
+                    //_anim.SetBool("isCharging", true);
                     _jumpMultiplyer += 0.04f;
                 }
                 if (Input.GetKeyUp(KeyCode.Space))
                 {
-                    _anim.SetBool("isCharging", false);
+                    //_anim.SetBool("isCharging", false);
                     setState(STATE_JUMPING);
                 }
                 break;
             case STATE_JUMPING:
-                _anim.SetBool("isGrounded", false);
+                //_anim.SetBool("isGrounded", false);
                 if (getY() - _height <= _maxY && getVelY() != 0)
                 {
                     setY(_maxY + _height);
@@ -194,11 +201,39 @@ public class CPlayer : CGameObject
                 //}
                 break;
             case STATE_FALLING:
-                _anim.SetBool("isGrounded", false);
+                //_anim.SetBool("isGrounded", false);
                 if (getY() - _height <= _maxY)
                 {
                     setY(_maxY + _height);
                     setState(STATE_IDLE);
+                }
+                // if no arrow is pressed then no movement on the X axis.
+                if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
+                {
+                    setVelX(0);
+                }
+                // Set vel and flip according to the side.
+                else if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    setVelX(-_horizontalSpeed);
+                    _spriteRenderer.flipX = true;
+                    _spriteRenderer.gameObject.transform.position = new Vector3(getX() + _width, getY(), getZ());
+                }
+                else if (Input.GetKey(KeyCode.RightArrow))
+                {
+                    setVelX(_horizontalSpeed);
+                    _spriteRenderer.flipX = false;
+                    _spriteRenderer.gameObject.transform.position = getPos();
+                }
+
+                // if there are walls then no movement on the X axis.
+                if (getX() + _width >= _maxX && Input.GetKey(KeyCode.RightArrow))
+                {
+                    setVelX(0);
+                }
+                else if (getX() <= _minX && Input.GetKey(KeyCode.LeftArrow))
+                {
+                    setVelX(0);
                 }
                 break;
             case STATE_DYING:
@@ -210,14 +245,24 @@ public class CPlayer : CGameObject
 
     public override void setState(int aState)
     {
+        int previousState = getState();
         base.setState(aState);
         switch (getState())
         {
             case STATE_IDLE:
+                if (previousState == STATE_FALLING || previousState == STATE_JUMPING)
+                {
+                    _anim.Play(_landingAnim);
+                }
+                else
+                {
+                    _anim.Play(_idleAnim);
+                }
                 setVel(new CVector(Vector3.zero));
                 setAccelY(0);
                 break;
             case STATE_JUMPING:
+                _anim.Play(_jumpingAnim);
                 setVelY(_verticalMaxSpeed * _jumpMultiplyer);
                 setAccelY(_GRAVITY);
                 if (getVelY() < _verticalMinSpeed)
@@ -231,7 +276,14 @@ public class CPlayer : CGameObject
                 _jumpMultiplyer = 0;
                 break;
             case STATE_FALLING:
+                _anim.Play(_fallingAnim);
                 setAccelY(_GRAVITY);
+                break;
+            case STATE_WALKING:
+                //_anim.Play(_walkingAnim);
+                break;
+            case STATE_CHARGING:
+                _anim.Play(_chargingAnim);
                 break;
             default:
                 break;
@@ -240,19 +292,23 @@ public class CPlayer : CGameObject
 
     private void checkPoints()
     {
+        float auxWidth = getX() + _width - _collitionOffsetRight;
+        float auxX = getX() + _collitionOffsetLeft;
+        Vector3 auxPos = new Vector3(auxX, getY(), getZ());
+
         // --------Checking the floor.--------
         float leftY = -CGameConstants.SCREEN_HEIGHT; ;
         float rightY = -CGameConstants.SCREEN_HEIGHT; ;
         RaycastHit hitInfo;
 
         // Down left.
-        if (Physics.Raycast(getPos(), Vector3.down, out hitInfo))// && hitInfo.collider.tag == "Platform")
+        if (Physics.Raycast(auxPos, Vector3.down, out hitInfo))// && hitInfo.collider.tag == "Platform")
         {
             leftY = hitInfo.point.y;
         }
 
         // Down right.
-        if (Physics.Raycast(new Vector3(getX() + _width, getY(), getZ()), Vector3.down, out hitInfo) )
+        if (Physics.Raycast(new Vector3(auxWidth, getY(), getZ()), Vector3.down, out hitInfo) )
             //&& hitInfo.collider.tag == "Platform")
         {
             rightY = hitInfo.point.y;
@@ -265,14 +321,14 @@ public class CPlayer : CGameObject
         rightY = 0;// CGameConstants.SCREEN_HEIGHT;
 
         // Up left.
-        Physics.Raycast(new Vector3(getX(),getY() - _height,getZ()), Vector3.up, out hitInfo, 1000f);
+        Physics.Raycast(new Vector3(auxX,getY() - _height,getZ()), Vector3.up, out hitInfo, 1000f);
         if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
         {
             leftY = hitInfo.point.y;
         }
 
         // Up right.
-        Physics.Raycast(new Vector3(getX() + _width, getY() - _height, getZ()), Vector3.up, out hitInfo, 1000f);
+        Physics.Raycast(new Vector3(auxWidth, getY() - _height, getZ()), Vector3.up, out hitInfo, 1000f);
         if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
         {
             rightY = hitInfo.point.y;

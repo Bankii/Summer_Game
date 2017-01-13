@@ -20,7 +20,6 @@ public class CGame : MonoBehaviour
     private bool _isGameOver; //testing
 
     public GameObject _platformPrefab;
-    public GameObject _platformParent;
 
     private CPlatform _platformGreen;
     private CPlatform _platformRed;
@@ -73,8 +72,7 @@ public class CGame : MonoBehaviour
         _isFirstTimeShowSequence = true;
         _isFirstPlatform = true;
         _platformCount = 0;
-        _platformParent = new GameObject();
-        _platformParent.transform.name = "Colored_Platforms";
+        
 
 
         //Instantiating Platforms
@@ -240,7 +238,7 @@ public class CGame : MonoBehaviour
     private void playerInput()
     {
         //Replace CKeyboard.pressed with collision detection
-        if (CKeyboard.pressed(KeyCode.G))
+        if (Input.GetKeyUp(KeyCode.G))
         {
             Debug.Log("G");
             if (_simonSequence[0] == 0)
@@ -254,7 +252,7 @@ public class CGame : MonoBehaviour
                 _isGameOver = true;
             }
         }
-        else if (CKeyboard.pressed(KeyCode.R))
+        else if (Input.GetKeyUp(KeyCode.R))
         {
             Debug.Log("R");
             if (_simonSequence[0] == 1)
@@ -268,7 +266,7 @@ public class CGame : MonoBehaviour
                 _isGameOver = true;
             }
         }
-        else if (CKeyboard.pressed(KeyCode.Y))
+        else if (Input.GetKeyUp(KeyCode.Y))
         {
             Debug.Log("Y");
             if (_simonSequence[0] == 2)
@@ -282,7 +280,7 @@ public class CGame : MonoBehaviour
                 _isGameOver = true;
             }
         }
-        else if (CKeyboard.pressed(KeyCode.B))
+        else if (Input.GetKeyUp(KeyCode.B))
         {
             Debug.Log("B");
             if (_simonSequence[0] == 3)
@@ -310,7 +308,9 @@ public class CGame : MonoBehaviour
         {            
             _randomPlatformY = CMath.randomIntBetween(-300, (int)_platformGreen.getY());
         }
-        
+
+        GameObject _platformParent = new GameObject();
+        _platformParent.transform.name = "Colored_Platform";
 
         GameObject platform = Instantiate(_platformPrefab, new Vector3(_randomPlatformX, _randomPlatformY), Quaternion.identity);
         platform.name = "Platform_Green";
@@ -340,7 +340,6 @@ public class CGame : MonoBehaviour
     }
 
     // Makes all platforms not walkable. Other functionalitty can be added.
-    // Is called more that once and it's making the platform created after disabled too.
     private void setAllPlatformsInactive()
     {
         _platformBlue.setWalkable(false);
