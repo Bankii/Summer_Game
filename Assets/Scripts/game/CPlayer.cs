@@ -31,19 +31,59 @@ public class CPlayer : CGameObject
     private float _maxX;
     private float _maxY;
 
-    public string _idleAnim;
-    public string _landingAnim;
-    public string _walkingAnim;
-    public string _chargingAnim;
-    public string _jumpingAnim;
-    public string _fallingAnim;
+    private string _idleAnim;
+    private string _landingAnim;
+    private string _walkingAnim;
+    private string _chargingAnim;
+    private string _jumpingAnim;
+    private string _fallingAnim;
+
+    public string _idleBaseAnim;
+    public string _landingBaseAnim;
+    public string _walkingBaseAnim;
+    public string _chargingBaseAnim;
+    public string _jumpingBaseAnim;
+    public string _fallingBaseAnim;
+
+    public string _idleGreenAnim;
+    public string _landingGreenAnim;
+    public string _walkingGreenAnim;
+    public string _chargingGreenAnim;
+    public string _jumpingGreenAnim;
+    public string _fallingGreenAnim;
+
+    public string _idleRedAnim;
+    public string _landingRedAnim;
+    public string _walkingRedAnim;
+    public string _chargingRedAnim;
+    public string _jumpingRedAnim;
+    public string _fallingRedAnim;
+
+    public string _idleYellowAnim;
+    public string _landingYellowAnim;
+    public string _walkingYellowAnim;
+    public string _chargingYellowAnim;
+    public string _jumpingYellowAnim;
+    public string _fallingYellowAnim;
+
+    public string _idleBlueAnim;
+    public string _landingBlueAnim;
+    public string _walkingBlueAnim;
+    public string _chargingBlueAnim;
+    public string _jumpingBlueAnim;
+    public string _fallingBlueAnim;
 
     void Start()
     {
-        setState(STATE_IDLE);        
-        //_anim = GetComponentInChildren<Animator>();
-        
+        setState(STATE_IDLE);
+        _idleAnim = _idleBaseAnim;
+        _landingAnim = _landingBaseAnim;
+        _walkingAnim = _walkingBaseAnim;
+        _chargingAnim = _chargingBaseAnim;
+        _jumpingAnim = _jumpingBaseAnim;
+        _fallingAnim = _fallingBaseAnim;
     }
+
 	void Update()
     {
         apiUpdate();
@@ -280,7 +320,7 @@ public class CPlayer : CGameObject
                 setAccelY(_GRAVITY);
                 break;
             case STATE_WALKING:
-                //_anim.Play(_walkingAnim);
+                _anim.Play(_walkingAnim);
                 break;
             case STATE_CHARGING:
                 _anim.Play(_chargingAnim);

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class CGame : MonoBehaviour 
 {
 	static private CGame mInstance;
-	private CGameState mState;
     
     private List<int> _simonSequence; //Color sequence for Simon
     private int _randomNum; //random platform for Simon sequence
@@ -13,6 +12,7 @@ public class CGame : MonoBehaviour
     private int _randomPlatformY; // Random Y for platform position
     private int _difficulty; //Simon difficulty
     private int _platformCount; //Counts the platforms to show sequence
+    private int _platformNum; //Counter for platform's parent name
     private bool _isSolved; //bool to check if is needed to build a new sequence
     private bool _isShowed; //bool to check if is needed to show the sequence
     private bool _isFirstTimeShowSequence;
@@ -72,12 +72,10 @@ public class CGame : MonoBehaviour
         _isFirstTimeShowSequence = true;
         _isFirstPlatform = true;
         _platformCount = 0;
-        
-
+        _platformNum = 1;
 
         //Instantiating Platforms
         createPlatform();               
-
     }
 	
 	// Update is called once per frame
@@ -298,7 +296,7 @@ public class CGame : MonoBehaviour
 
     private void createPlatform()
     {
-        _randomPlatformX = CMath.randomIntBetween(500, 1500);
+        _randomPlatformX = CMath.randomIntBetween(300, 1500);
 
         if (_isFirstPlatform)
         {            
@@ -310,7 +308,7 @@ public class CGame : MonoBehaviour
         }
 
         GameObject _platformParent = new GameObject();
-        _platformParent.transform.name = "Colored_Platform";
+        _platformParent.transform.name = "Colored_Platform_" + _platformNum;
 
         GameObject platform = Instantiate(_platformPrefab, new Vector3(_randomPlatformX, _randomPlatformY), Quaternion.identity);
         platform.name = "Platform_Green";
@@ -337,6 +335,7 @@ public class CGame : MonoBehaviour
         _platformBlue.setType(PLATFORM_BLUE);
 
         _isFirstPlatform = false;
+        _platformNum++;
     }
 
     // Makes all platforms not walkable. Other functionalitty can be added.
