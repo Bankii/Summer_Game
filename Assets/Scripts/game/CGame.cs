@@ -296,15 +296,26 @@ public class CGame : MonoBehaviour
 
     private void createPlatform()
     {
-        _randomPlatformX = CMath.randomIntBetween(300, 1500);
+        
 
         if (_isFirstPlatform)
-        {            
-            _randomPlatformY = CMath.randomIntBetween(-300, -1000);
+        {
+            _randomPlatformX = CMath.randomIntBetween(300, 600);
+            _randomPlatformY = CMath.randomIntBetween(-800, -1000);
         }
         else
-        {            
-            _randomPlatformY = CMath.randomIntBetween(-300, (int)_platformGreen.getY());
+        {
+            if (_platformGreen.getX() > CGameConstants.SCREEN_WIDTH/2)
+            {
+                _randomPlatformX = CMath.randomIntBetween(CGameConstants.SCREEN_WIDTH / 2, 1500);
+                _randomPlatformY = CMath.randomIntBetween(-300, (int)_platformGreen.getY());
+            }
+            else
+            {
+                _randomPlatformX = CMath.randomIntBetween(300, CGameConstants.SCREEN_WIDTH / 2);
+                _randomPlatformY = CMath.randomIntBetween(-300, (int)_platformGreen.getY());
+            }
+            
         }
 
         GameObject _platformParent = new GameObject();
