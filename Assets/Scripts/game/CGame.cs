@@ -10,7 +10,7 @@ public class CGame : MonoBehaviour
     private int _randomNum; //random platform for Simon sequence
     private int _randomPlatformX; // Random X for platform position
     private int _randomPlatformY; // Random Y for platform position
-    private int _difficulty; //Simon difficulty
+    private float _difficulty; //Simon difficulty
     private int _platformCount; //Counts the platforms to show sequence
     private int _platformNum; //Counter for platform's parent name
     private bool _isSolved; //bool to check if is needed to build a new sequence
@@ -75,7 +75,7 @@ public class CGame : MonoBehaviour
         _platformNum = 1;
 
         //Instantiating Platforms
-        createPlatform();               
+        createPlatform();        
     }
 	
 	// Update is called once per frame
@@ -253,7 +253,7 @@ public class CGame : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.G))
         {
             Debug.Log("G");
-            if (_simonSequence[0] == 0)
+            if (_simonSequence[0] == PLATFORM_GREEN)
             {
                 _platformGreen.setState(STATE_PLATFORM_ON);
                 Debug.Log("Green: Correct");
@@ -267,7 +267,7 @@ public class CGame : MonoBehaviour
         else if (Input.GetKeyUp(KeyCode.R))
         {
             Debug.Log("R");
-            if (_simonSequence[0] == 1)
+            if (_simonSequence[0] == PLATFORM_RED)
             {
                 _platformRed.setState(STATE_PLATFORM_ON);
                 Debug.Log("Red: Correct");
@@ -281,7 +281,7 @@ public class CGame : MonoBehaviour
         else if (Input.GetKeyUp(KeyCode.Y))
         {
             Debug.Log("Y");
-            if (_simonSequence[0] == 2)
+            if (_simonSequence[0] == PLATFORM_YELLOW)
             {
                 _platformYellow.setState(STATE_PLATFORM_ON);
                 Debug.Log("Yellow: Correct");
@@ -295,7 +295,7 @@ public class CGame : MonoBehaviour
         else if (Input.GetKeyUp(KeyCode.B))
         {
             Debug.Log("B");
-            if (_simonSequence[0] == 3)
+            if (_simonSequence[0] == PLATFORM_BLUE)
             {
                 _platformBlue.setState(STATE_PLATFORM_ON);
                 Debug.Log("Blue: Correct");
