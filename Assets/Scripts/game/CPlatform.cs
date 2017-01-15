@@ -46,6 +46,8 @@ public class CPlatform : CGameObject {
         
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _platformFX = GetComponent<AudioSource>();
+        setWidth(PLATFORM_WIDTH);
+        setHeight(PLATFORM_HEIGHT);
 
     }
 

@@ -56,6 +56,9 @@ public class CPlayer : CGameObject
         _chargingAnim = _chargingBaseAnim;
         _jumpingAnim = _jumpingBaseAnim;
         _fallingAnim = _fallingBaseAnim;
+
+        setWidth(_width);
+        setHeight(_height);
     }
 
 	void Update()
@@ -255,6 +258,11 @@ public class CPlayer : CGameObject
             default:
                 break;
         }
+    }
+
+    public bool isGrounded()
+    {
+        return getState() == STATE_IDLE || getState() == STATE_WALKING;
     }
 
     public override void setState(int aState)
