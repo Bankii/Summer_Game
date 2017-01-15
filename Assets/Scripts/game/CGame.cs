@@ -241,7 +241,7 @@ public class CGame : MonoBehaviour
             Debug.Log("G");
             if (_simonSequence[0] == 0)
             {
-                //_platformGreenScript.setState(STATE_PLATFORM_ON);
+                _platformGreen.setState(STATE_PLATFORM_ON);
                 Debug.Log("Green: Correct");
                 _simonSequence.RemoveAt(0);
             }
@@ -255,7 +255,7 @@ public class CGame : MonoBehaviour
             Debug.Log("R");
             if (_simonSequence[0] == 1)
             {
-                //_platformRedScript.setState(STATE_PLATFORM_ON);
+                _platformRed.setState(STATE_PLATFORM_ON);
                 Debug.Log("Red: Correct");
                 _simonSequence.RemoveAt(0);
             }
@@ -269,7 +269,7 @@ public class CGame : MonoBehaviour
             Debug.Log("Y");
             if (_simonSequence[0] == 2)
             {
-                //_platformYellowScript.setState(STATE_PLATFORM_ON);
+                _platformYellow.setState(STATE_PLATFORM_ON);
                 Debug.Log("Yellow: Correct");
                 _simonSequence.RemoveAt(0);
             }
@@ -283,7 +283,7 @@ public class CGame : MonoBehaviour
             Debug.Log("B");
             if (_simonSequence[0] == 3)
             {
-                //_platformBlueScript.setState(STATE_PLATFORM_ON);
+                _platformBlue.setState(STATE_PLATFORM_ON);
                 Debug.Log("Blue: Correct");
                 _simonSequence.RemoveAt(0);
             }
