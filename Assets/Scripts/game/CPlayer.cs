@@ -45,35 +45,7 @@ public class CPlayer : CGameObject
     public string _jumpingBaseAnim;
     public string _fallingBaseAnim;
 
-    public string _idleGreenAnim;
-    public string _landingGreenAnim;
-    public string _walkingGreenAnim;
-    public string _chargingGreenAnim;
-    public string _jumpingGreenAnim;
-    public string _fallingGreenAnim;
-
-    public string _idleRedAnim;
-    public string _landingRedAnim;
-    public string _walkingRedAnim;
-    public string _chargingRedAnim;
-    public string _jumpingRedAnim;
-    public string _fallingRedAnim;
-
-    public string _idleYellowAnim;
-    public string _landingYellowAnim;
-    public string _walkingYellowAnim;
-    public string _chargingYellowAnim;
-    public string _jumpingYellowAnim;
-    public string _fallingYellowAnim;
-
-    [Space (10)]
-    [Header ("Blue Animations")]
-    public string _idleBlueAnim;
-    public string _landingBlueAnim;
-    public string _walkingBlueAnim;
-    public string _chargingBlueAnim;
-    public string _jumpingBlueAnim;
-    public string _fallingBlueAnim;
+    public auxiliarAnimations _colorAnimations;
 
     void Start()
     {
@@ -421,5 +393,38 @@ public class CPlayer : CGameObject
         // Setting the down variable.
         _minX = Mathf.Min(upX, downX);
     }
-    
+}
+
+[System.Serializable]
+public class auxiliarAnimations
+{
+    public string _idleGreenAnim;
+    public string _landingGreenAnim;
+    public string _walkingGreenAnim;
+    public string _chargingGreenAnim;
+    public string _jumpingGreenAnim;
+    public string _fallingGreenAnim;
+
+    public string _idleRedAnim;
+    public string _landingRedAnim;
+    public string _walkingRedAnim;
+    public string _chargingRedAnim;
+    public string _jumpingRedAnim;
+    public string _fallingRedAnim;
+
+    public string _idleYellowAnim;
+    public string _landingYellowAnim;
+    public string _walkingYellowAnim;
+    public string _chargingYellowAnim;
+    public string _jumpingYellowAnim;
+    public string _fallingYellowAnim;
+
+    [Space(10)]
+    [Header("Blue Animations")]
+    public string _idleBlueAnim;
+    public string _landingBlueAnim;
+    public string _walkingBlueAnim;
+    public string _chargingBlueAnim;
+    public string _jumpingBlueAnim;
+    public string _fallingBlueAnim;
 }
