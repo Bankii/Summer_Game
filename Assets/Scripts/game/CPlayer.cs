@@ -66,6 +66,8 @@ public class CPlayer : CGameObject
     public string _jumpingYellowAnim;
     public string _fallingYellowAnim;
 
+    [Space (10)]
+    [Header ("Blue Animations")]
     public string _idleBlueAnim;
     public string _landingBlueAnim;
     public string _walkingBlueAnim;

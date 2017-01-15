@@ -233,6 +233,20 @@ public class CGame : MonoBehaviour
         }
     }
 
+    private bool checkPlatform(CPlatform platform)
+    {
+        if (_simonSequence[0] == platform.getType())
+        {
+            platform.setState(STATE_PLATFORM_ON);
+            _simonSequence.RemoveAt(0);
+            return true;
+        }
+        else
+        {
+            _isGameOver = true;
+            return false;
+        }
+    }
     private void playerInput()
     {
         //Replace CKeyboard.pressed with collision detection
