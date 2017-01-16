@@ -49,6 +49,18 @@ public class CGame : MonoBehaviour
     private bool _wasGroundedLastFrame = true;
     private bool _onQueueToShutDown = false;
 
+    private bool _restartGame;
+
+    public bool isRestart()
+    {
+        return _restartGame;
+    }
+
+    public void setRestart(bool aRestart)
+    {
+        _restartGame = aRestart;
+    }
+
     void Awake()
 	{
 		if (mInstance != null) 
@@ -86,7 +98,7 @@ public class CGame : MonoBehaviour
         _camera.setGameObjectToFollow(_player);
 
         //Instantiating Platforms
-        createPlatform();        
+        createPlatform();    
     }
 	
 	// Update is called once per frame
@@ -105,6 +117,25 @@ public class CGame : MonoBehaviour
 	{
 		CMouse.update ();
 		CKeyboard.update ();
+
+        // TODO add a delay here too!!
+        if (_restartGame)
+        {
+            _restartGame = false;
+            // TODO: move this to a function.
+            _difficulty = 0;
+            _simonSequence = new List<int>();
+            _isSolved = true;
+            _isShowed = false;
+            _isGameOver = false;
+            _isFirstTimeShowSequence = true;
+            _isFirstPlatform = true;
+            _platformCount = 0;
+            _platformNum = 1;
+            // TODO do this after a mild delay. (maybe the stuff from above too)
+            createPlatform();
+
+        }
 
         if (_player.getState() == 4)
         {
@@ -422,6 +453,7 @@ public class CGame : MonoBehaviour
 
         GameObject _platformParent = new GameObject();
         _platformParent.transform.name = "Colored_Platform_" + _platformNum;
+        _platformParent.AddComponent<CDestroyOnRestart>();
 
         GameObject platform = Instantiate(_platformPrefab, new Vector3(_randomPlatformX, _randomPlatformY), Quaternion.identity);
         platform.name = "Platform_Green";

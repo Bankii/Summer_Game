@@ -19,7 +19,7 @@ public class CCamera: CGameObject
         if (mGameObjectToFollow != null)
         {
             //setX (mGameObjectToFollow.getX () - WIDTH / 2);
-            setY(mGameObjectToFollow.getY() + HEIGHT / 2);
+            setY(mGameObjectToFollow.getY());// + HEIGHT / 2);
         }
         // Chequear que la camara no se vaya de los bordes.
         checkBorder();
@@ -27,14 +27,14 @@ public class CCamera: CGameObject
         
     private void checkBorder()
     {
-        if (getX() != 0)//getX() <= 0)
+        if (getX() != 960)//getX() <= 0)
         {
-            setX(0);
+            setX(960);
         }
 
-        if (getY() <= 0)
+        if (getY() <= -540)
         {
-            setY(0);
+            setY(-540);
         }
 
         //if (getX() >= CTileMap.inst().WORLD_WIDTH - WIDTH)

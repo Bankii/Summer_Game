@@ -51,6 +51,8 @@ public class CPlayer : CGameObject
 
     public auxiliarAnimations _colorAnimations;
 
+    private Vector3 _restartPos;
+
     void Start()
     {
         setState(STATE_IDLE);
@@ -60,6 +62,8 @@ public class CPlayer : CGameObject
         _chargingAnim = _chargingBaseAnim;
         _jumpingAnim = _jumpingBaseAnim;
         _fallingAnim = _fallingBaseAnim;
+
+        _restartPos = getPos();
 
         setWidth(_width);
         setHeight(_height);
@@ -79,7 +83,7 @@ public class CPlayer : CGameObject
     {
         base.apiUpdate();
         //_anim.SetFloat("Jump", getVelY());
-
+        
         switch (getState())
         {
             case STATE_IDLE:
@@ -277,6 +281,7 @@ public class CPlayer : CGameObject
                 {
                     setAccelY(_GRAVITY);
                 }
+
                 break;
 
             case STATE_DYING:
@@ -285,6 +290,12 @@ public class CPlayer : CGameObject
                     setY(_maxY + _height);
                     setVelY(0);
                     setAccelY(0);
+                    CGame.inst().setRestart(true);
+                }
+                if (CGame.inst().isRestart())
+                {
+                    setPos(new CVector(_restartPos));
+                    setState(STATE_IDLE);
                 }
                 break;
 
@@ -355,8 +366,8 @@ public class CPlayer : CGameObject
     {
         float auxWidth = getX() + _width - _collitionOffsetRight;
         float auxX = getX() + _collitionOffsetLeft;
-        float auxY = getY() - _height / 2;
-        Vector3 auxPos = new Vector3(auxX, auxY, getZ());
+        
+        Vector3 auxPos = new Vector3(auxX, getY(), getZ());
 
 
         // --------Checking the floor.--------
@@ -371,7 +382,7 @@ public class CPlayer : CGameObject
         }
 
         // Down right.
-        if (Physics.Raycast(new Vector3(auxWidth, auxY, getZ()), Vector3.down, out hitInfo) )
+        if (Physics.Raycast(new Vector3(auxWidth, getY(), getZ()), Vector3.down, out hitInfo) )
             //&& hitInfo.collider.tag == "Platform")
         {
             rightY = hitInfo.point.y;
