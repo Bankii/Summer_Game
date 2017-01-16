@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class CPlayer : CGameObject
 {
-    private const int STATE_IDLE = 0;
-    private const int STATE_WALKING = 1;
-    private const int STATE_JUMPING = 2;
-    private const int STATE_FALLING = 3;
-    private const int STATE_DYING = 4;
-    private const int STATE_CHARGING = 5;
+    public const int STATE_IDLE = 0;
+    public const int STATE_WALKING = 1;
+    public const int STATE_JUMPING = 2;
+    public const int STATE_FALLING = 3;
+    public const int STATE_DYING = 4;
+    public const int STATE_CHARGING = 5;
 
     public float _horizontalSpeed;
     public float _verticalMaxSpeed;
     public float _verticalMinSpeed;
     public float _GRAVITY;
     private float _jumpMultiplyer = 0;
+    public float _ACCEL_BOOST;
 
     public SpriteRenderer _spriteRenderer;
     public Animator _anim;
@@ -37,6 +38,7 @@ public class CPlayer : CGameObject
     private string _chargingAnim;
     private string _jumpingAnim;
     private string _fallingAnim;
+    public string _dyingAnim;
 
     public string _idleBaseAnim;
     public string _landingBaseAnim;
@@ -114,6 +116,7 @@ public class CPlayer : CGameObject
                     break;
                 }
                 break;
+
             case STATE_WALKING:
                 
                 if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
@@ -156,6 +159,7 @@ public class CPlayer : CGameObject
                     setState(STATE_FALLING);
                 }
                 break;
+
             case STATE_CHARGING:
                 if (Input.GetKey(KeyCode.Space))
                 {
@@ -168,6 +172,7 @@ public class CPlayer : CGameObject
                     setState(STATE_JUMPING);
                 }
                 break;
+
             case STATE_JUMPING:
                 //_anim.SetBool("isGrounded", false);
                 if (getY() - _height <= _maxY && getVelY() != 0)
@@ -207,22 +212,20 @@ public class CPlayer : CGameObject
                 {
                     setVelX(0);
                 }
-                
-                //if (getPos().x + _width >= _maxX && Input.GetKey(KeyCode.RightArrow))
-                //{
-                //    // set velX 0.
-                //}
-                //if (getPos().x <= _minX && Input.GetKey(KeyCode.LeftArrow))
-                //{
-                //    // set velX 0.
-                //}
                 break;
+
             case STATE_FALLING:
                 //_anim.SetBool("isGrounded", false);
                 if (getY() - _height <= _maxY)
                 {
                     setY(_maxY + _height);
                     setState(STATE_IDLE);
+                    break;
+                }
+                if (getY() < -CGameConstants.SCREEN_HEIGHT)
+                {
+                    setState(STATE_DYING);
+                    break;
                 }
                 // if no arrow is pressed then no movement on the X axis.
                 if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
@@ -252,9 +255,27 @@ public class CPlayer : CGameObject
                 {
                     setVelX(0);
                 }
+
+                // Acceleration boos if the down arrow is pressed.
+                if (Input.GetKey(KeyCode.DownArrow))
+                {
+                    setAccelY(_GRAVITY + _ACCEL_BOOST);
+                }
+                else if(!Input.GetKey(KeyCode.DownArrow))
+                {
+                    setAccelY(_GRAVITY);
+                }
                 break;
+
             case STATE_DYING:
+                if (getY() - _height <= -CGameConstants.SCREEN_HEIGHT - _height - 10)
+                {
+                    setY(_maxY + _height);
+                    setVelY(0);
+                    setAccelY(0);
+                }
                 break;
+
             default:
                 break;
         }
@@ -307,6 +328,12 @@ public class CPlayer : CGameObject
             case STATE_CHARGING:
                 _anim.Play(_chargingAnim);
                 break;
+            case STATE_DYING:
+                _anim.Play(_dyingAnim);
+                setVelX(0);
+                setVelY(0);
+                setAccelY(_GRAVITY);
+                break;
             default:
                 break;
         }
@@ -319,8 +346,8 @@ public class CPlayer : CGameObject
         Vector3 auxPos = new Vector3(auxX, getY(), getZ());
 
         // --------Checking the floor.--------
-        float leftY = -CGameConstants.SCREEN_HEIGHT; ;
-        float rightY = -CGameConstants.SCREEN_HEIGHT; ;
+        float leftY = -CGameConstants.SCREEN_HEIGHT - _height - 10;
+        float rightY = -CGameConstants.SCREEN_HEIGHT - _height - 10;
         RaycastHit hitInfo;
 
         // Down left.

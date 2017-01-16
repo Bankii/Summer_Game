@@ -28,6 +28,11 @@ public class CGame : MonoBehaviour
     private CPlatform _platformYellow;
     private CPlatform _platformBlue;
 
+    private CPlatform _prevPlatformGreen;
+    private CPlatform _prevPlatformRed;
+    private CPlatform _prevPlatformYellow;
+    private CPlatform _prevPlatformBlue;
+
     public const int STATE_PLATFORM_OFF = 0;
     public const int STATE_PLATFORM_ON = 1;
     public const int STATE_PLATFORM_SHUTDOWN = 2;
@@ -42,8 +47,6 @@ public class CGame : MonoBehaviour
 
     private bool _wasGroundedLastFrame = true;
     private bool _onQueueToShutDown = false;
-
-    public float _downBoundary;
 
     void Awake()
 	{
@@ -100,7 +103,7 @@ public class CGame : MonoBehaviour
 		CMouse.update ();
 		CKeyboard.update ();
 
-        if (_player.getY() < _downBoundary)
+        if (_player.getState() == 4)
         {
             _isGameOver = true;
         }
@@ -138,6 +141,7 @@ public class CGame : MonoBehaviour
                     if (!checkPlatform(_platformBlue))
                     {
                         _platformBlue.setWalkable(false);
+                        _player.setState(4);
                         // TODO: Add averything else that shows you lost.
                     }
                     else
@@ -149,6 +153,7 @@ public class CGame : MonoBehaviour
                     if (!checkPlatform(_platformRed))
                     {
                         _platformRed.setWalkable(false);
+                        _player.setState(4);
                         // TODO: Add averything else that shows you lost.
                     }
                     else
@@ -160,6 +165,7 @@ public class CGame : MonoBehaviour
                     if (!checkPlatform(_platformYellow))
                     {
                         _platformYellow.setWalkable(false);
+                        _player.setState(4);
                         // TODO: Add averything else that shows you lost.
                     }
                     else
@@ -171,6 +177,7 @@ public class CGame : MonoBehaviour
                     if (!checkPlatform(_platformGreen))
                     {
                         _platformGreen.setWalkable(false);
+                        _player.setState(4);
                         // TODO: Add averything else that shows you lost.
                     }
                     else
@@ -183,7 +190,7 @@ public class CGame : MonoBehaviour
         {
             if (_wasGroundedLastFrame && _onQueueToShutDown)
             {
-                setAllPlatformsInactive();
+                setAllPrevPlatformsInactive();
             }
             _wasGroundedLastFrame = false;
         }
@@ -375,6 +382,15 @@ public class CGame : MonoBehaviour
         }
     }
 
+    // Sets the variables prevPlatforms with the actual platforms, use before re-instancing new platforms.
+    private void setPrevPlatforms()
+    {
+        _prevPlatformBlue = _platformBlue;
+        _prevPlatformRed = _platformRed;
+        _prevPlatformGreen = _platformGreen;
+        _prevPlatformYellow = _platformYellow;
+    }
+
     private void createPlatform()
     {
         
@@ -398,6 +414,8 @@ public class CGame : MonoBehaviour
             }
             
         }
+
+        setPrevPlatforms();
 
         GameObject _platformParent = new GameObject();
         _platformParent.transform.name = "Colored_Platform_" + _platformNum;
@@ -442,6 +460,19 @@ public class CGame : MonoBehaviour
         _platformGreen.setWalkable(false);
         _platformRed.setWalkable(false);
         _platformYellow.setWalkable(false);
+    }
+
+    private void setAllPrevPlatformsInactive()
+    {
+        _prevPlatformGreen.setState(STATE_PLATFORM_SHUTDOWN);
+        _prevPlatformRed.setState(STATE_PLATFORM_SHUTDOWN);
+        _prevPlatformYellow.setState(STATE_PLATFORM_SHUTDOWN);
+        _prevPlatformBlue.setState(STATE_PLATFORM_SHUTDOWN);
+
+        _prevPlatformBlue.setWalkable(false);
+        _prevPlatformGreen.setWalkable(false);
+        _prevPlatformRed.setWalkable(false);
+        _prevPlatformYellow.setWalkable(false);
     }
 
     private void checkSuccess()
