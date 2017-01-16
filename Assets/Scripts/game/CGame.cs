@@ -20,6 +20,7 @@ public class CGame : MonoBehaviour
     private bool _isGameOver; //testing
 
     public GameObject _platformPrefab;
+    public CCamera _camera;
 
     public CPlayer _player;
 
@@ -81,6 +82,8 @@ public class CGame : MonoBehaviour
         _isFirstPlatform = true;
         _platformCount = 0;
         _platformNum = 1;
+
+        _camera.setGameObjectToFollow(_player);
 
         //Instantiating Platforms
         createPlatform();        

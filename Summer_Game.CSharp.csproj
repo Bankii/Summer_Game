@@ -79,7 +79,8 @@
     <Compile Include="Assets\Scripts\api\input\CMouse.cs" />
     <Compile Include="Assets\Scripts\api\math\CMath.cs" />
     <Compile Include="Assets\Scripts\api\math\CVector.cs" />
-    <Compile Include="Assets\Scripts\api\sprites\CGameObject.cs" />
+    <Compile Include="Assets\Scripts\api\objects\CCamera.cs" />
+    <Compile Include="Assets\Scripts\api\objects\CGameObject.cs" />
     <Compile Include="Assets\Scripts\game\CGame.cs" />
     <Compile Include="Assets\Scripts\game\CGameConstants.cs" />
     <Compile Include="Assets\Scripts\game\CPlatform.cs" />

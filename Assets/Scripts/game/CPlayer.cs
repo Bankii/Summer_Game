@@ -47,6 +47,8 @@ public class CPlayer : CGameObject
     public string _jumpingBaseAnim;
     public string _fallingBaseAnim;
 
+    private float _preBoostSpeed;
+
     public auxiliarAnimations _colorAnimations;
 
     void Start()
@@ -256,7 +258,17 @@ public class CPlayer : CGameObject
                     setVelX(0);
                 }
 
-                // Acceleration boos if the down arrow is pressed.
+                // Saving the last vertical speed before acceleration boost.
+                if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    _preBoostSpeed = getVelY();
+                }
+                // Loading the previous speed.
+                if (Input.GetKeyUp(KeyCode.DownArrow))
+                {
+                    setVelY(_preBoostSpeed);
+                }
+                // Acceleration boost if the down arrow is pressed.
                 if (Input.GetKey(KeyCode.DownArrow))
                 {
                     setAccelY(_GRAVITY + _ACCEL_BOOST);
@@ -283,7 +295,7 @@ public class CPlayer : CGameObject
 
     public bool isGrounded()
     {
-        return getState() == STATE_IDLE || getState() == STATE_WALKING;
+        return getState() == STATE_IDLE || getState() == STATE_WALKING || getState() == STATE_CHARGING;
     }
 
     public override void setState(int aState)

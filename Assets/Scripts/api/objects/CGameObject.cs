@@ -5,6 +5,7 @@ using UnityEngine;
 public class CGameObject : MonoBehaviour {
 
     private Transform _transform;
+    private CVector mPos;
     private CVector mVel;
     private CVector mAccel;
 
@@ -28,56 +29,76 @@ public class CGameObject : MonoBehaviour {
 
     private float mMass = 1.0f;
 
+    private CCamera _cam;
+    public bool _moveWithCam = true;
+
     void Awake()
     {
         _transform = GetComponent<Transform>();
+        mPos = new CVector();
+        mPos._vector = _transform.position;
         mVel = new CVector();
         mAccel = new CVector();
+        _cam = GameObject.FindObjectOfType<CCamera>();
     }
 
+    public void setMoveWithCam(bool aBool)
+    {
+        _moveWithCam = aBool;
+    }
 
     public void setX(float aX)
     {
         _transform.position = new Vector3(aX, _transform.position.y, _transform.position.z);
+        //mPos.setX(aX);
     }
 
     public void setY(float aY)
     {
         _transform.position = new Vector3(_transform.position.x, aY, _transform.position.z);
+        //mPos.setY(aY);
     }
 
     public void setZ(float aZ)
     {
         _transform.position = new Vector3(_transform.position.x, _transform.position.y, aZ);
+        //mPos.setZ(aZ);
     }
 
     public void setXY(float aX, float aY)
     {
         _transform.position = new Vector3(aX, aY, transform.position.z);
+        //mPos.setX(aX);
+        //mPos.setY(aY);
     }
 
     public void setPos(CVector aPos)
     {
         _transform.position = aPos._vector;
+        //mPos = aPos;
     }
     
     public float getX()
     {
         return _transform.position.x;
+        //return mPos.x();
     }
 
     public float getY()
     {
         return _transform.position.y;
+        //return mPos.y();
     }
 
     public float getZ()
     {
         return _transform.position.z;
+        //return mPos.z();
     }
 
     public Vector3 getPos()
     {
+        //return mPos._vector;
         return _transform.position;
     }
 
@@ -186,7 +207,15 @@ public class CGameObject : MonoBehaviour {
         mVel = mVel * mFriction;
 
         mVel.truncate(mMaxSpeed);
-        
+        //float x = getX();
+        //float y = getY();
+        //if (_cam != null)//&& _moveWithCam)
+        //{
+        //    x -= _cam.getX();
+        //    y -= _cam.getY();
+        //}
+
+        //Vector3 aux = new Vector3(x, y, getZ());
         _transform.position = _transform.position + mVel._vector * Time.deltaTime;
     }
 
