@@ -313,8 +313,7 @@ public class CPlayer : CGameObject
                 {
                     _anim.Play(_idleAnim);
                 }
-                setVel(new CVector(Vector3.zero));
-                setAccelY(0);
+                stopMove();
                 break;
             case STATE_JUMPING:
                 _anim.Play(_jumpingAnim);
@@ -339,6 +338,7 @@ public class CPlayer : CGameObject
                 break;
             case STATE_CHARGING:
                 _anim.Play(_chargingAnim);
+                stopMove();
                 break;
             case STATE_DYING:
                 _anim.Play(_dyingAnim);
@@ -355,7 +355,9 @@ public class CPlayer : CGameObject
     {
         float auxWidth = getX() + _width - _collitionOffsetRight;
         float auxX = getX() + _collitionOffsetLeft;
-        Vector3 auxPos = new Vector3(auxX, getY(), getZ());
+        float auxY = getY() - _height / 2;
+        Vector3 auxPos = new Vector3(auxX, auxY, getZ());
+
 
         // --------Checking the floor.--------
         float leftY = -CGameConstants.SCREEN_HEIGHT - _height - 10;
@@ -369,7 +371,7 @@ public class CPlayer : CGameObject
         }
 
         // Down right.
-        if (Physics.Raycast(new Vector3(auxWidth, getY(), getZ()), Vector3.down, out hitInfo) )
+        if (Physics.Raycast(new Vector3(auxWidth, auxY, getZ()), Vector3.down, out hitInfo) )
             //&& hitInfo.collider.tag == "Platform")
         {
             rightY = hitInfo.point.y;
