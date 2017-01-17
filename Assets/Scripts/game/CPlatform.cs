@@ -58,8 +58,11 @@ public class CPlatform : CGameObject {
 
     public void setWalkable(bool aWalkable)
     {
-        _walkable = aWalkable;
-        _collider.enabled = _walkable;
+        if (_collider != null)
+        {
+            _walkable = aWalkable;
+            _collider.enabled = _walkable;
+        }
     }
 
     public override void apiUpdate()
