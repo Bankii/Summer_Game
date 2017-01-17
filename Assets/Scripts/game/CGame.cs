@@ -37,6 +37,7 @@ public class CGame : MonoBehaviour
     public const int STATE_PLATFORM_OFF = 0;
     public const int STATE_PLATFORM_ON = 1;
     public const int STATE_PLATFORM_SHUTDOWN = 2;
+    public const int STATE_PLATFORM_DONE = 3;
 
     public const int PLATFORM_GREEN = 0;
     public const int PLATFORM_RED = 1;
@@ -94,6 +95,7 @@ public class CGame : MonoBehaviour
         _isFirstPlatform = true;
         _platformCount = 0;
         _platformNum = 1;
+        
 
         _camera.setGameObjectToFollow(_player);
 
@@ -148,9 +150,8 @@ public class CGame : MonoBehaviour
             buildSimonSequence();
         }
         else if (!_isSolved && !_isGameOver)
-        {
-            //Player Input Sequence
-            playerInput();
+        {            
+            //playerInput();
             checkSuccess();
         }
         else if (_isGameOver)
@@ -179,7 +180,11 @@ public class CGame : MonoBehaviour
                         // TODO: Add averything else that shows you lost.
                     }
                     else
+                    {
                         _simonSequence.RemoveAt(0);
+                        _player.setColorPlayer(_platformBlue.getType());
+                    }
+                        
                 }
                 // Checking for platform Red
                 if (isPlayerOnPlatform(_platformRed))
@@ -191,7 +196,10 @@ public class CGame : MonoBehaviour
                         // TODO: Add averything else that shows you lost.
                     }
                     else
+                    {
                         _simonSequence.RemoveAt(0);
+                        _player.setColorPlayer(_platformRed.getType());
+                    }
                 }
                 // Checking for platform Yellow
                 if (isPlayerOnPlatform(_platformYellow))
@@ -203,7 +211,10 @@ public class CGame : MonoBehaviour
                         // TODO: Add averything else that shows you lost.
                     }
                     else
+                    {
                         _simonSequence.RemoveAt(0);
+                        _player.setColorPlayer(_platformYellow.getType());
+                    }
                 }
                 // Checking for platform Green
                 if (isPlayerOnPlatform(_platformGreen))
@@ -215,7 +226,10 @@ public class CGame : MonoBehaviour
                         // TODO: Add averything else that shows you lost.
                     }
                     else
+                    {
                         _simonSequence.RemoveAt(0);
+                        _player.setColorPlayer(_platformGreen.getType());
+                    }
                 }
             }
             _wasGroundedLastFrame = true;
@@ -312,6 +326,7 @@ public class CGame : MonoBehaviour
                     if (_platformGreen.getState() == STATE_PLATFORM_OFF && _platformRed.getState() == STATE_PLATFORM_OFF &&
                         _platformYellow.getState() == STATE_PLATFORM_OFF && _platformBlue.getState() == STATE_PLATFORM_OFF)
                     {
+                        _platformGreen.playPlatformFX();
                         _platformGreen.setState(STATE_PLATFORM_ON);
                     }
 
@@ -321,6 +336,7 @@ public class CGame : MonoBehaviour
                     if (_platformGreen.getState() == STATE_PLATFORM_OFF && _platformRed.getState() == STATE_PLATFORM_OFF &&
                         _platformYellow.getState() == STATE_PLATFORM_OFF && _platformBlue.getState() == STATE_PLATFORM_OFF)
                     {
+                        _platformRed.playPlatformFX();
                         _platformRed.setState(STATE_PLATFORM_ON);
                     }
                 }
@@ -329,6 +345,7 @@ public class CGame : MonoBehaviour
                     if (_platformGreen.getState() == STATE_PLATFORM_OFF && _platformRed.getState() == STATE_PLATFORM_OFF &&
                         _platformYellow.getState() == STATE_PLATFORM_OFF && _platformBlue.getState() == STATE_PLATFORM_OFF)
                     {
+                        _platformYellow.playPlatformFX();
                         _platformYellow.setState(STATE_PLATFORM_ON);
                     }
                 }
@@ -337,6 +354,7 @@ public class CGame : MonoBehaviour
                     if (_platformGreen.getState() == STATE_PLATFORM_OFF && _platformRed.getState() == STATE_PLATFORM_OFF &&
                         _platformYellow.getState() == STATE_PLATFORM_OFF && _platformBlue.getState() == STATE_PLATFORM_OFF)
                     {
+                        _platformBlue.playPlatformFX();
                         _platformBlue.setState(STATE_PLATFORM_ON);
                     }
                 }
@@ -351,6 +369,7 @@ public class CGame : MonoBehaviour
 
     private bool checkPlatform(CPlatform platform)
     {
+        platform.playPlatformFX();
         platform.setState(STATE_PLATFORM_ON);
         //_onQueueToRemove = _simonSequence[0] == platform.getType();
         return _simonSequence[0] == platform.getType();
@@ -439,12 +458,12 @@ public class CGame : MonoBehaviour
             if (_platformGreen.getX() > CGameConstants.SCREEN_WIDTH/2)
             {
                 _randomPlatformX = CMath.randomIntBetween(CGameConstants.SCREEN_WIDTH / 2, 1500);
-                _randomPlatformY = CMath.randomIntBetween(-300, (int)_platformGreen.getY());
+                _randomPlatformY = CMath.randomIntBetween(-300, (int)_player.getY() + _player.getHeight()/3);
             }
             else
             {
                 _randomPlatformX = CMath.randomIntBetween(300, CGameConstants.SCREEN_WIDTH / 2);
-                _randomPlatformY = CMath.randomIntBetween(-300, (int)_platformGreen.getY());
+                _randomPlatformY = CMath.randomIntBetween(-300, (int)_player.getY() + _player.getHeight() / 3);
             }
             
         }
@@ -510,13 +529,21 @@ public class CGame : MonoBehaviour
         _prevPlatformYellow.setWalkable(false);
     }
 
+    private void setAllPlatformsDone()
+    {
+        _platformGreen.setState(STATE_PLATFORM_DONE);
+        _platformRed.setState(STATE_PLATFORM_DONE);
+        _platformYellow.setState(STATE_PLATFORM_DONE);
+        _platformBlue.setState(STATE_PLATFORM_DONE);        
+    }
+
     private void checkSuccess()
     {
         if (_simonSequence.Count == 0)
         {
             _isSolved = true;
             _difficulty = _difficulty + CGameConstants.DIFFICULTY_INCREMENT;
-            //setAllPlatformsInactive();
+            setAllPlatformsDone();
             _onQueueToShutDown = true;
             createPlatform();
             Debug.Log("You WIN, next platform...");

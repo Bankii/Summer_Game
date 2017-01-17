@@ -11,15 +11,27 @@ public class CPlayer : CGameObject
     public const int STATE_DYING = 4;
     public const int STATE_CHARGING = 5;
 
+    public const int COLOR_GREEN = 0;
+    public const int COLOR_RED = 1;
+    public const int COLOR_YELLOW = 2;
+    public const int COLOR_BLUE = 3;
+    public const int COLOR_BASE = 4;
+
     public float _horizontalSpeed;
     public float _verticalMaxSpeed;
     public float _verticalMinSpeed;
     public float _GRAVITY;
     private float _jumpMultiplyer = 0;
     public float _ACCEL_BOOST;
-
+    
     public SpriteRenderer _spriteRenderer;
     public Animator _anim;
+    public RuntimeAnimatorController _controllerBase;
+    public RuntimeAnimatorController _controllerGreen;
+    public RuntimeAnimatorController _controllerRed;
+    public RuntimeAnimatorController _controllerYellow;
+    public RuntimeAnimatorController _controllerBlue;
+
 
     public float _collitionOffsetLeft;
     public float _collitionOffsetRight;
@@ -32,38 +44,26 @@ public class CPlayer : CGameObject
     private float _maxX;
     private float _maxY;
 
-    private string _idleAnim;
-    private string _landingAnim;
-    private string _walkingAnim;
-    private string _chargingAnim;
-    private string _jumpingAnim;
-    private string _fallingAnim;
+    public string _idleAnim;
+    public string _landingAnim;
+    public string _walkingAnim;
+    public string _chargingAnim;
+    public string _jumpingAnim;
+    public string _fallingAnim;
     public string _dyingAnim;
-
-    public string _idleBaseAnim;
-    public string _landingBaseAnim;
-    public string _walkingBaseAnim;
-    public string _chargingBaseAnim;
-    public string _jumpingBaseAnim;
-    public string _fallingBaseAnim;
+    
 
     private float _preBoostSpeed;
-
-    public auxiliarAnimations _colorAnimations;
-
+    
     private Vector3 _restartPos;
 
     void Start()
     {
         setState(STATE_IDLE);
-        _idleAnim = _idleBaseAnim;
-        _landingAnim = _landingBaseAnim;
-        _walkingAnim = _walkingBaseAnim;
-        _chargingAnim = _chargingBaseAnim;
-        _jumpingAnim = _jumpingBaseAnim;
-        _fallingAnim = _fallingBaseAnim;
 
         _restartPos = getPos();
+
+        setColorPlayer(COLOR_BASE);
 
         setWidth(_width);
         setHeight(_height);
@@ -296,6 +296,7 @@ public class CPlayer : CGameObject
                 {
                     setPos(new CVector(_restartPos));
                     setState(STATE_IDLE);
+                    setColorPlayer(COLOR_BASE);
                 }
                 break;
 
@@ -453,38 +454,29 @@ public class CPlayer : CGameObject
         // Setting the down variable.
         _minX = Mathf.Min(upX, downX);
     }
-}
 
-[System.Serializable]
-public class auxiliarAnimations
-{
-    public string _idleGreenAnim;
-    public string _landingGreenAnim;
-    public string _walkingGreenAnim;
-    public string _chargingGreenAnim;
-    public string _jumpingGreenAnim;
-    public string _fallingGreenAnim;
+    public void setColorPlayer(int aColor)
+    {
+        if (aColor == COLOR_GREEN)
+        {
+            _anim.runtimeAnimatorController = _controllerBase;
+        }
+        else if (aColor == COLOR_RED)
+        {
+            _anim.runtimeAnimatorController = _controllerRed;
+        }
+        else if (aColor == COLOR_YELLOW)
+        {
+            _anim.runtimeAnimatorController = _controllerBase;
+        }
+        else if (aColor == COLOR_BLUE)
+        {
+            _anim.runtimeAnimatorController = _controllerRed;
+        }
+        else if (aColor == COLOR_BASE)
+        {
+            _anim.runtimeAnimatorController = _controllerBase;
+        }
 
-    public string _idleRedAnim;
-    public string _landingRedAnim;
-    public string _walkingRedAnim;
-    public string _chargingRedAnim;
-    public string _jumpingRedAnim;
-    public string _fallingRedAnim;
-
-    public string _idleYellowAnim;
-    public string _landingYellowAnim;
-    public string _walkingYellowAnim;
-    public string _chargingYellowAnim;
-    public string _jumpingYellowAnim;
-    public string _fallingYellowAnim;
-
-    [Space(10)]
-    [Header("Blue Animations")]
-    public string _idleBlueAnim;
-    public string _landingBlueAnim;
-    public string _walkingBlueAnim;
-    public string _chargingBlueAnim;
-    public string _jumpingBlueAnim;
-    public string _fallingBlueAnim;
+    }
 }

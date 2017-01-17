@@ -8,7 +8,9 @@ public class CPlatform : CGameObject {
     private const int STATE_OFF = 0;
     private const int STATE_ON = 1;    
     private const int STATE_SHUTDOWN = 2;
-    private const int STATE_TRANSITION = 3;
+    private const int STATE_DONE = 3;
+    private const int STATE_TRANSITION = 4;
+
 
     public const int PLATFORM_GREEN = 0;
     public const int PLATFORM_RED = 1;
@@ -32,6 +34,7 @@ public class CPlatform : CGameObject {
     public Sprite _platformBlueInactive;
     public Sprite _platformBlueActive;
     public Sprite _platformShutdown;
+    public Sprite _platformDone;
 
     private AudioSource _platformFX;
     public AudioClip _greenFX;
@@ -90,27 +93,19 @@ public class CPlatform : CGameObject {
         if (getState() == STATE_ON)
         {
             if (getType() == PLATFORM_GREEN)
-            {
-                _platformFX.clip = _greenFX;
-                _platformFX.Play();
+            {                
                 _spriteRenderer.sprite = _platformGreenActive;                
             }
             else if (getType() == PLATFORM_RED)
             {
-                _platformFX.clip = _redFX;
-                _platformFX.Play();
                 _spriteRenderer.sprite = _platformRedActive;
             }
             else if (getType() == PLATFORM_YELLOW)
             {
-                _platformFX.clip = _yellowFX;
-                _platformFX.Play();
                 _spriteRenderer.sprite = _platformYellowActive;
             }
             else if (getType() == PLATFORM_BLUE)
             {
-                _platformFX.clip = _blueFX;
-                _platformFX.Play();
                 _spriteRenderer.sprite = _platformBlueActive;
             }
 
@@ -150,6 +145,35 @@ public class CPlatform : CGameObject {
             _spriteRenderer.sprite = _platformShutdown;
         }
 
+        if (getState() == STATE_DONE)
+        {
+            _spriteRenderer.sprite = _platformDone;
+        }
+
+    }
+
+    public void playPlatformFX()
+    {
+        if (getType() == PLATFORM_GREEN)
+        {
+            _platformFX.clip = _greenFX;
+            _platformFX.Play();            
+        }
+        else if (getType() == PLATFORM_RED)
+        {
+            _platformFX.clip = _redFX;
+            _platformFX.Play();
+        }
+        else if (getType() == PLATFORM_YELLOW)
+        {
+            _platformFX.clip = _yellowFX;
+            _platformFX.Play();
+        }
+        else if (getType() == PLATFORM_BLUE)
+        {
+            _platformFX.clip = _blueFX;
+            _platformFX.Play();
+        }
     }
 
 
