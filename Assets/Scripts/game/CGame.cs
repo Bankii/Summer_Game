@@ -52,6 +52,8 @@ public class CGame : MonoBehaviour
 
     private bool _restartGame;
 
+    private bool _wasRestartLastFrame;
+
     public bool isRestart()
     {
         return _restartGame;
@@ -115,26 +117,30 @@ public class CGame : MonoBehaviour
         return (auxPlayerX > platform.getX() && auxPlayerX < platform.getX() + platform.getWidth());
     }
 
+    private void resetVariables()
+    {
+        _difficulty = 0;
+        _simonSequence = new List<int>();
+        _isSolved = true;
+        _isShowed = false;
+        _isGameOver = false;
+        _isFirstTimeShowSequence = true;
+        _isFirstPlatform = true;
+        _platformCount = 0;
+        _platformNum = 1;
+    }
+
 	private void update()
 	{
 		CMouse.update ();
 		CKeyboard.update ();
 
         // TODO add a delay here too!!
-        if (_restartGame)
+        if (_restartGame && _wasRestartLastFrame)
         {
             _restartGame = false;
-            // TODO: move this to a function.
-            _difficulty = 0;
-            _simonSequence = new List<int>();
-            _isSolved = true;
-            _isShowed = false;
-            _isGameOver = false;
-            _isFirstTimeShowSequence = true;
-            _isFirstPlatform = true;
-            _platformCount = 0;
-            _platformNum = 1;
-            // TODO do this after a mild delay. (maybe the stuff from above too)
+            resetVariables();
+            // TODO: do this after a mild delay?. (maybe the stuff from above too)
             createPlatform();
 
         }
@@ -153,10 +159,14 @@ public class CGame : MonoBehaviour
         {            
             //playerInput();
             checkSuccess();
+            
         }
         else if (_isGameOver)
         {
             Debug.Log("You LOSE");
+            // TODO: see if this doesn't make it tiring for the 
+            // person to wait for the character to fall to the bottom.
+            _camera.setMin(-540);
         }
 
         //If it isn't shown, show the Simon Sequence built.
@@ -239,9 +249,11 @@ public class CGame : MonoBehaviour
             if (_wasGroundedLastFrame && _onQueueToShutDown)
             {
                 setAllPrevPlatformsInactive();
+                _camera.setMin(_platformBlue.getY() - PLATFORM_HEIGHT + CGameConstants.SCREEN_HEIGHT / 2);
             }
             _wasGroundedLastFrame = false;
         }
+        _wasRestartLastFrame = _restartGame;
     }
 
 
@@ -374,6 +386,7 @@ public class CGame : MonoBehaviour
         //_onQueueToRemove = _simonSequence[0] == platform.getType();
         return _simonSequence[0] == platform.getType();
     }
+
     private void playerInput()
     {
         //Replace CKeyboard.pressed with collision detection
