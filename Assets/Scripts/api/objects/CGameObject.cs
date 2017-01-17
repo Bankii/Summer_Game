@@ -29,9 +29,6 @@ public class CGameObject : MonoBehaviour {
 
     private float mMass = 1.0f;
 
-    private CCamera _cam;
-    public bool _moveWithCam = true;
-
     void Awake()
     {
         _transform = GetComponent<Transform>();
@@ -39,12 +36,6 @@ public class CGameObject : MonoBehaviour {
         mPos._vector = _transform.position;
         mVel = new CVector();
         mAccel = new CVector();
-        _cam = GameObject.FindObjectOfType<CCamera>();
-    }
-
-    public void setMoveWithCam(bool aBool)
-    {
-        _moveWithCam = aBool;
     }
 
     public void setX(float aX)
@@ -207,15 +198,7 @@ public class CGameObject : MonoBehaviour {
         mVel = mVel * mFriction;
 
         mVel.truncate(mMaxSpeed);
-        //float x = getX();
-        //float y = getY();
-        //if (_cam != null)//&& _moveWithCam)
-        //{
-        //    x -= _cam.getX();
-        //    y -= _cam.getY();
-        //}
 
-        //Vector3 aux = new Vector3(x, y, getZ());
         _transform.position = _transform.position + mVel._vector * Time.deltaTime;
     }
 
