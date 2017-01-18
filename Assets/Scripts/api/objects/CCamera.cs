@@ -7,7 +7,7 @@ public class CCamera: CGameObject
     public const int WIDTH = CGameConstants.SCREEN_WIDTH;
     public const int HEIGHT = CGameConstants.SCREEN_HEIGHT;
 
-    private float _min = -540;
+    private float _max = -540;
 
     private CGameObject mGameObjectToFollow;
 
@@ -27,9 +27,9 @@ public class CCamera: CGameObject
         checkBorder();
     }
         
-    public void setMin(float aMin)
+    public void setMax(float aMax)
     {
-        _min = aMin;
+        _max = aMax;
     }
     private void checkBorder()
     {
@@ -38,17 +38,9 @@ public class CCamera: CGameObject
             setX(960);
         }
 
-        // The camera will keep the lowest of between 
-        // the object to follow's Y or the _min.
-        // However it will not go lower than -Height/2.
-        float min = Mathf.Min(_min, mGameObjectToFollow.getY() - HEIGHT / 4);
-        if (min < -HEIGHT / 2)
+        if (getY() <= -HEIGHT / 2)
         {
-            min = -HEIGHT / 2;
-        }
-        if (getY() <= min)
-        {
-            setY(min);
+            setY(-HEIGHT / 2);
         }
 
         //if (getX() >= CTileMap.inst().WORLD_WIDTH - WIDTH)
@@ -57,10 +49,10 @@ public class CCamera: CGameObject
         //    onBorder = true;
         //}
 
-        //if (getY() >= CTileMap.inst().WORLD_HEIGHT - HEIGHT)
-        //{
-        //    setY(CTileMap.inst().WORLD_HEIGHT - HEIGHT);
-        //}
+        if (getY() >= _max)
+        {
+            setY(_max);
+        }
     }
 
     public void setGameObjectToFollow(CGameObject aGameObjectToFollow)

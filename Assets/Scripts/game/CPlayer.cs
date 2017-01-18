@@ -174,12 +174,7 @@ public class CPlayer : CGameObject
                 break;
 
             case STATE_JUMPING:
-                //_anim.SetBool("isGrounded", false);
-                if (getY() - _height <= _maxY && getVelY() != 0)
-                {
-                    setY(_maxY + _height);
-                    setState(STATE_IDLE);
-                }
+                
                 if (getVelY() <= 0)
                 {
                     setState(STATE_FALLING);

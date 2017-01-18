@@ -55,6 +55,10 @@ public class CGame : MonoBehaviour
 
     private bool _wasRestartLastFrame;
 
+    public float _comparisonError;
+
+    public bool _checkPlatforms = true;
+
     public bool isRestart()
     {
         return _restartGame;
@@ -116,7 +120,8 @@ public class CGame : MonoBehaviour
     {
         int auxPlayerX = (int)_player.getX() + _player.getWidth() / 2;
         int auxPlayerY = (int)_player.getY() - _player.getHeight();
-        return (auxPlayerX > platform.getX() && auxPlayerX < platform.getX() + platform.getWidth()) && (auxPlayerY == platform.getY());
+        bool auxBool = auxPlayerY <= platform.getY() + _comparisonError && auxPlayerY >= platform.getY() - _comparisonError;
+        return (auxPlayerX > platform.getX() && auxPlayerX < platform.getX() + platform.getWidth()) && auxBool;
     }
 
     private void resetVariables()
@@ -144,7 +149,6 @@ public class CGame : MonoBehaviour
             resetVariables();
             // TODO: do this after a mild delay?. (maybe the stuff from above too)
             createPlatform();
-
         }
 
         if (_player.getState() == 4)
@@ -168,7 +172,6 @@ public class CGame : MonoBehaviour
             Debug.Log("You LOSE");
             // TODO: see if this doesn't make it tiring for the 
             // person to wait for the character to fall to the bottom.
-            _camera.setMin(-540);
         }
 
         //If it isn't shown, show the Simon Sequence built.
@@ -180,7 +183,7 @@ public class CGame : MonoBehaviour
         // Check the platform the player may be standing in.
         if (_player.isGrounded())
         {
-            if (!_isSolved)
+            if (!_isSolved && _checkPlatforms)
             {
                 // Checking for platform blue
                 if (isPlayerOnPlatform(_platformBlue))
@@ -251,8 +254,8 @@ public class CGame : MonoBehaviour
             if (_wasGroundedLastFrame && _onQueueToShutDown)
             {
                 setAllPrevPlatformsInactive();
-                _camera.setMin(_platformBlue.getY() - PLATFORM_HEIGHT + CGameConstants.SCREEN_HEIGHT / 2);
             }
+            _checkPlatforms = true;
             _wasGroundedLastFrame = false;
         }
 
@@ -389,6 +392,7 @@ public class CGame : MonoBehaviour
     {
         platform.playPlatformFX();
         platform.setState(STATE_PLATFORM_ON);
+        _checkPlatforms = false;
         //_onQueueToRemove = _simonSequence[0] == platform.getType();
         return _simonSequence[0] == platform.getType();
     }
@@ -519,6 +523,9 @@ public class CGame : MonoBehaviour
 
         _isFirstPlatform = false;
         _platformNum++;
+
+        _camera.setMax(_randomPlatformY - PLATFORM_HEIGHT + CGameConstants.SCREEN_HEIGHT / 2);
+
     }
 
     // Makes all platforms not walkable and puts them on shutdown state.
