@@ -43,6 +43,7 @@ public class CGame : MonoBehaviour
     public const int PLATFORM_RED = 1;
     public const int PLATFORM_YELLOW = 2;
     public const int PLATFORM_BLUE = 3;
+    public const int COLOR_BASE = 4;
 
     private const int PLATFORM_HEIGHT = 40;
     private const int PLATFORM_WIDTH = 85;
@@ -113,8 +114,9 @@ public class CGame : MonoBehaviour
 
     private bool isPlayerOnPlatform(CPlatform platform)
     {
-        float auxPlayerX = _player.getX() + _player.getWidth() / 2;
-        return (auxPlayerX > platform.getX() && auxPlayerX < platform.getX() + platform.getWidth());
+        int auxPlayerX = (int)_player.getX() + _player.getWidth() / 2;
+        int auxPlayerY = (int)_player.getY() - _player.getHeight();
+        return (auxPlayerX > platform.getX() && auxPlayerX < platform.getX() + platform.getWidth()) && (auxPlayerY == platform.getY());
     }
 
     private void resetVariables()
@@ -134,7 +136,7 @@ public class CGame : MonoBehaviour
 	{
 		CMouse.update ();
 		CKeyboard.update ();
-
+        
         // TODO add a delay here too!!
         if (_restartGame && _wasRestartLastFrame)
         {
@@ -187,12 +189,12 @@ public class CGame : MonoBehaviour
                     {
                         _platformBlue.setWalkable(false);
                         _player.setState(4);
-                        // TODO: Add averything else that shows you lost.
+                        // TODO: Add everything else that shows you lost.
                     }
                     else
                     {
                         _simonSequence.RemoveAt(0);
-                        _player.setColorPlayer(_platformBlue.getType());
+                        _player.setColor(_platformBlue.getType());
                     }
                         
                 }
@@ -203,12 +205,12 @@ public class CGame : MonoBehaviour
                     {
                         _platformRed.setWalkable(false);
                         _player.setState(4);
-                        // TODO: Add averything else that shows you lost.
+                        // TODO: Add everything else that shows you lost.
                     }
                     else
                     {
                         _simonSequence.RemoveAt(0);
-                        _player.setColorPlayer(_platformRed.getType());
+                        _player.setColor(_platformRed.getType());
                     }
                 }
                 // Checking for platform Yellow
@@ -218,12 +220,12 @@ public class CGame : MonoBehaviour
                     {
                         _platformYellow.setWalkable(false);
                         _player.setState(4);
-                        // TODO: Add averything else that shows you lost.
+                        // TODO: Add everything else that shows you lost.
                     }
                     else
                     {
                         _simonSequence.RemoveAt(0);
-                        _player.setColorPlayer(_platformYellow.getType());
+                        _player.setColor(_platformYellow.getType());
                     }
                 }
                 // Checking for platform Green
@@ -233,12 +235,12 @@ public class CGame : MonoBehaviour
                     {
                         _platformGreen.setWalkable(false);
                         _player.setState(4);
-                        // TODO: Add averything else that shows you lost.
+                        // TODO: Add everything else that shows you lost.
                     }
                     else
                     {
                         _simonSequence.RemoveAt(0);
-                        _player.setColorPlayer(_platformGreen.getType());
+                        _player.setColor(_platformGreen.getType());
                     }
                 }
             }
@@ -253,7 +255,11 @@ public class CGame : MonoBehaviour
             }
             _wasGroundedLastFrame = false;
         }
+
+        //changePlayerColor();
+
         _wasRestartLastFrame = _restartGame;
+                
     }
 
 
@@ -277,29 +283,29 @@ public class CGame : MonoBehaviour
 
         for (int i = 0; i <= _difficulty; i++)
         {
-            _randomNum = CMath.randomIntBetween(0, 3);
+            _randomNum = CMath.randomIntBetween(CGameConstants.COLOR_GREEN, CGameConstants.COLOR_BLUE);
 
             _simonSequence.Add(_randomNum);
 
             //Debug.Log for testing
             switch (_randomNum)
             {
-                case 0:
+                case CGameConstants.COLOR_GREEN:
                     //Green
                     Debug.Log("Sequence: Green");
 
                     break;
-                case 1:
+                case CGameConstants.COLOR_RED:
                     //Red
                     Debug.Log("Sequence: Red");
 
                     break;
-                case 2:
+                case CGameConstants.COLOR_YELLOW:
                     //Yellow
                     Debug.Log("Sequence: Yellow");
 
                     break;
-                case 3:
+                case CGameConstants.COLOR_BLUE:
                     //Blue
                     Debug.Log("Sequence: Blue");
 
@@ -563,6 +569,28 @@ public class CGame : MonoBehaviour
         }
     }
 
-
+    public void changePlayerColor()
+    {
+        if (isPlayerOnPlatform(_platformGreen))
+        {
+            _player.setColor(CGameConstants.COLOR_GREEN);
+        }
+        else if (isPlayerOnPlatform(_platformRed))
+        {
+            _player.setColor(CGameConstants.COLOR_RED);
+        }
+        else if (isPlayerOnPlatform(_platformYellow))
+        {
+            _player.setColor(CGameConstants.COLOR_YELLOW);
+        }
+        else if (isPlayerOnPlatform(_platformBlue))
+        {
+            _player.setColor(CGameConstants.COLOR_BLUE);
+        }
+        else
+        {
+            _player.setColor(CGameConstants.COLOR_BASE);
+        }
+    }
 
 }

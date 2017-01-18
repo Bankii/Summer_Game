@@ -11,12 +11,6 @@ public class CPlayer : CGameObject
     public const int STATE_DYING = 4;
     public const int STATE_CHARGING = 5;
 
-    public const int COLOR_GREEN = 0;
-    public const int COLOR_RED = 1;
-    public const int COLOR_YELLOW = 2;
-    public const int COLOR_BLUE = 3;
-    public const int COLOR_BASE = 4;
-
     public float _horizontalSpeed;
     public float _verticalMaxSpeed;
     public float _verticalMinSpeed;
@@ -63,7 +57,7 @@ public class CPlayer : CGameObject
 
         _restartPos = getPos();
 
-        setColorPlayer(COLOR_BASE);
+        setColor(CGameConstants.COLOR_BASE);
 
         setWidth(_width);
         setHeight(_height);
@@ -296,7 +290,7 @@ public class CPlayer : CGameObject
                 {
                     setPos(new CVector(_restartPos));
                     setState(STATE_IDLE);
-                    setColorPlayer(COLOR_BASE);
+                    setColor(CGameConstants.COLOR_BASE);
                 }
                 break;
 
@@ -455,25 +449,25 @@ public class CPlayer : CGameObject
         _minX = Mathf.Min(upX, downX);
     }
 
-    public void setColorPlayer(int aColor)
+    public void setColor(int aColor)
     {
-        if (aColor == COLOR_GREEN)
+        if (aColor == CGameConstants.COLOR_GREEN)
         {
             _anim.runtimeAnimatorController = _controllerBase;
         }
-        else if (aColor == COLOR_RED)
+        else if (aColor == CGameConstants.COLOR_RED)
         {
             _anim.runtimeAnimatorController = _controllerRed;
         }
-        else if (aColor == COLOR_YELLOW)
+        else if (aColor == CGameConstants.COLOR_YELLOW)
         {
             _anim.runtimeAnimatorController = _controllerBase;
         }
-        else if (aColor == COLOR_BLUE)
+        else if (aColor == CGameConstants.COLOR_BLUE)
         {
             _anim.runtimeAnimatorController = _controllerRed;
         }
-        else if (aColor == COLOR_BASE)
+        else if (aColor == CGameConstants.COLOR_BASE)
         {
             _anim.runtimeAnimatorController = _controllerBase;
         }
