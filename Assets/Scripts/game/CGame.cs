@@ -213,8 +213,7 @@ public class CGame : MonoBehaviour
                     _checkPlatforms = true;
             }
             if (!_isSolved && _checkPlatforms)
-            {
-                Debug.Break();
+            {                
                 // Checking for platform blue
                 if (isPlayerOnPlatform(_platformBlue))
                 {
