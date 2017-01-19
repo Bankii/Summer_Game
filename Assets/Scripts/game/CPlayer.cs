@@ -45,7 +45,7 @@ public class CPlayer : CGameObject
     public string _jumpingAnim;
     public string _fallingAnim;
     public string _dyingAnim;
-    
+        
 
     private float _preBoostSpeed;
     
@@ -84,24 +84,40 @@ public class CPlayer : CGameObject
                 //_anim.SetBool("isGrounded", true);
                 // Checking if the player isn't against a wall.
                 if (getX() != _maxX && getX() != _minX)
-                { 
-                    if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
+                {
+                    if (Input.GetKey("left") || Input.GetKey("right") || Input.GetKey("joystick button 8") || Input.GetKey("joystick button 9"))
                     {
                         setState(STATE_WALKING);
                         break;
                     }
+                    //if (Input.GetAxis("Horizontal") > 0 || Input.GetAxis("Horizontal") < 0)
+                    //{
+                    //    setState(STATE_WALKING);
+                    //    break;
+                    //}
                 }
                 // Checking that the input of the player is the oposite of the wall it's against.
-                if (getX() == _maxX && Input.GetKey(KeyCode.LeftArrow))
+                if (getX() == _maxX && Input.GetKey("joystick button 8"))//Input.GetKey("left"))
                 {
                     setState(STATE_WALKING);
                     break;
                 }
-                if (getX() == _minX && Input.GetKey(KeyCode.RightArrow))
+                if (getX() == _minX && Input.GetKey("joystick button 9"))//Input.GetKey("right"))
                 {
                     setState(STATE_WALKING);
                     break;
                 }
+
+                //if (getX() == _maxX && Input.GetAxis("Horizontal") < 0)
+                //{
+                //    setState(STATE_WALKING);
+                //    break;
+                //}
+                //if (getX() == _minX && Input.GetAxis("Horizontal") > 0)
+                //{
+                //    setState(STATE_WALKING);
+                //    break;
+                //}
 
                 // Checking if there is no floor underneath.
                 if (getY() - _height > _maxY)
@@ -110,7 +126,7 @@ public class CPlayer : CGameObject
                     break;
                 }
 
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 1"))
                 {
                     setState(STATE_CHARGING);
                     break;
@@ -118,41 +134,71 @@ public class CPlayer : CGameObject
                 break;
 
             case STATE_WALKING:
-                
-                if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
+
+                if (!Input.GetKey("left") && !Input.GetKey("right") && !Input.GetKey("joystick button 8") && !Input.GetKey("joystick button 9"))
                 {
                     setState(STATE_IDLE);
                     break;
                 }
-                if (getX() + _width >= _maxX && Input.GetKey(KeyCode.RightArrow))
+                if (getX() + _width >= _maxX && Input.GetKey("joystick button 9"))//Input.GetKey("right"))
                 {
                     setState(STATE_IDLE);
                     break;
                 }
-                if (getX() <= _minX && Input.GetKey(KeyCode.LeftArrow))
+                if (getX() <= _minX && Input.GetKey("joystick button 8"))//Input.GetKey("left"))
                 {
                     setState(STATE_IDLE);
                     break;
                 }
-                if (Input.GetKeyDown(KeyCode.Space))
+                //if (Input.GetAxis("Horizontal") == 0)
+                //{
+                //    setState(STATE_IDLE);
+                //    break;
+                //}
+                //if (getX() + _width >= _maxX && Input.GetAxis("Horizontal") > 0)
+                //{
+                //    setState(STATE_IDLE);
+                //    break;
+                //}
+                //if (getX() <= _minX && Input.GetAxis("Horizontal") < 0)
+                //{
+                //    setState(STATE_IDLE);
+                //    break;
+                //}
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 1"))
                 {
                     setState(STATE_CHARGING);
                     break;
                 }
+
                 // Set vel and flip according to the side.
-                if (Input.GetKey(KeyCode.LeftArrow))
+                if (Input.GetKey("left") || Input.GetKey("joystick button 8"))
                 {
                     setVelX(-_horizontalSpeed);
                     _spriteRenderer.flipX = true;
                     _spriteRenderer.gameObject.transform.position = new Vector3(getX() + _width, getY(), getZ());
                 }
-                else if(Input.GetKey(KeyCode.RightArrow))
+                else if (Input.GetKey("right") || Input.GetKey("joystick button 9"))
                 {
                     setVelX(_horizontalSpeed);
                     _spriteRenderer.flipX = false;
                     _spriteRenderer.gameObject.transform.position = getPos();
                 }
-                
+
+                //if (Input.GetAxis("Horizontal") < 0)
+                //{
+                //    setVelX(-_horizontalSpeed);
+                //    _spriteRenderer.flipX = true;
+                //    _spriteRenderer.gameObject.transform.position = new Vector3(getX() + _width, getY(), getZ());
+                //}
+                //else if (Input.GetAxis("Horizontal") > 0)
+                //{
+                //    setVelX(_horizontalSpeed);
+                //    _spriteRenderer.flipX = false;
+                //    _spriteRenderer.gameObject.transform.position = getPos();
+                //}
+
+
                 // Checking if there is no floor underneath.
                 if (getY() - _height > _maxY)
                 {
@@ -161,12 +207,12 @@ public class CPlayer : CGameObject
                 break;
 
             case STATE_CHARGING:
-                if (Input.GetKey(KeyCode.Space))
+                if (Input.GetKey(KeyCode.Space) || Input.GetKey("joystick button 1"))
                 {
                     //_anim.SetBool("isCharging", true);
                     _jumpMultiplyer += 0.04f;
                 }
-                if (Input.GetKeyUp(KeyCode.Space))
+                if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp("joystick button 1"))
                 {
                     //_anim.SetBool("isCharging", false);
                     setState(STATE_JUMPING);
@@ -179,35 +225,67 @@ public class CPlayer : CGameObject
                 {
                     setState(STATE_FALLING);
                 }
-                // if no arrow is pressed then no movement on the X axis.
-                if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
+
+                //if no arrow is pressed then no movement on the X axis.
+                if (!Input.GetKey("left") && !Input.GetKey("right") && !Input.GetKey("joystick button 8") && !Input.GetKey("joystick button 9"))
                 {
                     setVelX(0);
                 }
                 // Set vel and flip according to the side.
-                else if (Input.GetKey(KeyCode.LeftArrow))
+                else if (Input.GetKey("left") || Input.GetKey("joystick button 8"))
                 {
                     setVelX(-_horizontalSpeed);
                     _spriteRenderer.flipX = true;
                     _spriteRenderer.gameObject.transform.position = new Vector3(getX() + _width, getY(), getZ());
                 }
-                else if (Input.GetKey(KeyCode.RightArrow))
+                else if (Input.GetKey("right") || Input.GetKey("joystick button 9"))
                 {
                     setVelX(_horizontalSpeed);
                     _spriteRenderer.flipX = false;
                     _spriteRenderer.gameObject.transform.position = getPos();
                 }
 
-                // if there are walls then no movement on the X axis.
-                if (getX() + _width >= _maxX && Input.GetKey(KeyCode.RightArrow))
+                //if (Input.GetAxis("Horizontal") == 0)
+                //{
+                //    setVelX(0);
+                //}
+                //// Set vel and flip according to the side.
+                //else if (Input.GetAxis("Horizontal") < 0)
+                //{
+                //    setVelX(-_horizontalSpeed);
+                //    _spriteRenderer.flipX = true;
+                //    _spriteRenderer.gameObject.transform.position = new Vector3(getX() + _width, getY(), getZ());
+                //}
+                //else if (Input.GetAxis("Horizontal") > 0)
+                //{
+                //    setVelX(_horizontalSpeed);
+                //    _spriteRenderer.flipX = false;
+                //    _spriteRenderer.gameObject.transform.position = getPos();
+                //}
+
+
+                //if there are walls then no movement on the X axis.
+                if (getX() + _width >= _maxX && Input.GetKey("joystick button 9"))//Input.GetKey("right"))
                 {
                     setVelX(0);
                 }
-                else if (getX() <= _minX && Input.GetKey(KeyCode.LeftArrow))
+                else if (getX() <= _minX && Input.GetKey("joystick button 8"))//Input.GetKey("left"))
                 {
                     setVelX(0);
                 }
                 break;
+
+            //if (getX() + _width >= _maxX && Input.GetAxis("Horizontal") > 0)
+            //{
+            //    setVelX(0);
+            //}
+            //else if (getX() <= _minX && Input.GetAxis("Horizontal") < 0)
+            //{
+            //    setVelX(0);
+            //}
+            //break;
+
+
 
             case STATE_FALLING:
                 //_anim.SetBool("isGrounded", false);
@@ -223,18 +301,18 @@ public class CPlayer : CGameObject
                     break;
                 }
                 // if no arrow is pressed then no movement on the X axis.
-                if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
+                if (!Input.GetKey("left") && !Input.GetKey("right") && !Input.GetKey("joystick button 8") && !Input.GetKey("joystick button 9"))
                 {
                     setVelX(0);
                 }
                 // Set vel and flip according to the side.
-                else if (Input.GetKey(KeyCode.LeftArrow))
+                else if (Input.GetKey("left") || Input.GetKey("joystick button 8"))
                 {
                     setVelX(-_horizontalSpeed);
                     _spriteRenderer.flipX = true;
                     _spriteRenderer.gameObject.transform.position = new Vector3(getX() + _width, getY(), getZ());
                 }
-                else if (Input.GetKey(KeyCode.RightArrow))
+                else if (Input.GetKey("right") || Input.GetKey("joystick button 9"))
                 {
                     setVelX(_horizontalSpeed);
                     _spriteRenderer.flipX = false;
@@ -242,11 +320,11 @@ public class CPlayer : CGameObject
                 }
 
                 // if there are walls then no movement on the X axis.
-                if (getX() + _width >= _maxX && Input.GetKey(KeyCode.RightArrow))
+                if (getX() + _width >= _maxX && Input.GetKey("joystick button 9"))//Input.GetKey("right"))
                 {
                     setVelX(0);
                 }
-                else if (getX() <= _minX && Input.GetKey(KeyCode.LeftArrow))
+                else if (getX() <= _minX && Input.GetKey("joystick button 8"))//Input.GetKey("left"))
                 {
                     setVelX(0);
                 }
@@ -266,7 +344,7 @@ public class CPlayer : CGameObject
                 {
                     setAccelY(_GRAVITY + _ACCEL_BOOST);
                 }
-                else if(!Input.GetKey(KeyCode.DownArrow))
+                else if (!Input.GetKey(KeyCode.DownArrow))
                 {
                     setAccelY(_GRAVITY);
                 }

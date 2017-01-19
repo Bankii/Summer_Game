@@ -21,6 +21,7 @@ public class CGame : MonoBehaviour
 
     public GameObject _platformPrefab;
     public CCamera _camera;
+    public GameObject _backgroundPrefab;
 
     public CPlayer _player;
 
@@ -28,11 +29,15 @@ public class CGame : MonoBehaviour
     private CPlatform _platformRed;
     private CPlatform _platformYellow;
     private CPlatform _platformBlue;
-
+    
     private CPlatform _prevPlatformGreen;
     private CPlatform _prevPlatformRed;
     private CPlatform _prevPlatformYellow;
     private CPlatform _prevPlatformBlue;
+
+    private GameObject _backgroundParent;
+    private GameObject _firstBackground;
+    private CBackground _background;
 
     public const int STATE_PLATFORM_OFF = 0;
     public const int STATE_PLATFORM_ON = 1;
@@ -47,7 +52,7 @@ public class CGame : MonoBehaviour
 
     private const int PLATFORM_HEIGHT = 40;
     private const int PLATFORM_WIDTH = 85;
-
+    
     private bool _wasGroundedLastFrame = true;
     private bool _onQueueToShutDown = false;
 
@@ -103,6 +108,14 @@ public class CGame : MonoBehaviour
         _platformCount = 0;
         _platformNum = 1;
         
+        _backgroundParent = new GameObject();
+        _backgroundParent.transform.name = "Background";
+        _backgroundParent.AddComponent<CDestroyOnRestart>();
+        _firstBackground = Instantiate(_backgroundPrefab, new Vector3(_camera.getX() - CGameConstants.SCREEN_WIDTH / 2, _camera.getY() - CGameConstants.SCREEN_HEIGHT / 2 + 1100 * 2), Quaternion.identity);
+        _firstBackground.name = "Background";
+        _firstBackground.transform.SetParent(_backgroundParent.transform);
+        _background = _firstBackground.GetComponent<CBackground>();
+
 
         _camera.setGameObjectToFollow(_player);
 
@@ -135,13 +148,22 @@ public class CGame : MonoBehaviour
         _isFirstPlatform = true;
         _platformCount = 0;
         _platformNum = 1;
+
+        _backgroundParent = new GameObject();
+        _backgroundParent.transform.name = "Background";
+        _backgroundParent.AddComponent<CDestroyOnRestart>();
+        _firstBackground = Instantiate(_backgroundPrefab, new Vector3(_camera.getX() - CGameConstants.SCREEN_WIDTH / 2, _camera.getY() + CGameConstants.SCREEN_HEIGHT / 2 + 1100), Quaternion.identity);
+        _firstBackground.name = "Background";
+        _firstBackground.transform.SetParent(_backgroundParent.transform);
+        _background = _firstBackground.GetComponent<CBackground>();
+        
+        _camera.setGameObjectToFollow(_player);
     }
 
 	private void update()
 	{
 		CMouse.update ();
 		CKeyboard.update ();
-        
         // TODO add a delay here too!!
         if (_restartGame && _wasRestartLastFrame)
         {
@@ -260,6 +282,11 @@ public class CGame : MonoBehaviour
         }
 
         //changePlayerColor();
+
+        if (_player.getY() >= _background.getY() - _background.getHeight())
+        {
+            createBackground();
+        }
 
         _wasRestartLastFrame = _restartGame;
                 
@@ -478,15 +505,15 @@ public class CGame : MonoBehaviour
         }
         else
         {
-            if (_platformGreen.getX() > CGameConstants.SCREEN_WIDTH/2)
+            if (_platformGreen.getX() > CGameConstants.SCREEN_WIDTH/2) //If platform is on the right
             {
                 _randomPlatformX = CMath.randomIntBetween(CGameConstants.SCREEN_WIDTH / 2, 1500);
-                _randomPlatformY = CMath.randomIntBetween(-300, (int)_player.getY() + _player.getHeight()/3);
+                _randomPlatformY = CMath.randomIntBetween((int)_camera.getY() + CGameConstants.SCREEN_HEIGHT / 2 - 300, (int)_player.getY() + _player.getHeight()/3);
             }
-            else
+            else //If platform is on the left
             {
                 _randomPlatformX = CMath.randomIntBetween(300, CGameConstants.SCREEN_WIDTH / 2);
-                _randomPlatformY = CMath.randomIntBetween(-300, (int)_player.getY() + _player.getHeight() / 3);
+                _randomPlatformY = CMath.randomIntBetween((int)_camera.getY() + CGameConstants.SCREEN_HEIGHT / 2 - 300, (int)_player.getY() + _player.getHeight() / 3);
             }
             
         }
@@ -598,6 +625,14 @@ public class CGame : MonoBehaviour
         {
             _player.setColor(CGameConstants.COLOR_BASE);
         }
+    }
+
+    public void createBackground()
+    {
+        GameObject background = Instantiate(_backgroundPrefab, new Vector3(_background.getX(), _background.getY() + _background.getHeight()), Quaternion.identity);
+        background.name = "Background";
+        background.transform.SetParent(_backgroundParent.transform);
+        _background = background.GetComponent<CBackground>();
     }
 
 }
