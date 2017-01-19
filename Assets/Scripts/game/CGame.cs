@@ -62,18 +62,10 @@ public class CGame : MonoBehaviour
 
     public float _comparisonError;
 
-    public bool _checkPlatforms = true;
+    private bool _checkPlatforms = true;
 
-    public bool isRestart()
-    {
-        return _restartGame;
-    }
-
-    public void setRestart(bool aRestart)
-    {
-        _restartGame = aRestart;
-    }
-
+    private CPlatform _lastPlatform;
+   
     void Awake()
 	{
 		if (mInstance != null) 
@@ -128,6 +120,16 @@ public class CGame : MonoBehaviour
 	{
 		update ();
 	}
+
+    public bool isRestart()
+    {
+        return _restartGame;
+    }
+
+    public void setRestart(bool aRestart)
+    {
+        _restartGame = aRestart;
+    }
 
     private bool isPlayerOnPlatform(CPlatform platform)
     {
@@ -205,8 +207,14 @@ public class CGame : MonoBehaviour
         // Check the platform the player may be standing in.
         if (_player.isGrounded())
         {
+            if (_player.getState() == 1 && _lastPlatform != null)
+            {
+                if(!isPlayerOnPlatform(_lastPlatform))
+                    _checkPlatforms = true;
+            }
             if (!_isSolved && _checkPlatforms)
             {
+                Debug.Break();
                 // Checking for platform blue
                 if (isPlayerOnPlatform(_platformBlue))
                 {
@@ -220,6 +228,7 @@ public class CGame : MonoBehaviour
                     {
                         _simonSequence.RemoveAt(0);
                         _player.setColor(_platformBlue.getType());
+                        _lastPlatform = _platformBlue;
                     }
                         
                 }
@@ -236,6 +245,7 @@ public class CGame : MonoBehaviour
                     {
                         _simonSequence.RemoveAt(0);
                         _player.setColor(_platformRed.getType());
+                        _lastPlatform = _platformRed;
                     }
                 }
                 // Checking for platform Yellow
@@ -251,6 +261,7 @@ public class CGame : MonoBehaviour
                     {
                         _simonSequence.RemoveAt(0);
                         _player.setColor(_platformYellow.getType());
+                        _lastPlatform = _platformYellow;
                     }
                 }
                 // Checking for platform Green
@@ -266,6 +277,7 @@ public class CGame : MonoBehaviour
                     {
                         _simonSequence.RemoveAt(0);
                         _player.setColor(_platformGreen.getType());
+                        _lastPlatform = _platformGreen;
                     }
                 }
             }
