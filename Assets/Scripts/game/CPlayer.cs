@@ -289,15 +289,15 @@ public class CPlayer : CGameObject
 
             case STATE_FALLING:
                 //_anim.SetBool("isGrounded", false);
+                if (getY() < -CGameConstants.SCREEN_HEIGHT)
+                {
+                    setState(STATE_DYING);
+                    break;
+                }
                 if (getY() - _height <= _maxY)
                 {
                     setY(_maxY + _height);
                     setState(STATE_IDLE);
-                    break;
-                }
-                if (getY() < -CGameConstants.SCREEN_HEIGHT)
-                {
-                    setState(STATE_DYING);
                     break;
                 }
                 // if no arrow is pressed then no movement on the X axis.
