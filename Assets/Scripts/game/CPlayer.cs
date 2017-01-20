@@ -70,7 +70,10 @@ public class CPlayer : CGameObject
 
     void FixedUpdate()
     {
-        checkPoints();
+        if (getState() != STATE_IDLE && getState() != STATE_CHARGING)
+        {
+            checkPoints();
+        }
     }
 
     public override void apiUpdate()
@@ -294,40 +297,12 @@ public class CPlayer : CGameObject
                     setState(STATE_DYING);
                     break;
                 }
-                if (getY() - _height <= _maxY)
+                else if (getY() - _height <= _maxY)
                 {
-                    setY(_maxY + _height);
+                    setY(_maxY + _height -1);
                     setState(STATE_IDLE);
                     break;
                 }
-                // if no arrow is pressed then no movement on the X axis.
-                //if (!Input.GetKey("left") && !Input.GetKey("right") && !Input.GetKey("joystick button 8") && !Input.GetKey("joystick button 9"))
-                //{
-                //    setVelX(0);
-                //}
-                //// Set vel and flip according to the side.
-                //else if (Input.GetKey("left") || Input.GetKey("joystick button 8"))
-                //{
-                //    setVelX(-_horizontalSpeed);
-                //    _spriteRenderer.flipX = true;
-                //    _spriteRenderer.gameObject.transform.position = new Vector3(getX() + _width, getY(), getZ());
-                //}
-                //else if (Input.GetKey("right") || Input.GetKey("joystick button 9"))
-                //{
-                //    setVelX(_horizontalSpeed);
-                //    _spriteRenderer.flipX = false;
-                //    _spriteRenderer.gameObject.transform.position = getPos();
-                //}
-
-                //// if there are walls then no movement on the X axis.
-                //if (getX() + _width >= _maxX && Input.GetKey("joystick button 9"))//Input.GetKey("right"))
-                //{
-                //    setVelX(0);
-                //}
-                //else if (getX() <= _minX && Input.GetKey("joystick button 8"))//Input.GetKey("left"))
-                //{
-                //    setVelX(0);
-                //}
 
                 if (Input.GetAxisRaw("Horizontal") == 0)
                 {

@@ -232,7 +232,7 @@ public class CGame : MonoBehaviour
                         
                 }
                 // Checking for platform Red
-                if (isPlayerOnPlatform(_platformRed))
+                else if (isPlayerOnPlatform(_platformRed))
                 {
                     if (!checkPlatform(_platformRed))
                     {
@@ -248,7 +248,7 @@ public class CGame : MonoBehaviour
                     }
                 }
                 // Checking for platform Yellow
-                if (isPlayerOnPlatform(_platformYellow))
+                else if (isPlayerOnPlatform(_platformYellow))
                 {
                     if (!checkPlatform(_platformYellow))
                     {
@@ -264,7 +264,7 @@ public class CGame : MonoBehaviour
                     }
                 }
                 // Checking for platform Green
-                if (isPlayerOnPlatform(_platformGreen))
+                else if (isPlayerOnPlatform(_platformGreen))
                 {
                     if (!checkPlatform(_platformGreen))
                     {
@@ -606,7 +606,7 @@ public class CGame : MonoBehaviour
             _isSolved = true;
             _difficulty = _difficulty + CGameConstants.DIFFICULTY_INCREMENT;
             setAllPlatformsDone();
-            //_onQueueToShutDown = true;
+            _onQueueToShutDown = true;
             createPlatform();
             Debug.Log("You WIN, next platform...");
         }
