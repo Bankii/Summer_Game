@@ -50,8 +50,8 @@ public class CGame : MonoBehaviour
     public const int PLATFORM_BLUE = 3;
     public const int COLOR_BASE = 4;
 
-    private const int PLATFORM_HEIGHT = 40;
-    private const int PLATFORM_WIDTH = 85;
+    private const int PLATFORM_HEIGHT = 78;
+    private const int PLATFORM_WIDTH = 200;
     
     private bool _wasGroundedLastFrame = true;
     private bool _onQueueToShutDown = false;
@@ -213,7 +213,7 @@ public class CGame : MonoBehaviour
                     _checkPlatforms = true;
             }
             if (!_isSolved && _checkPlatforms)
-            {
+            {                
                 // Checking for platform blue
                 if (isPlayerOnPlatform(_platformBlue))
                 {
@@ -506,9 +506,7 @@ public class CGame : MonoBehaviour
     }
 
     private void createPlatform()
-    {
-        
-
+    {    
         if (_isFirstPlatform)
         {
             _randomPlatformX = CMath.randomIntBetween(300, 600);
@@ -608,7 +606,7 @@ public class CGame : MonoBehaviour
             _isSolved = true;
             _difficulty = _difficulty + CGameConstants.DIFFICULTY_INCREMENT;
             setAllPlatformsDone();
-            _onQueueToShutDown = true;
+            //_onQueueToShutDown = true;
             createPlatform();
             Debug.Log("You WIN, next platform...");
         }

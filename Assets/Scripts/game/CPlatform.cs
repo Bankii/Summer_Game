@@ -17,8 +17,8 @@ public class CPlatform : CGameObject {
     public const int PLATFORM_YELLOW = 2;
     public const int PLATFORM_BLUE = 3;
 
-    private const int PLATFORM_HEIGHT = 40;
-    private const int PLATFORM_WIDTH = 85;
+    private const int PLATFORM_HEIGHT = 78;
+    private const int PLATFORM_WIDTH = 200;
 
     private SpriteRenderer _spriteRenderer;
     public Collider _collider;
