@@ -152,6 +152,10 @@ public class CGame : MonoBehaviour
         _isFirstPlatform = true;
         _platformCount = 0;
         _platformNum = 1;
+        _platformGreen = null;
+        _platformRed = null;
+        _platformYellow = null;
+        _platformBlue = null;
 
         _backgroundParent = new GameObject();
         _backgroundParent.transform.name = "Background";
@@ -168,17 +172,19 @@ public class CGame : MonoBehaviour
 	{
 		CMouse.update ();
 		CKeyboard.update ();
-        // TODO add a delay here too!!
+
         if (_restartGame && _wasRestartLastFrame)
         {
             _restartGame = false;
             resetVariables();
-            // TODO: do this after a mild delay?. (maybe the stuff from above too)
-            if (_platformGreen.getState() != STATE_PLATFORM_TRANSITION_DONE && _platformRed.getState() != STATE_PLATFORM_TRANSITION_DONE
-                && _platformYellow.getState() != STATE_PLATFORM_TRANSITION_DONE && _platformBlue.getState() != STATE_PLATFORM_TRANSITION_DONE)
-            {
-                createPlatform();
-            }
+
+            createPlatform();
+            
+            //if (_platformGreen.getState() != STATE_PLATFORM_TRANSITION_DONE && _platformRed.getState() != STATE_PLATFORM_TRANSITION_DONE
+            //    && _platformYellow.getState() != STATE_PLATFORM_TRANSITION_DONE && _platformBlue.getState() != STATE_PLATFORM_TRANSITION_DONE)
+            //{
+            //    createPlatform();
+            //}
         }
 
         if (_player.getState() == 4)
@@ -207,10 +213,13 @@ public class CGame : MonoBehaviour
         //If it isn't shown, show the Simon Sequence built.
         if (!_isShowed)
         {
-            if (_platformGreen.getState() != STATE_PLATFORM_TRANSITION && _platformRed.getState() != STATE_PLATFORM_TRANSITION 
+            if (_platformGreen != null && _platformRed != null && _platformYellow != null && _platformBlue != null)
+            {                
+                if (_platformGreen.getState() != STATE_PLATFORM_TRANSITION && _platformRed.getState() != STATE_PLATFORM_TRANSITION 
                 && _platformYellow.getState() != STATE_PLATFORM_TRANSITION && _platformBlue.getState() != STATE_PLATFORM_TRANSITION)
-            {
-                showSimonSequence();
+                {
+                    showSimonSequence();
+                }                
             }
             
         }
@@ -224,72 +233,79 @@ public class CGame : MonoBehaviour
                     _checkPlatforms = true;
             }
             if (!_isSolved && _checkPlatforms)
-            {                
-                // Checking for platform blue
-                if (isPlayerOnPlatform(_platformBlue))
+            {
+                if ((_platformGreen.getState() != STATE_PLATFORM_DONE && _platformGreen.getState() != STATE_PLATFORM_TRANSITION_DONE) &&
+                (_platformRed.getState() != STATE_PLATFORM_DONE && _platformRed.getState() != STATE_PLATFORM_TRANSITION_DONE) &&
+                (_platformYellow.getState() != STATE_PLATFORM_DONE && _platformYellow.getState() != STATE_PLATFORM_TRANSITION_DONE) &&
+                (_platformBlue.getState() != STATE_PLATFORM_DONE && _platformBlue.getState() != STATE_PLATFORM_TRANSITION_DONE))
                 {
-                    if (!checkPlatform(_platformBlue))
+                    // Checking for platform blue
+                    if (isPlayerOnPlatform(_platformBlue))
                     {
-                        _platformBlue.setWalkable(false);
-                        _player.setState(4);
-                        // TODO: Add everything else that shows you lost.
+                        if (!checkPlatform(_platformBlue))
+                        {
+                            _platformBlue.setWalkable(false);
+                            _player.setState(4);
+                            // TODO: Add everything else that shows you lost.
+                        }
+                        else
+                        {
+                            _simonSequence.RemoveAt(0);
+                            _player.setColor(_platformBlue.getType());
+                            _lastPlatform = _platformBlue;
+                        }
+
                     }
-                    else
+                    // Checking for platform Red
+                    else if (isPlayerOnPlatform(_platformRed))
                     {
-                        _simonSequence.RemoveAt(0);
-                        _player.setColor(_platformBlue.getType());
-                        _lastPlatform = _platformBlue;
+                        if (!checkPlatform(_platformRed))
+                        {
+                            _platformRed.setWalkable(false);
+                            _player.setState(4);
+                            // TODO: Add everything else that shows you lost.
+                        }
+                        else
+                        {
+                            _simonSequence.RemoveAt(0);
+                            _player.setColor(_platformRed.getType());
+                            _lastPlatform = _platformRed;
+                        }
                     }
-                        
+                    // Checking for platform Yellow
+                    else if (isPlayerOnPlatform(_platformYellow))
+                    {
+                        if (!checkPlatform(_platformYellow))
+                        {
+                            _platformYellow.setWalkable(false);
+                            _player.setState(4);
+                            // TODO: Add everything else that shows you lost.
+                        }
+                        else
+                        {
+                            _simonSequence.RemoveAt(0);
+                            _player.setColor(_platformYellow.getType());
+                            _lastPlatform = _platformYellow;
+                        }
+                    }
+                    // Checking for platform Green
+                    else if (isPlayerOnPlatform(_platformGreen))
+                    {
+                        if (!checkPlatform(_platformGreen))
+                        {
+                            _platformGreen.setWalkable(false);
+                            _player.setState(4);
+                            // TODO: Add everything else that shows you lost.
+                        }
+                        else
+                        {
+                            _simonSequence.RemoveAt(0);
+                            _player.setColor(_platformGreen.getType());
+                            _lastPlatform = _platformGreen;
+                        }
+                    }
                 }
-                // Checking for platform Red
-                else if (isPlayerOnPlatform(_platformRed))
-                {
-                    if (!checkPlatform(_platformRed))
-                    {
-                        _platformRed.setWalkable(false);
-                        _player.setState(4);
-                        // TODO: Add everything else that shows you lost.
-                    }
-                    else
-                    {
-                        _simonSequence.RemoveAt(0);
-                        _player.setColor(_platformRed.getType());
-                        _lastPlatform = _platformRed;
-                    }
-                }
-                // Checking for platform Yellow
-                else if (isPlayerOnPlatform(_platformYellow))
-                {
-                    if (!checkPlatform(_platformYellow))
-                    {
-                        _platformYellow.setWalkable(false);
-                        _player.setState(4);
-                        // TODO: Add everything else that shows you lost.
-                    }
-                    else
-                    {
-                        _simonSequence.RemoveAt(0);
-                        _player.setColor(_platformYellow.getType());
-                        _lastPlatform = _platformYellow;
-                    }
-                }
-                // Checking for platform Green
-                else if (isPlayerOnPlatform(_platformGreen))
-                {
-                    if (!checkPlatform(_platformGreen))
-                    {
-                        _platformGreen.setWalkable(false);
-                        _player.setState(4);
-                        // TODO: Add everything else that shows you lost.
-                    }
-                    else
-                    {
-                        _simonSequence.RemoveAt(0);
-                        _player.setColor(_platformGreen.getType());
-                        _lastPlatform = _platformGreen;
-                    }
-                }
+                
             }
             _wasGroundedLastFrame = true;
         }
@@ -620,13 +636,13 @@ public class CGame : MonoBehaviour
                 (_platformBlue.getState() != STATE_PLATFORM_DONE && _platformBlue.getState() != STATE_PLATFORM_TRANSITION_DONE))
             {
                 setAllPlatformsDone();
+                _onQueueToShutDown = true;                
             }
             if (_platformGreen.getState() == STATE_PLATFORM_DONE && _platformRed.getState() == STATE_PLATFORM_DONE
                 && _platformYellow.getState() == STATE_PLATFORM_DONE && _platformBlue.getState() == STATE_PLATFORM_DONE)
             {
                 _isSolved = true;
                 _difficulty = _difficulty + CGameConstants.DIFFICULTY_INCREMENT;                
-                _onQueueToShutDown = true;
                 createPlatform();
                 Debug.Log("You WIN, next platform...");
             }
