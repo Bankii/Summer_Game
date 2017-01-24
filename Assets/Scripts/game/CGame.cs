@@ -43,6 +43,8 @@ public class CGame : MonoBehaviour
     public const int STATE_PLATFORM_ON = 1;
     public const int STATE_PLATFORM_SHUTDOWN = 2;
     public const int STATE_PLATFORM_DONE = 3;
+    public const int STATE_PLATFORM_TRANSITION = 4;
+    public const int STATE_PLATFORM_TRANSITION_DONE = 5;
 
     public const int PLATFORM_GREEN = 0;
     public const int PLATFORM_RED = 1;
@@ -172,7 +174,11 @@ public class CGame : MonoBehaviour
             _restartGame = false;
             resetVariables();
             // TODO: do this after a mild delay?. (maybe the stuff from above too)
-            createPlatform();
+            if (_platformGreen.getState() != STATE_PLATFORM_TRANSITION_DONE && _platformRed.getState() != STATE_PLATFORM_TRANSITION_DONE
+                && _platformYellow.getState() != STATE_PLATFORM_TRANSITION_DONE && _platformBlue.getState() != STATE_PLATFORM_TRANSITION_DONE)
+            {
+                createPlatform();
+            }
         }
 
         if (_player.getState() == 4)
@@ -201,7 +207,12 @@ public class CGame : MonoBehaviour
         //If it isn't shown, show the Simon Sequence built.
         if (!_isShowed)
         {
-            showSimonSequence();
+            if (_platformGreen.getState() != STATE_PLATFORM_TRANSITION && _platformRed.getState() != STATE_PLATFORM_TRANSITION 
+                && _platformYellow.getState() != STATE_PLATFORM_TRANSITION && _platformBlue.getState() != STATE_PLATFORM_TRANSITION)
+            {
+                showSimonSequence();
+            }
+            
         }
 
         // Check the platform the player may be standing in.
@@ -593,22 +604,33 @@ public class CGame : MonoBehaviour
 
     private void setAllPlatformsDone()
     {
-        _platformGreen.setState(STATE_PLATFORM_DONE);
-        _platformRed.setState(STATE_PLATFORM_DONE);
-        _platformYellow.setState(STATE_PLATFORM_DONE);
-        _platformBlue.setState(STATE_PLATFORM_DONE);        
+        _platformGreen.setState(STATE_PLATFORM_TRANSITION_DONE);
+        _platformRed.setState(STATE_PLATFORM_TRANSITION_DONE);
+        _platformYellow.setState(STATE_PLATFORM_TRANSITION_DONE);
+        _platformBlue.setState(STATE_PLATFORM_TRANSITION_DONE);        
     }
 
     private void checkSuccess()
     {
         if (_simonSequence.Count == 0)
         {
-            _isSolved = true;
-            _difficulty = _difficulty + CGameConstants.DIFFICULTY_INCREMENT;
-            setAllPlatformsDone();
-            _onQueueToShutDown = true;
-            createPlatform();
-            Debug.Log("You WIN, next platform...");
+            if ((_platformGreen.getState() != STATE_PLATFORM_DONE && _platformGreen.getState() != STATE_PLATFORM_TRANSITION_DONE) &&
+                (_platformRed.getState() != STATE_PLATFORM_DONE && _platformRed.getState() != STATE_PLATFORM_TRANSITION_DONE) &&
+                (_platformYellow.getState() != STATE_PLATFORM_DONE && _platformYellow.getState() != STATE_PLATFORM_TRANSITION_DONE) &&
+                (_platformBlue.getState() != STATE_PLATFORM_DONE && _platformBlue.getState() != STATE_PLATFORM_TRANSITION_DONE))
+            {
+                setAllPlatformsDone();
+            }
+            if (_platformGreen.getState() == STATE_PLATFORM_DONE && _platformRed.getState() == STATE_PLATFORM_DONE
+                && _platformYellow.getState() == STATE_PLATFORM_DONE && _platformBlue.getState() == STATE_PLATFORM_DONE)
+            {
+                _isSolved = true;
+                _difficulty = _difficulty + CGameConstants.DIFFICULTY_INCREMENT;                
+                _onQueueToShutDown = true;
+                createPlatform();
+                Debug.Log("You WIN, next platform...");
+            }
+            
         }
     }
 

@@ -17,15 +17,9 @@ public class CPlayer : CGameObject
     public float _GRAVITY;
     private float _jumpMultiplyer = 0;
     public float _ACCEL_BOOST;
-    
+
     public SpriteRenderer _spriteRenderer;
     public Animator _anim;
-    public RuntimeAnimatorController _controllerBase;
-    public RuntimeAnimatorController _controllerGreen;
-    public RuntimeAnimatorController _controllerRed;
-    public RuntimeAnimatorController _controllerYellow;
-    public RuntimeAnimatorController _controllerBlue;
-
 
     public float _collitionOffsetLeft;
     public float _collitionOffsetRight;
@@ -45,11 +39,17 @@ public class CPlayer : CGameObject
     public string _jumpingAnim;
     public string _fallingAnim;
     public string _dyingAnim;
-        
+
 
     private float _preBoostSpeed;
-    
+
     private Vector3 _restartPos;
+
+    private AudioSource _playerFX;
+    public AudioClip _jumpFX1;
+    public AudioClip _jumpFX2;
+
+    public CPlayerController _playerControllers;
 
     void Start()
     {
@@ -57,13 +57,15 @@ public class CPlayer : CGameObject
 
         _restartPos = getPos();
 
+        _playerFX = GetComponent<AudioSource>();
+
         setColor(CGameConstants.COLOR_BASE);
 
         setWidth(_width);
         setHeight(_height);
     }
 
-	void Update()
+    void Update()
     {
         apiUpdate();
     }
@@ -80,7 +82,7 @@ public class CPlayer : CGameObject
     {
         base.apiUpdate();
         //_anim.SetFloat("Jump", getVelY());
-        
+
         switch (getState())
         {
             case STATE_IDLE:
@@ -218,12 +220,13 @@ public class CPlayer : CGameObject
                 if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp("joystick button 1") || Input.GetKeyUp("joystick button 0"))
                 {
                     //_anim.SetBool("isCharging", false);
+                    playJumpFX();
                     setState(STATE_JUMPING);
                 }
                 break;
 
             case STATE_JUMPING:
-                
+
                 if (getVelY() <= 0)
                 {
                     setState(STATE_FALLING);
@@ -299,7 +302,7 @@ public class CPlayer : CGameObject
                 }
                 else if (getY() - _height <= _maxY)
                 {
-                    setY(_maxY + _height -1);
+                    setY(_maxY + _height - 1);
                     setState(STATE_IDLE);
                     break;
                 }
@@ -321,7 +324,7 @@ public class CPlayer : CGameObject
                     _spriteRenderer.flipX = false;
                     _spriteRenderer.gameObject.transform.position = getPos();
                 }
-                
+
                 // if there are walls then no movement on the X axis.
                 if (getX() + _width >= _maxX && Input.GetAxisRaw("Horizontal") > 0)//Input.GetKey("right"))
                 {
@@ -437,7 +440,7 @@ public class CPlayer : CGameObject
     {
         float auxWidth = getX() + _width - _collitionOffsetRight;
         float auxX = getX() + _collitionOffsetLeft;
-        
+
         Vector3 auxPos = new Vector3(auxX, getY(), getZ());
 
 
@@ -453,8 +456,8 @@ public class CPlayer : CGameObject
         }
 
         // Down right.
-        if (Physics.Raycast(new Vector3(auxWidth, getY(), getZ()), Vector3.down, out hitInfo) )
-            //&& hitInfo.collider.tag == "Platform")
+        if (Physics.Raycast(new Vector3(auxWidth, getY(), getZ()), Vector3.down, out hitInfo))
+        //&& hitInfo.collider.tag == "Platform")
         {
             rightY = hitInfo.point.y;
         }
@@ -466,7 +469,7 @@ public class CPlayer : CGameObject
         rightY = 0;// CGameConstants.SCREEN_HEIGHT;
 
         // Up left.
-        Physics.Raycast(new Vector3(auxX,getY() - _height,getZ()), Vector3.up, out hitInfo, 1000f);
+        Physics.Raycast(new Vector3(auxX, getY() - _height, getZ()), Vector3.up, out hitInfo, 1000f);
         if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
         {
             leftY = hitInfo.point.y;
@@ -487,7 +490,7 @@ public class CPlayer : CGameObject
         float downX = CGameConstants.SCREEN_WIDTH;
 
         // Down right.
-        Physics.Raycast(getPos() + new Vector3(0,-_height, 0), Vector3.right, out hitInfo, 1000f);
+        Physics.Raycast(getPos() + new Vector3(0, -_height, 0), Vector3.right, out hitInfo, 1000f);
         if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
         {
             downX = hitInfo.point.x;
@@ -502,7 +505,7 @@ public class CPlayer : CGameObject
 
         // Setting the down variable.
         _maxX = Mathf.Max(upX, downX);
-        
+
         // --------Checking the Left.--------
         upX = 0;
         downX = 0;
@@ -529,24 +532,75 @@ public class CPlayer : CGameObject
     {
         if (aColor == CGameConstants.COLOR_GREEN)
         {
-            _anim.runtimeAnimatorController = _controllerBase;
+            _anim.runtimeAnimatorController = _playerControllers.getController(CGameConstants.COLOR_GREEN);
         }
         else if (aColor == CGameConstants.COLOR_RED)
         {
-            _anim.runtimeAnimatorController = _controllerRed;
+            _anim.runtimeAnimatorController = _playerControllers.getController(CGameConstants.COLOR_RED);
         }
         else if (aColor == CGameConstants.COLOR_YELLOW)
         {
-            _anim.runtimeAnimatorController = _controllerBase;
+            _anim.runtimeAnimatorController = _playerControllers.getController(CGameConstants.COLOR_YELLOW);
         }
         else if (aColor == CGameConstants.COLOR_BLUE)
         {
-            _anim.runtimeAnimatorController = _controllerRed;
+            _anim.runtimeAnimatorController = _playerControllers.getController(CGameConstants.COLOR_BLUE);
         }
         else if (aColor == CGameConstants.COLOR_BASE)
         {
-            _anim.runtimeAnimatorController = _controllerBase;
+            _anim.runtimeAnimatorController = _playerControllers.getController(CGameConstants.COLOR_BASE);
         }
 
+    }
+
+    public void playJumpFX()
+    {
+        int randomJump = CMath.randomIntBetween(0, 1);
+        if (randomJump == 0)
+        {
+            _playerFX.clip = _jumpFX1;
+            _playerFX.Play();
+        }
+        else
+        {
+            _playerFX.clip = _jumpFX2;
+            _playerFX.Play();
+        }
+
+    }
+
+
+    [System.Serializable]
+    public class CPlayerController
+    {
+        public RuntimeAnimatorController _controllerBase;
+        public RuntimeAnimatorController _controllerGreen;
+        public RuntimeAnimatorController _controllerRed;
+        public RuntimeAnimatorController _controllerYellow;
+        public RuntimeAnimatorController _controllerBlue;
+
+        public RuntimeAnimatorController getController(int aController)
+        {
+            if (aController == CGameConstants.COLOR_GREEN)
+            {
+                return _controllerGreen;
+            }
+            else if (aController == CGameConstants.COLOR_RED)
+            {
+                return _controllerRed;
+            }
+            else if (aController == CGameConstants.COLOR_YELLOW)
+            {
+                return _controllerYellow;
+            }
+            else if (aController == CGameConstants.COLOR_BLUE)
+            {
+                return _controllerBlue;
+            }
+            else
+            {
+                return _controllerBase;
+            }
+        }
     }
 }
