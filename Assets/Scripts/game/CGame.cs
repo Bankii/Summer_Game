@@ -67,6 +67,7 @@ public class CGame : MonoBehaviour
     private bool _checkPlatforms = true;
 
     private CPlatform _lastPlatform;
+        
    
     void Awake()
 	{
@@ -109,8 +110,7 @@ public class CGame : MonoBehaviour
         _firstBackground.name = "Background";
         _firstBackground.transform.SetParent(_backgroundParent.transform);
         _background = _firstBackground.GetComponent<CBackground>();
-
-
+        
         _camera.setGameObjectToFollow(_player);
 
         //Instantiating Platforms
@@ -164,7 +164,7 @@ public class CGame : MonoBehaviour
         _firstBackground.name = "Background";
         _firstBackground.transform.SetParent(_backgroundParent.transform);
         _background = _firstBackground.GetComponent<CBackground>();
-        
+                
         _camera.setGameObjectToFollow(_player);
     }
 
@@ -251,7 +251,7 @@ public class CGame : MonoBehaviour
                         else
                         {
                             _simonSequence.RemoveAt(0);
-                            _player.setColor(_platformBlue.getType());
+                            //_player.setColor(_platformBlue.getType());
                             _lastPlatform = _platformBlue;
                         }
 
@@ -268,7 +268,7 @@ public class CGame : MonoBehaviour
                         else
                         {
                             _simonSequence.RemoveAt(0);
-                            _player.setColor(_platformRed.getType());
+                            //_player.setColor(_platformRed.getType());
                             _lastPlatform = _platformRed;
                         }
                     }
@@ -284,7 +284,7 @@ public class CGame : MonoBehaviour
                         else
                         {
                             _simonSequence.RemoveAt(0);
-                            _player.setColor(_platformYellow.getType());
+                            //_player.setColor(_platformYellow.getType());
                             _lastPlatform = _platformYellow;
                         }
                     }
@@ -300,7 +300,7 @@ public class CGame : MonoBehaviour
                         else
                         {
                             _simonSequence.RemoveAt(0);
-                            _player.setColor(_platformGreen.getType());
+                            //_player.setColor(_platformGreen.getType());
                             _lastPlatform = _platformGreen;
                         }
                     }
@@ -319,7 +319,7 @@ public class CGame : MonoBehaviour
             _wasGroundedLastFrame = false;
         }
 
-        //changePlayerColor();
+        changePlayerColor();
 
         if (_player.getY() >= _background.getY() - _background.getHeight())
         {

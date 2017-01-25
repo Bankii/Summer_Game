@@ -48,6 +48,7 @@ public class CPlayer : CGameObject
     private AudioSource _playerFX;
     public AudioClip _jumpFX1;
     public AudioClip _jumpFX2;
+    public AudioClip _gameOverFX;
 
     public CPlayerController _playerControllers;
 
@@ -296,7 +297,7 @@ public class CPlayer : CGameObject
             case STATE_FALLING:
                 //_anim.SetBool("isGrounded", false);
                 if (getY() < -CGameConstants.SCREEN_HEIGHT)
-                {
+                {                    
                     setState(STATE_DYING);
                     break;
                 }
@@ -426,6 +427,8 @@ public class CPlayer : CGameObject
                 stopMove();
                 break;
             case STATE_DYING:
+                _playerFX.clip = _gameOverFX;
+                _playerFX.Play();
                 _anim.Play(_dyingAnim);
                 setVelX(0);
                 setVelY(0);
