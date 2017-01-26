@@ -14,11 +14,9 @@ public class CBackground : CGameObject
     {
         setVelY(SPEED);
         _camera = Camera.main.transform;
-        //startY = transform.position.y;
 
         setHeight(1100);
         setWidth(1600);
-
     }
 
     void Update()
@@ -26,7 +24,7 @@ public class CBackground : CGameObject
         apiUpdate();
         if (getY() + getHeight() < _camera.position.y - CGameConstants.SCREEN_HEIGHT /2)
         {
-            setY(_otherBg.getY() + _otherBg.getHeight());
+            setY(_otherBg.getY() + _otherBg.getHeight() + _otherBg.getHeight()/2);
         }
     }
 }
