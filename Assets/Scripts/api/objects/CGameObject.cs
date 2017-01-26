@@ -29,6 +29,12 @@ public class CGameObject : MonoBehaviour {
 
     private float mMass = 1.0f;
 
+    public bool mIsWanderActivated = false;
+    private Vector2 mWanderTargetPos;
+    private float mWanderRadius = 100;
+    private float mWanderDistance = 50;
+    private float mWanderRandomRange = 100;
+
     void Awake()
     {
         _transform = GetComponent<Transform>();

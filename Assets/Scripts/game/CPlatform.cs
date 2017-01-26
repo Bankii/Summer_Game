@@ -112,7 +112,7 @@ public class CPlatform : CGameObject {
                 _spriteRenderer.sprite = _platformBlueActive;
             }
 
-            if (getTimeState() >= 0.5f)
+            if (getTimeState() >= 1.0f)
             {
                 setState(STATE_TRANSITION);
             }

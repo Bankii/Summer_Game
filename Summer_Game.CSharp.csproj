@@ -52,6 +52,9 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Advertisements">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
@@ -67,6 +70,9 @@
     <Reference Include="UnityEngine.HoloLens">
       <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Purchasing">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Purchasing.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.VR">
       <HintPath>Library\UnityAssemblies\UnityEngine.VR.dll</HintPath>
     </Reference>
@@ -75,16 +81,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Menu\CButtonManager.cs" />
     <Compile Include="Assets\Scripts\api\input\CKeyboard.cs" />
     <Compile Include="Assets\Scripts\api\input\CMouse.cs" />
     <Compile Include="Assets\Scripts\api\math\CMath.cs" />
     <Compile Include="Assets\Scripts\api\math\CVector.cs" />
     <Compile Include="Assets\Scripts\api\objects\CCamera.cs" />
     <Compile Include="Assets\Scripts\api\objects\CGameObject.cs" />
+    <Compile Include="Assets\Scripts\game\CBackground.cs" />
+    <Compile Include="Assets\Scripts\game\CDestroyOnRestart.cs" />
     <Compile Include="Assets\Scripts\game\CGame.cs" />
     <Compile Include="Assets\Scripts\game\CGameConstants.cs" />
     <Compile Include="Assets\Scripts\game\CPlatform.cs" />
     <Compile Include="Assets\Scripts\game\CPlayer.cs" />
+    <Compile Include="Assets\Scripts\game\HUD\CCoinCounter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
