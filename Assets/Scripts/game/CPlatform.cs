@@ -10,6 +10,7 @@ public class CPlatform : CGameObject {
     private const int STATE_SHUTDOWN = 2;
     private const int STATE_DONE = 3;
     private const int STATE_TRANSITION = 4;
+    private const int STATE_TRANSITION_DONE = 5;
 
 
     public const int PLATFORM_GREEN = 0;
@@ -45,7 +46,7 @@ public class CPlatform : CGameObject {
     // Use this for initialization
     void Start () {
 
-        setState(STATE_OFF);
+        setState(STATE_TRANSITION);
         
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _platformFX = GetComponent<AudioSource>();
@@ -137,7 +138,7 @@ public class CPlatform : CGameObject {
                 _spriteRenderer.sprite = _platformBlueInactive;
             }
 
-            if (getTimeState() >= 0.1f)
+            if (getTimeState() >= 0.5f)
             {
                 setState(STATE_OFF);
             }
@@ -146,6 +147,16 @@ public class CPlatform : CGameObject {
         if (getState() == STATE_SHUTDOWN)
         {
             _spriteRenderer.sprite = _platformShutdown;
+        }
+
+        if (getState() == STATE_TRANSITION_DONE)
+        {
+            _spriteRenderer.sprite = _platformDone;
+
+            if (getTimeState() >= 0.5f)
+            {
+                setState(STATE_DONE);
+            }
         }
 
         if (getState() == STATE_DONE)
