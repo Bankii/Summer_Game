@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CPlayer : CGameObject
 {
@@ -29,8 +30,10 @@ public class CPlayer : CGameObject
 
     private float _minX;
     private float _minY;
-    private float _maxX;
+    private float _maxX = 1920;
     private float _maxY;
+
+    private int _coins;
 
     public string _idleAnim;
     public string _landingAnim;
@@ -50,7 +53,11 @@ public class CPlayer : CGameObject
     public AudioClip _jumpFX2;
     public AudioClip _gameOverFX;
 
+    public Text _coinUI;
+
     public CPlayerController _playerControllers;
+
+    private LayerMask _platformMask = 1 << 8;
 
     void Start()
     {
@@ -450,17 +457,18 @@ public class CPlayer : CGameObject
         // --------Checking the floor.--------
         float leftY = -CGameConstants.SCREEN_HEIGHT - _height - 10;
         float rightY = -CGameConstants.SCREEN_HEIGHT - _height - 10;
-        RaycastHit hitInfo;
+        RaycastHit2D hitInfo;
 
         // Down left.
-        if (Physics.Raycast(auxPos, Vector3.down, out hitInfo))// && hitInfo.collider.tag == "Platform")
+        hitInfo = Physics2D.Raycast(auxPos, Vector3.down, 1000, _platformMask);
+        if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
         {
             leftY = hitInfo.point.y;
         }
 
         // Down right.
-        if (Physics.Raycast(new Vector3(auxWidth, getY(), getZ()), Vector3.down, out hitInfo))
-        //&& hitInfo.collider.tag == "Platform")
+        hitInfo = Physics2D.Raycast(new Vector3(auxWidth, getY(), getZ()), Vector3.down, 1000, _platformMask);
+        if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
         {
             rightY = hitInfo.point.y;
         }
@@ -472,14 +480,14 @@ public class CPlayer : CGameObject
         rightY = 0;// CGameConstants.SCREEN_HEIGHT;
 
         // Up left.
-        Physics.Raycast(new Vector3(auxX, getY() - _height, getZ()), Vector3.up, out hitInfo, 1000f);
+        hitInfo = Physics2D.Raycast(new Vector3(auxX, getY() - _height, getZ()), Vector3.up, 1000, _platformMask);
         if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
         {
             leftY = hitInfo.point.y;
         }
 
         // Up right.
-        Physics.Raycast(new Vector3(auxWidth, getY() - _height, getZ()), Vector3.up, out hitInfo, 1000f);
+        hitInfo = Physics2D.Raycast(new Vector3(auxWidth, getY() - _height, getZ()), Vector3.up, 1000, _platformMask);
         if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
         {
             rightY = hitInfo.point.y;
@@ -488,47 +496,47 @@ public class CPlayer : CGameObject
         // Setting the down variable.
         _minY = Mathf.Min(leftY, rightY);
 
-        // --------Checking the Right.--------
-        float upX = CGameConstants.SCREEN_WIDTH;
-        float downX = CGameConstants.SCREEN_WIDTH;
+        //// --------Checking the Right.--------
+        //float upX = CGameConstants.SCREEN_WIDTH;
+        //float downX = CGameConstants.SCREEN_WIDTH;
 
-        // Down right.
-        Physics.Raycast(getPos() + new Vector3(0, -_height, 0), Vector3.right, out hitInfo, 1000f);
-        if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
-        {
-            downX = hitInfo.point.x;
-        }
+        //// Down right.
+        //Physics.Raycast(getPos() + new Vector3(0, -_height, 0), Vector3.right, out hitInfo, 1000f);
+        //if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
+        //{
+        //    downX = hitInfo.point.x;
+        //}
 
-        // Up right.
-        Physics.Raycast(getPos(), Vector3.right, out hitInfo, 1000f);
-        if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
-        {
-            upX = hitInfo.point.x;
-        }
+        //// Up right.
+        //Physics.Raycast(getPos(), Vector3.right, out hitInfo, 1000f);
+        //if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
+        //{
+        //    upX = hitInfo.point.x;
+        //}
 
-        // Setting the down variable.
-        _maxX = Mathf.Max(upX, downX);
+        //// Setting the down variable.
+        //_maxX = Mathf.Max(upX, downX);
 
-        // --------Checking the Left.--------
-        upX = 0;
-        downX = 0;
+        //// --------Checking the Left.--------
+        //upX = 0;
+        //downX = 0;
 
-        // Down left.
-        Physics.Raycast(getPos() + new Vector3(_width, -_height, 0), Vector3.left, out hitInfo, 1000f);
-        if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
-        {
-            downX = hitInfo.point.x;
-        }
+        //// Down left.
+        //Physics.Raycast(getPos() + new Vector3(_width, -_height, 0), Vector3.left, out hitInfo, 1000f);
+        //if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
+        //{
+        //    downX = hitInfo.point.x;
+        //}
 
-        // Up right.
-        Physics.Raycast(getPos() + new Vector3(_width, 0, 0), Vector3.left, out hitInfo, 1000f);
-        if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
-        {
-            upX = hitInfo.point.x;
-        }
+        //// Up right.
+        //Physics.Raycast(getPos() + new Vector3(_width, 0, 0), Vector3.left, out hitInfo, 1000f);
+        //if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
+        //{
+        //    upX = hitInfo.point.x;
+        //}
 
-        // Setting the down variable.
-        _minX = Mathf.Min(upX, downX);
+        //// Setting the down variable.
+        //_minX = Mathf.Min(upX, downX);
     }
 
     public void setColor(int aColor)
@@ -605,5 +613,20 @@ public class CPlayer : CGameObject
                 return _controllerBase;
             }
         }
+    }
+
+    void OnTriggerEnter2D(Collider2D coll)
+    {
+        if (coll.gameObject.tag == "Coin")
+        {
+            addCoins(1);
+            Destroy(coll.gameObject);
+        }
+    }
+
+    public void addCoins(int aCoins)
+    {
+        _coins += aCoins;
+        _coinUI.text = _coins.ToString();
     }
 }

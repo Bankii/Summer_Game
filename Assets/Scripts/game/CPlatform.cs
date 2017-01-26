@@ -21,8 +21,8 @@ public class CPlatform : CGameObject {
     private const int PLATFORM_HEIGHT = 78;
     private const int PLATFORM_WIDTH = 200;
 
-    private SpriteRenderer _spriteRenderer;
-    public Collider _collider;
+    public SpriteRenderer _spriteRenderer;
+    public Collider2D _collider;
 
     private bool _walkable = true;
 
@@ -48,7 +48,7 @@ public class CPlatform : CGameObject {
 
         setState(STATE_TRANSITION);
         
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        //_spriteRenderer = GetComponent<SpriteRenderer>();
         _platformFX = GetComponent<AudioSource>();
         setWidth(PLATFORM_WIDTH);
         setHeight(PLATFORM_HEIGHT);

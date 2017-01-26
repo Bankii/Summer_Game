@@ -602,15 +602,26 @@ public class CGame : MonoBehaviour
 
     private void setAllPrevPlatformsInactive()
     {
-        _prevPlatformGreen.setState(STATE_PLATFORM_SHUTDOWN);
-        _prevPlatformRed.setState(STATE_PLATFORM_SHUTDOWN);
-        _prevPlatformYellow.setState(STATE_PLATFORM_SHUTDOWN);
-        _prevPlatformBlue.setState(STATE_PLATFORM_SHUTDOWN);
-
-        _prevPlatformBlue.setWalkable(false);
-        _prevPlatformGreen.setWalkable(false);
-        _prevPlatformRed.setWalkable(false);
-        _prevPlatformYellow.setWalkable(false);
+        if (_prevPlatformGreen != null)
+        {
+            _prevPlatformGreen.setState(STATE_PLATFORM_SHUTDOWN);
+            _prevPlatformGreen.setWalkable(false);
+        }
+        if (_prevPlatformRed != null)
+        {
+            _prevPlatformRed.setState(STATE_PLATFORM_SHUTDOWN);
+            _prevPlatformRed.setWalkable(false);
+        }
+        if (_prevPlatformYellow != null)
+        {
+            _prevPlatformYellow.setState(STATE_PLATFORM_SHUTDOWN);
+            _prevPlatformYellow.setWalkable(false);
+        }
+        if (_prevPlatformBlue != null)
+        {
+            _prevPlatformBlue.setState(STATE_PLATFORM_SHUTDOWN);
+            _prevPlatformBlue.setWalkable(false);
+        }
     }
 
     private void setAllPlatformsDone()
