@@ -9,8 +9,7 @@ public class CGame : MonoBehaviour
     private List<int> _simonSequence; //Color sequence for Simon
     private int _randomNum; //random platform for Simon sequence
     private int _randomPlatformX; // Random X for platform position
-    private int _randomPlatformY; // Random Y for platform position
-    private float _difficulty; //Simon difficulty
+    private int _randomPlatformY; // Random Y for platform position    
     private int _platformCount; //Counts the platforms to show sequence
     private int _platformNum; //Counter for platform's parent name
     private bool _isSolved; //bool to check if is needed to build a new sequence
@@ -19,9 +18,12 @@ public class CGame : MonoBehaviour
     private bool _isFirstPlatform; 
     private bool _isGameOver; //testing
 
+    public float _difficulty; //Simon difficulty
+    public float _difficultyIncrement; //Increment for each platform solved
+
     public GameObject _platformPrefab;
     public CCamera _camera;
-    public GameObject _backgroundPrefab;
+    //public GameObject _backgroundPrefab;
 
     public CPlayer _player;
 
@@ -35,9 +37,9 @@ public class CGame : MonoBehaviour
     private CPlatform _prevPlatformYellow;
     private CPlatform _prevPlatformBlue;
 
-    private GameObject _backgroundParent;
-    private GameObject _firstBackground;
-    private CBackground _background;
+    //private GameObject _backgroundParent;
+    //private GameObject _firstBackground;
+    //private CBackground _background;
 
     public const int STATE_PLATFORM_OFF = 0;
     public const int STATE_PLATFORM_ON = 1;
@@ -93,7 +95,6 @@ public class CGame : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-        _difficulty = 0;
         _simonSequence = new List<int>();
         _isSolved = true;
         _isShowed = false;
@@ -103,13 +104,13 @@ public class CGame : MonoBehaviour
         _platformCount = 0;
         _platformNum = 1;
         
-        _backgroundParent = new GameObject();
-        _backgroundParent.transform.name = "Background";
-        _backgroundParent.AddComponent<CDestroyOnRestart>();
-        _firstBackground = Instantiate(_backgroundPrefab, new Vector3(_camera.getX() - CGameConstants.SCREEN_WIDTH / 2, _camera.getY() - CGameConstants.SCREEN_HEIGHT / 2 + 1100 * 2), Quaternion.identity);
-        _firstBackground.name = "Background";
-        _firstBackground.transform.SetParent(_backgroundParent.transform);
-        _background = _firstBackground.GetComponent<CBackground>();
+        //_backgroundParent = new GameObject();
+        //_backgroundParent.transform.name = "Background";
+        //_backgroundParent.AddComponent<CDestroyOnRestart>();
+        //_firstBackground = Instantiate(_backgroundPrefab, new Vector3(_camera.getX() - CGameConstants.SCREEN_WIDTH / 2, _camera.getY() - CGameConstants.SCREEN_HEIGHT / 2 + 1100 * 2), Quaternion.identity);
+        //_firstBackground.name = "Background";
+        //_firstBackground.transform.SetParent(_backgroundParent.transform);
+        //_background = _firstBackground.GetComponent<CBackground>();
         
         _camera.setGameObjectToFollow(_player);
 
@@ -143,7 +144,6 @@ public class CGame : MonoBehaviour
 
     private void resetVariables()
     {
-        _difficulty = 0;
         _simonSequence = new List<int>();
         _isSolved = true;
         _isShowed = false;
@@ -157,13 +157,13 @@ public class CGame : MonoBehaviour
         _platformYellow = null;
         _platformBlue = null;
 
-        _backgroundParent = new GameObject();
-        _backgroundParent.transform.name = "Background";
-        _backgroundParent.AddComponent<CDestroyOnRestart>();
-        _firstBackground = Instantiate(_backgroundPrefab, new Vector3(_camera.getX() - CGameConstants.SCREEN_WIDTH / 2, _camera.getY() + CGameConstants.SCREEN_HEIGHT / 2 + 1100), Quaternion.identity);
-        _firstBackground.name = "Background";
-        _firstBackground.transform.SetParent(_backgroundParent.transform);
-        _background = _firstBackground.GetComponent<CBackground>();
+        //_backgroundParent = new GameObject();
+        //_backgroundParent.transform.name = "Background";
+        //_backgroundParent.AddComponent<CDestroyOnRestart>();
+        //_firstBackground = Instantiate(_backgroundPrefab, new Vector3(_camera.getX() - CGameConstants.SCREEN_WIDTH / 2, _camera.getY() + CGameConstants.SCREEN_HEIGHT / 2 + 1100), Quaternion.identity);
+        //_firstBackground.name = "Background";
+        //_firstBackground.transform.SetParent(_backgroundParent.transform);
+        //_background = _firstBackground.GetComponent<CBackground>();
                 
         _camera.setGameObjectToFollow(_player);
     }
@@ -320,12 +320,7 @@ public class CGame : MonoBehaviour
         }
 
         changePlayerColor();
-
-        if (_player.getY() >= _background.getY() - _background.getHeight())
-        {
-            createBackground();
-        }
-
+        
         _wasRestartLastFrame = _restartGame;
                 
     }
@@ -642,7 +637,7 @@ public class CGame : MonoBehaviour
                 && _platformYellow.getState() == STATE_PLATFORM_DONE && _platformBlue.getState() == STATE_PLATFORM_DONE)
             {
                 _isSolved = true;
-                _difficulty = _difficulty + CGameConstants.DIFFICULTY_INCREMENT;                
+                _difficulty = _difficulty + _difficultyIncrement;            
                 createPlatform();
                 Debug.Log("You WIN, next platform...");
             }
@@ -674,12 +669,12 @@ public class CGame : MonoBehaviour
         }
     }
 
-    public void createBackground()
-    {
-        GameObject background = Instantiate(_backgroundPrefab, new Vector3(_background.getX(), _background.getY() + _background.getHeight()), Quaternion.identity);
-        background.name = "Background";
-        background.transform.SetParent(_backgroundParent.transform);
-        _background = background.GetComponent<CBackground>();
-    }
+    //public void createBackground()
+    //{
+    //    GameObject background = Instantiate(_backgroundPrefab, new Vector3(_background.getX(), _background.getY() + _background.getHeight()), Quaternion.identity);
+    //    background.name = "Background";
+    //    background.transform.SetParent(_backgroundParent.transform);
+    //    _background = background.GetComponent<CBackground>();
+    //}
 
 }
