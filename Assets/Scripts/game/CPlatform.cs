@@ -88,15 +88,18 @@ public class CPlatform : CGameObject {
         {
             if (getType() == PLATFORM_GREEN)
             {
-                _spriteRenderer.sprite = _platformGreenInactive;
+                _anim.runtimeAnimatorController = _platformGreenInactiveAnim;
+                //_spriteRenderer.sprite = _platformGreenInactive;
             }
             else if (getType() == PLATFORM_RED)
             {
-                _spriteRenderer.sprite = _platformRedInactive;
+                _anim.runtimeAnimatorController = _platformRedInactiveAnim;
+                //_spriteRenderer.sprite = _platformRedInactive;
             }
             else if (getType() == PLATFORM_YELLOW)
             {
-                _spriteRenderer.sprite = _platformYellowInactive;
+                _anim.runtimeAnimatorController = _platformYellowInactiveAnim;
+                //_spriteRenderer.sprite = _platformYellowInactive;
             }
             else if (getType() == PLATFORM_BLUE)
             {
@@ -109,16 +112,19 @@ public class CPlatform : CGameObject {
         if (getState() == STATE_ON)
         {
             if (getType() == PLATFORM_GREEN)
-            {                
-                _spriteRenderer.sprite = _platformGreenActive;                
+            {
+                _anim.runtimeAnimatorController = _platformGreenActiveAnim;
+                //_spriteRenderer.sprite = _platformGreenActive;                
             }
             else if (getType() == PLATFORM_RED)
             {
-                _spriteRenderer.sprite = _platformRedActive;
+                _anim.runtimeAnimatorController = _platformRedActiveAnim;
+                //_spriteRenderer.sprite = _platformRedActive;
             }
             else if (getType() == PLATFORM_YELLOW)
             {
-                _spriteRenderer.sprite = _platformYellowActive;
+                _anim.runtimeAnimatorController = _platformYellowActiveAnim;
+                //_spriteRenderer.sprite = _platformYellowActive;
             }
             else if (getType() == PLATFORM_BLUE)
             {
@@ -136,15 +142,18 @@ public class CPlatform : CGameObject {
         {
             if (getType() == PLATFORM_GREEN)
             {
-                _spriteRenderer.sprite = _platformGreenInactive;
+                _anim.runtimeAnimatorController = _platformGreenInactiveAnim;
+                //_spriteRenderer.sprite = _platformGreenInactive;
             }
             else if (getType() == PLATFORM_RED)
             {
-                _spriteRenderer.sprite = _platformRedInactive;
+                _anim.runtimeAnimatorController = _platformRedInactiveAnim;
+                //_spriteRenderer.sprite = _platformRedInactive;
             }
             else if (getType() == PLATFORM_YELLOW)
             {
-                _spriteRenderer.sprite = _platformYellowInactive;
+                _anim.runtimeAnimatorController = _platformYellowInactiveAnim;
+                //_spriteRenderer.sprite = _platformYellowInactive;
             }
             else if (getType() == PLATFORM_BLUE)
             {
