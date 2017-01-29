@@ -24,6 +24,17 @@ public class CPlatform : CGameObject {
     public SpriteRenderer _spriteRenderer;
     public Collider2D _collider;
 
+    public Animator _anim;
+
+    public RuntimeAnimatorController _platformGreenInactiveAnim;
+    public RuntimeAnimatorController _platformRedInactiveAnim;
+    public RuntimeAnimatorController _platformYellowInactiveAnim;
+    public RuntimeAnimatorController _platformBlueInactiveAnim;
+    public RuntimeAnimatorController _platformGreenActiveAnim;
+    public RuntimeAnimatorController _platformRedActiveAnim;
+    public RuntimeAnimatorController _platformYellowActiveAnim;
+    public RuntimeAnimatorController _platformBlueActiveAnim;
+
     private bool _walkable = true;
 
     public Sprite _platformGreenInactive;
@@ -47,7 +58,7 @@ public class CPlatform : CGameObject {
     void Start () {
 
         setState(STATE_TRANSITION);
-        
+        _anim = GetComponentInChildren<Animator>();
         //_spriteRenderer = GetComponent<SpriteRenderer>();
         _platformFX = GetComponent<AudioSource>();
         setWidth(PLATFORM_WIDTH);
@@ -89,7 +100,8 @@ public class CPlatform : CGameObject {
             }
             else if (getType() == PLATFORM_BLUE)
             {
-                _spriteRenderer.sprite = _platformBlueInactive;
+                _anim.runtimeAnimatorController = _platformBlueInactiveAnim;
+                //_spriteRenderer.sprite = _platformBlueInactive;
             }
 
         }
@@ -110,7 +122,8 @@ public class CPlatform : CGameObject {
             }
             else if (getType() == PLATFORM_BLUE)
             {
-                _spriteRenderer.sprite = _platformBlueActive;
+                _anim.runtimeAnimatorController = _platformBlueActiveAnim;
+                //_spriteRenderer.sprite = _platformBlueActive;
             }
 
             if (getTimeState() >= 1.0f)
@@ -135,7 +148,8 @@ public class CPlatform : CGameObject {
             }
             else if (getType() == PLATFORM_BLUE)
             {
-                _spriteRenderer.sprite = _platformBlueInactive;
+                _anim.runtimeAnimatorController = _platformBlueInactiveAnim;
+                //_spriteRenderer.sprite = _platformBlueInactive;
             }
 
             if (getTimeState() >= 0.5f)
