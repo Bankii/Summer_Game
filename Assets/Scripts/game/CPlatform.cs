@@ -25,26 +25,18 @@ public class CPlatform : CGameObject {
     public Collider2D _collider;
 
     public Animator _anim;
-
-    public RuntimeAnimatorController _platformGreenInactiveAnim;
-    public RuntimeAnimatorController _platformRedInactiveAnim;
-    public RuntimeAnimatorController _platformYellowInactiveAnim;
-    public RuntimeAnimatorController _platformBlueInactiveAnim;
-    public RuntimeAnimatorController _platformGreenActiveAnim;
-    public RuntimeAnimatorController _platformRedActiveAnim;
-    public RuntimeAnimatorController _platformYellowActiveAnim;
-    public RuntimeAnimatorController _platformBlueActiveAnim;
+       
 
     private bool _walkable = true;
 
-    public Sprite _platformGreenInactive;
-    public Sprite _platformGreenActive;
-    public Sprite _platformRedInactive;
-    public Sprite _platformRedActive;
-    public Sprite _platformYellowInactive;
-    public Sprite _platformYellowActive;
-    public Sprite _platformBlueInactive;
-    public Sprite _platformBlueActive;
+    //public Sprite _platformGreenInactive;
+    //public Sprite _platformGreenActive;
+    //public Sprite _platformRedInactive;
+    //public Sprite _platformRedActive;
+    //public Sprite _platformYellowInactive;
+    //public Sprite _platformYellowActive;
+    //public Sprite _platformBlueInactive;
+    //public Sprite _platformBlueActive;
     public Sprite _platformShutdown;
     public Sprite _platformDone;
 
@@ -53,6 +45,8 @@ public class CPlatform : CGameObject {
     public AudioClip _redFX;
     public AudioClip _yellowFX;
     public AudioClip _blueFX;
+
+    public CPlatformController _platformControllers;
 
     void Awake()
     {
@@ -93,22 +87,22 @@ public class CPlatform : CGameObject {
         {
             if (getType() == PLATFORM_GREEN)
             {
-                _anim.runtimeAnimatorController = _platformGreenInactiveAnim;
+                _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_GREEN, STATE_OFF);
                 //_spriteRenderer.sprite = _platformGreenInactive;
             }
             else if (getType() == PLATFORM_RED)
             {
-                _anim.runtimeAnimatorController = _platformRedInactiveAnim;
+                _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_RED, STATE_OFF);
                 //_spriteRenderer.sprite = _platformRedInactive;
             }
             else if (getType() == PLATFORM_YELLOW)
             {
-                _anim.runtimeAnimatorController = _platformYellowInactiveAnim;
+                _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_YELLOW, STATE_OFF);
                 //_spriteRenderer.sprite = _platformYellowInactive;
             }
             else if (getType() == PLATFORM_BLUE)
             {
-                _anim.runtimeAnimatorController = _platformBlueInactiveAnim;
+                _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_BLUE, STATE_OFF);
                 //_spriteRenderer.sprite = _platformBlueInactive;
             }
 
@@ -118,22 +112,22 @@ public class CPlatform : CGameObject {
         {
             if (getType() == PLATFORM_GREEN)
             {
-                _anim.runtimeAnimatorController = _platformGreenActiveAnim;
+                _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_GREEN, STATE_ON); 
                 //_spriteRenderer.sprite = _platformGreenActive;                
             }
             else if (getType() == PLATFORM_RED)
             {
-                _anim.runtimeAnimatorController = _platformRedActiveAnim;
+                _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_RED, STATE_ON);
                 //_spriteRenderer.sprite = _platformRedActive;
             }
             else if (getType() == PLATFORM_YELLOW)
             {
-                _anim.runtimeAnimatorController = _platformYellowActiveAnim;
+                _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_YELLOW, STATE_ON);
                 //_spriteRenderer.sprite = _platformYellowActive;
             }
             else if (getType() == PLATFORM_BLUE)
             {
-                _anim.runtimeAnimatorController = _platformBlueActiveAnim;
+                _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_BLUE, STATE_ON);
                 //_spriteRenderer.sprite = _platformBlueActive;
             }
 
@@ -147,22 +141,22 @@ public class CPlatform : CGameObject {
         {
             if (getType() == PLATFORM_GREEN)
             {
-                _anim.runtimeAnimatorController = _platformGreenInactiveAnim;
+                _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_GREEN, STATE_OFF);
                 //_spriteRenderer.sprite = _platformGreenInactive;
             }
             else if (getType() == PLATFORM_RED)
             {
-                _anim.runtimeAnimatorController = _platformRedInactiveAnim;
+                _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_RED, STATE_OFF);
                 //_spriteRenderer.sprite = _platformRedInactive;
             }
             else if (getType() == PLATFORM_YELLOW)
             {
-                _anim.runtimeAnimatorController = _platformYellowInactiveAnim;
+                _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_YELLOW, STATE_OFF);
                 //_spriteRenderer.sprite = _platformYellowInactive;
             }
             else if (getType() == PLATFORM_BLUE)
             {
-                _anim.runtimeAnimatorController = _platformBlueInactiveAnim;
+                _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_BLUE, STATE_OFF);
                 //_spriteRenderer.sprite = _platformBlueInactive;
             }
 
@@ -218,5 +212,69 @@ public class CPlatform : CGameObject {
         }
     }
 
+    [System.Serializable]
+    public class CPlatformController
+    {
+        public RuntimeAnimatorController _platformGreenInactiveAnim;
+        public RuntimeAnimatorController _platformGreenActiveAnim;
+        public RuntimeAnimatorController _platformRedInactiveAnim;
+        public RuntimeAnimatorController _platformRedActiveAnim;
+        public RuntimeAnimatorController _platformYellowInactiveAnim;
+        public RuntimeAnimatorController _platformYellowActiveAnim;
+        public RuntimeAnimatorController _platformBlueInactiveAnim;
+        public RuntimeAnimatorController _platformBlueActiveAnim;
 
+        public RuntimeAnimatorController getController(int aPlatform, int aState)
+        {
+            if (aPlatform == CGameConstants.COLOR_GREEN)
+            {
+                if (aState == STATE_ON)
+                {
+                    return _platformGreenActiveAnim;
+                }
+                else
+                {
+                    return _platformBlueInactiveAnim;
+                }
+            }
+            else if (aPlatform == CGameConstants.COLOR_RED)
+            {
+                if (aState == STATE_ON)
+                {
+                    return _platformRedActiveAnim;
+                }
+                else
+                {
+                    return _platformRedInactiveAnim;
+                }
+            }
+            else if (aPlatform == CGameConstants.COLOR_YELLOW)
+            {
+                if (aState == STATE_ON)
+                {
+                    return _platformYellowActiveAnim;
+                }
+                else
+                {
+                    return _platformYellowInactiveAnim;
+                }
+            }
+            else if (aPlatform == CGameConstants.COLOR_BLUE)
+            {
+                if (aState == STATE_ON)
+                {
+                    return _platformBlueActiveAnim;
+                }
+                else
+                {
+                    return _platformBlueInactiveAnim;
+                }
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+    }
 }
