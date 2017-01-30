@@ -10,4 +10,9 @@ public class CButtonManager : MonoBehaviour {
         SceneManager.LoadScene(aScene);
         // TODO: add a loading image.
     }
+
+    public void quit()
+    {
+        Application.Quit();
+    }
 }

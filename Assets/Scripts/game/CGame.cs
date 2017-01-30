@@ -22,6 +22,8 @@ public class CGame : MonoBehaviour
     public float _difficultyIncrement; //Increment for each platform solved
 
     public GameObject _platformPrefab;
+    //public GameObject _coinPrefab;
+    //public GameObject _boxPrefab;
     public CCamera _camera;
     //public GameObject _backgroundPrefab;
 
@@ -582,6 +584,9 @@ public class CGame : MonoBehaviour
         _isFirstPlatform = false;
         _platformNum++;
 
+        createCoin(_platformYellow);
+        createBox(_platformRed);
+
         _camera.setMax(_randomPlatformY - PLATFORM_HEIGHT + CGameConstants.SCREEN_HEIGHT / 2);
 
     }
@@ -678,6 +683,18 @@ public class CGame : MonoBehaviour
         {
             _player.setColor(CGameConstants.COLOR_BASE);
         }
+    }
+
+    public void createCoin(CPlatform aPlatform)
+    {
+        Object coin = Resources.Load("Prefabs/Coin");
+        Instantiate(coin, new Vector3(aPlatform.getX() + PLATFORM_WIDTH / 2, aPlatform.getY() + _player.getHeight() / 2, 0), Quaternion.identity);
+    }
+
+    public void createBox(CPlatform aPlatform)
+    {
+        Object coin = Resources.Load("Prefabs/Box");
+        Instantiate(coin, new Vector3(aPlatform.getX() + PLATFORM_WIDTH / 2, aPlatform.getY() + CBox.HEIGHT, 0), Quaternion.identity);
     }
 
     //public void createBackground()

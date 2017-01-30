@@ -37,6 +37,11 @@ public class CGameObject : MonoBehaviour {
 
     void Awake()
     {
+        apiAwake();
+    }
+
+    public virtual void apiAwake()
+    {
         _transform = GetComponent<Transform>();
         mPos = new CVector();
         mPos._vector = _transform.position;

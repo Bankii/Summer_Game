@@ -54,16 +54,21 @@ public class CPlatform : CGameObject {
     public AudioClip _yellowFX;
     public AudioClip _blueFX;
 
+    void Awake()
+    {
+        apiAwake();
+        _platformFX = GetComponent<AudioSource>();
+    }
+
     // Use this for initialization
     void Start () {
 
         setState(STATE_TRANSITION);
         _anim = GetComponentInChildren<Animator>();
         //_spriteRenderer = GetComponent<SpriteRenderer>();
-        _platformFX = GetComponent<AudioSource>();
+        //_platformFX = GetComponent<AudioSource>();
         setWidth(PLATFORM_WIDTH);
         setHeight(PLATFORM_HEIGHT);
-
     }
 
     void Update()

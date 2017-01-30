@@ -15,7 +15,8 @@ public class CPlayer : CGameObject
     public float _horizontalSpeed;
     public float _verticalMaxSpeed;
     public float _verticalMinSpeed;
-    public float _GRAVITY;
+    public float _GRAVITY_JUMP;
+    public float _GRAVITY_FALL;
     private float _jumpMultiplyer = 0;
     public float _ACCEL_BOOST;
 
@@ -93,6 +94,7 @@ public class CPlayer : CGameObject
 
         switch (getState())
         {
+            #region STATE IDLE
             case STATE_IDLE:
                 //_anim.SetBool("isGrounded", true);
                 // Checking if the player isn't against a wall.
@@ -145,7 +147,9 @@ public class CPlayer : CGameObject
                     break;
                 }
                 break;
+#endregion
 
+            #region STATE WALKING
             case STATE_WALKING:
 
                 //if (!Input.GetKey("left") && !Input.GetKey("right") && !Input.GetKey("joystick button 8") && !Input.GetKey("joystick button 9"))
@@ -218,7 +222,9 @@ public class CPlayer : CGameObject
                     setState(STATE_FALLING);
                 }
                 break;
+            #endregion
 
+            #region STATE CHARGING
             case STATE_CHARGING:
                 if (Input.GetKey(KeyCode.Space) || Input.GetKey("joystick button 1") || Input.GetKey("joystick button 0"))
                 {
@@ -230,9 +236,12 @@ public class CPlayer : CGameObject
                     //_anim.SetBool("isCharging", false);
                     playJumpFX();
                     setState(STATE_JUMPING);
+                    goto case STATE_JUMPING;
                 }
                 break;
+            #endregion
 
+            #region STATE JUMPING
             case STATE_JUMPING:
 
                 if (getVelY() <= 0)
@@ -298,9 +307,9 @@ public class CPlayer : CGameObject
                     setVelX(0);
                 }
                 break;
+#endregion
 
-
-
+            #region STATE FALLING
             case STATE_FALLING:
                 //_anim.SetBool("isGrounded", false);
                 if (getY() < -CGameConstants.SCREEN_HEIGHT)
@@ -356,15 +365,17 @@ public class CPlayer : CGameObject
                 // Acceleration boost if the down arrow is pressed.
                 if (Input.GetKey(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") < 0)
                 {
-                    setAccelY(_GRAVITY + _ACCEL_BOOST);
+                    setAccelY(_GRAVITY_FALL + _ACCEL_BOOST);
                 }
                 else if (!Input.GetKey(KeyCode.DownArrow) && Input.GetAxisRaw("Vertical") == 0)
                 {
-                    setAccelY(_GRAVITY);
+                    setAccelY(_GRAVITY_FALL);
                 }
 
                 break;
+#endregion
 
+            #region STATE DYING
             case STATE_DYING:
                 if (getY() - _height <= -CGameConstants.SCREEN_HEIGHT - _height - 10)
                 {
@@ -380,6 +391,7 @@ public class CPlayer : CGameObject
                     setColor(CGameConstants.COLOR_BASE);
                 }
                 break;
+            #endregion
 
             default:
                 break;
@@ -411,7 +423,7 @@ public class CPlayer : CGameObject
             case STATE_JUMPING:
                 _anim.Play(_jumpingAnim);
                 setVelY(_verticalMaxSpeed * _jumpMultiplyer);
-                setAccelY(_GRAVITY);
+                setAccelY(_GRAVITY_JUMP);
                 if (getVelY() < _verticalMinSpeed)
                 {
                     setVelY(_verticalMinSpeed);
@@ -424,7 +436,7 @@ public class CPlayer : CGameObject
                 break;
             case STATE_FALLING:
                 _anim.Play(_fallingAnim);
-                setAccelY(_GRAVITY);
+                setAccelY(_GRAVITY_FALL);
                 break;
             case STATE_WALKING:
                 _anim.Play(_walkingAnim);
@@ -439,7 +451,7 @@ public class CPlayer : CGameObject
                 _anim.Play(_dyingAnim);
                 setVelX(0);
                 setVelY(0);
-                setAccelY(_GRAVITY);
+                setAccelY(_GRAVITY_FALL);
                 break;
             default:
                 break;
@@ -579,42 +591,7 @@ public class CPlayer : CGameObject
         }
 
     }
-
-
-    [System.Serializable]
-    public class CPlayerController
-    {
-        public RuntimeAnimatorController _controllerBase;
-        public RuntimeAnimatorController _controllerGreen;
-        public RuntimeAnimatorController _controllerRed;
-        public RuntimeAnimatorController _controllerYellow;
-        public RuntimeAnimatorController _controllerBlue;
-
-        public RuntimeAnimatorController getController(int aController)
-        {
-            if (aController == CGameConstants.COLOR_GREEN)
-            {
-                return _controllerGreen;
-            }
-            else if (aController == CGameConstants.COLOR_RED)
-            {
-                return _controllerRed;
-            }
-            else if (aController == CGameConstants.COLOR_YELLOW)
-            {
-                return _controllerYellow;
-            }
-            else if (aController == CGameConstants.COLOR_BLUE)
-            {
-                return _controllerBlue;
-            }
-            else
-            {
-                return _controllerBase;
-            }
-        }
-    }
-
+    
     void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.gameObject.tag == "Coin")
@@ -622,11 +599,53 @@ public class CPlayer : CGameObject
             addCoins(1);
             Destroy(coll.gameObject);
         }
+        if (coll.gameObject.tag == "Box")
+        {
+            CBox box = coll.gameObject.GetComponent<CBox>();
+            if (box != null)
+            {
+                box.setState(CBox.STATE_DIE);
+            }
+        }
     }
 
     public void addCoins(int aCoins)
     {
         _coins += aCoins;
         _coinUI.text = _coins.ToString();
+    }
+}
+
+[System.Serializable]
+public class CPlayerController
+{
+    public RuntimeAnimatorController _controllerBase;
+    public RuntimeAnimatorController _controllerGreen;
+    public RuntimeAnimatorController _controllerRed;
+    public RuntimeAnimatorController _controllerYellow;
+    public RuntimeAnimatorController _controllerBlue;
+
+    public RuntimeAnimatorController getController(int aController)
+    {
+        if (aController == CGameConstants.COLOR_GREEN)
+        {
+            return _controllerGreen;
+        }
+        else if (aController == CGameConstants.COLOR_RED)
+        {
+            return _controllerRed;
+        }
+        else if (aController == CGameConstants.COLOR_YELLOW)
+        {
+            return _controllerYellow;
+        }
+        else if (aController == CGameConstants.COLOR_BLUE)
+        {
+            return _controllerBlue;
+        }
+        else
+        {
+            return _controllerBase;
+        }
     }
 }
