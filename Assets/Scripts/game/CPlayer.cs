@@ -63,6 +63,7 @@ public class CPlayer : CGameObject
     void Start()
     {
         setState(STATE_IDLE);
+        checkPoints();
 
         _restartPos = getPos();
 
@@ -229,7 +230,7 @@ public class CPlayer : CGameObject
                 if (Input.GetKey(KeyCode.Space) || Input.GetKey("joystick button 1") || Input.GetKey("joystick button 0"))
                 {
                     //_anim.SetBool("isCharging", true);
-                    _jumpMultiplyer += 0.04f;
+                    _jumpMultiplyer += 0.35f * Time.deltaTime;
                 }
                 if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp("joystick button 1") || Input.GetKeyUp("joystick button 0"))
                 {
@@ -441,9 +442,13 @@ public class CPlayer : CGameObject
             case STATE_WALKING:
                 _anim.Play(_walkingAnim);
                 break;
+
             case STATE_CHARGING:
                 _anim.Play(_chargingAnim);
-                stopMove();
+                GameObject particle = Resources.Load<GameObject>("Prefabs/JumpCharge");
+                particle = Instantiate(particle, new Vector3(getX() + _width /2, getY() - _height, 0), Quaternion.Euler(-90,0,0));
+                CDestroyOnPlayerNotCharging particleScript = particle.GetComponent<CDestroyOnPlayerNotCharging>();
+                particleScript.setPlayer(this);
                 break;
             case STATE_DYING:
                 _playerFX.clip = _gameOverFX;
