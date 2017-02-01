@@ -34,15 +34,7 @@ public class CPlayer : CGameObject
     private float _maxX = 1920;
     private float _maxY;
 
-    private int _coins;
-
-    public string _idleAnim;
-    public string _landingAnim;
-    public string _walkingAnim;
-    public string _chargingAnim;
-    public string _jumpingAnim;
-    public string _fallingAnim;
-    public string _dyingAnim;
+    private int _coins;  
 
 
     private float _preBoostSpeed;
@@ -228,9 +220,9 @@ public class CPlayer : CGameObject
             #region STATE CHARGING
             case STATE_CHARGING:
                 if (Input.GetKey(KeyCode.Space) || Input.GetKey("joystick button 1") || Input.GetKey("joystick button 0"))
-                {
-                    //_anim.SetBool("isCharging", true);
+                {                    
                     _jumpMultiplyer += 0.35f * Time.deltaTime;
+                    _anim.SetFloat("chargeValue", _jumpMultiplyer);
                 }
                 if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp("joystick button 1") || Input.GetKeyUp("joystick button 0"))
                 {
@@ -413,16 +405,16 @@ public class CPlayer : CGameObject
             case STATE_IDLE:
                 if (previousState == STATE_FALLING || previousState == STATE_JUMPING)
                 {
-                    _anim.Play(_landingAnim);
+                    _anim.Play(_playerControllers._landingAnim);
                 }
                 else
                 {
-                    _anim.Play(_idleAnim);
+                    _anim.Play(_playerControllers._idleAnim);
                 }
                 stopMove();
                 break;
             case STATE_JUMPING:
-                _anim.Play(_jumpingAnim);
+                _anim.Play(_playerControllers._jumpingAnim);
                 setVelY(_verticalMaxSpeed * _jumpMultiplyer);
                 setAccelY(_GRAVITY_JUMP);
                 if (getVelY() < _verticalMinSpeed)
@@ -436,15 +428,15 @@ public class CPlayer : CGameObject
                 _jumpMultiplyer = 0;
                 break;
             case STATE_FALLING:
-                _anim.Play(_fallingAnim);
+                _anim.Play(_playerControllers._fallingAnim);
                 setAccelY(_GRAVITY_FALL);
                 break;
             case STATE_WALKING:
-                _anim.Play(_walkingAnim);
+                _anim.Play(_playerControllers._walkingAnim);
                 break;
 
             case STATE_CHARGING:
-                _anim.Play(_chargingAnim);
+                _anim.Play(_playerControllers._chargingAnim);
                 GameObject particle = Resources.Load<GameObject>("Prefabs/JumpCharge");
                 particle = Instantiate(particle, new Vector3(getX() + _width /2, getY() - _height, 0), Quaternion.Euler(-90,0,0));
                 CDestroyOnPlayerNotCharging particleScript = particle.GetComponent<CDestroyOnPlayerNotCharging>();
@@ -453,7 +445,7 @@ public class CPlayer : CGameObject
             case STATE_DYING:
                 _playerFX.clip = _gameOverFX;
                 _playerFX.Play();
-                _anim.Play(_dyingAnim);
+                _anim.Play(_playerControllers._dyingAnim);
                 setVelX(0);
                 setVelY(0);
                 setAccelY(_GRAVITY_FALL);
@@ -624,11 +616,21 @@ public class CPlayer : CGameObject
 [System.Serializable]
 public class CPlayerController
 {
+
+    public string _idleAnim;
+    public string _landingAnim;
+    public string _walkingAnim;
+    public string _chargingAnim;
+    public string _jumpingAnim;
+    public string _fallingAnim;
+    public string _dyingAnim;
+
     public RuntimeAnimatorController _controllerBase;
     public RuntimeAnimatorController _controllerGreen;
     public RuntimeAnimatorController _controllerRed;
     public RuntimeAnimatorController _controllerYellow;
     public RuntimeAnimatorController _controllerBlue;
+       
 
     public RuntimeAnimatorController getController(int aController)
     {
@@ -653,4 +655,5 @@ public class CPlayerController
             return _controllerBase;
         }
     }
+
 }

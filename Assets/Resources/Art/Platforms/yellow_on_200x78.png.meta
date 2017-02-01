@@ -1,14 +1,14 @@
 fileFormatVersion: 2
-guid: f978c2d53346f044899c96557cbf1d4d
-timeCreated: 1485713629
+guid: 8ab46b26e31a0d9479be427f0bc4a062
+timeCreated: 1485912754
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Green_Inactive_200x78_0
-    21300002: Green_Inactive_200x78_1
-    21300004: Green_Inactive_200x78_2
-    21300006: Green_Inactive_200x78_3
-    21300008: Green_Inactive_200x78_4
+    21300000: yellow_on_200x78_0
+    21300002: yellow_on_200x78_1
+    21300004: yellow_on_200x78_2
+    21300006: yellow_on_200x78_3
+    21300008: yellow_on_200x78_4
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -42,7 +42,7 @@ TextureImporter:
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 1
+  alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 1
@@ -75,7 +75,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Green_Inactive_200x78_0
+      name: yellow_on_200x78_0
       rect:
         serializedVersion: 2
         x: 0
@@ -88,7 +88,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Green_Inactive_200x78_1
+      name: yellow_on_200x78_1
       rect:
         serializedVersion: 2
         x: 200
@@ -101,7 +101,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Green_Inactive_200x78_2
+      name: yellow_on_200x78_2
       rect:
         serializedVersion: 2
         x: 400
@@ -114,7 +114,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Green_Inactive_200x78_3
+      name: yellow_on_200x78_3
       rect:
         serializedVersion: 2
         x: 600
@@ -127,7 +127,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Green_Inactive_200x78_4
+      name: yellow_on_200x78_4
       rect:
         serializedVersion: 2
         x: 800

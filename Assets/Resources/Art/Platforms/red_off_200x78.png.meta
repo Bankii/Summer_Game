@@ -1,14 +1,14 @@
 fileFormatVersion: 2
-guid: be994f755fc5806479d4351e06d93127
-timeCreated: 1485639666
+guid: d4924a76d0f7e584aad3c0305d366c91
+timeCreated: 1485912620
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Blue_Inactive_200x78_0
-    21300002: Blue_Inactive_200x78_1
-    21300004: Blue_Inactive_200x78_2
-    21300006: Blue_Inactive_200x78_3
-    21300008: Blue_Inactive_200x78_4
+    21300000: red_off_200x78_0
+    21300002: red_off_200x78_1
+    21300004: red_off_200x78_2
+    21300006: red_off_200x78_3
+    21300008: red_off_200x78_4
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -42,7 +42,7 @@ TextureImporter:
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 1
+  alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 1
@@ -75,7 +75,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Blue_Inactive_200x78_0
+      name: red_off_200x78_0
       rect:
         serializedVersion: 2
         x: 0
@@ -88,7 +88,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Blue_Inactive_200x78_1
+      name: red_off_200x78_1
       rect:
         serializedVersion: 2
         x: 200
@@ -101,7 +101,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Blue_Inactive_200x78_2
+      name: red_off_200x78_2
       rect:
         serializedVersion: 2
         x: 400
@@ -114,7 +114,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Blue_Inactive_200x78_3
+      name: red_off_200x78_3
       rect:
         serializedVersion: 2
         x: 600
@@ -127,7 +127,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Blue_Inactive_200x78_4
+      name: red_off_200x78_4
       rect:
         serializedVersion: 2
         x: 800

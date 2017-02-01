@@ -173,7 +173,8 @@ public class CPlatform : CGameObject {
 
         if (getState() == STATE_TRANSITION_DONE)
         {
-            _spriteRenderer.sprite = _platformDone;
+            _anim.runtimeAnimatorController = _platformControllers.getController(CGameConstants.COLOR_BASE, STATE_OFF);
+            //_spriteRenderer.sprite = _platformDone;
 
             if (getTimeState() >= 0.5f)
             {
@@ -223,6 +224,7 @@ public class CPlatform : CGameObject {
         public RuntimeAnimatorController _platformYellowActiveAnim;
         public RuntimeAnimatorController _platformBlueInactiveAnim;
         public RuntimeAnimatorController _platformBlueActiveAnim;
+        public RuntimeAnimatorController _platformNeutralAnim;
 
         public RuntimeAnimatorController getController(int aPlatform, int aState)
         {
@@ -234,7 +236,7 @@ public class CPlatform : CGameObject {
                 }
                 else
                 {
-                    return _platformBlueInactiveAnim;
+                    return _platformGreenInactiveAnim;
                 }
             }
             else if (aPlatform == CGameConstants.COLOR_RED)
@@ -269,6 +271,10 @@ public class CPlatform : CGameObject {
                 {
                     return _platformBlueInactiveAnim;
                 }
+            }
+            else if (aPlatform == CGameConstants.COLOR_BASE)
+            {
+                return _platformNeutralAnim;
             }
             else
             {

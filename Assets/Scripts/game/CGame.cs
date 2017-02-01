@@ -533,7 +533,7 @@ public class CGame : MonoBehaviour
     {    
         if (_isFirstPlatform)
         {
-            _randomPlatformX = CMath.randomIntBetween(300, 600);
+            _randomPlatformX = CMath.randomIntBetween(300, 450);
             _randomPlatformY = CMath.randomIntBetween(-800, -1000);
         }
         else
@@ -693,8 +693,8 @@ public class CGame : MonoBehaviour
 
     public void createBox(CPlatform aPlatform)
     {
-        Object coin = Resources.Load("Prefabs/Box");
-        Instantiate(coin, new Vector3(aPlatform.getX() + PLATFORM_WIDTH / 2, aPlatform.getY() + CBox.HEIGHT, 0), Quaternion.identity);
+        Object box = Resources.Load("Prefabs/Box");
+        Instantiate(box, new Vector3(aPlatform.getX() + PLATFORM_WIDTH / 2, aPlatform.getY() + CBox.HEIGHT, 0), Quaternion.identity);
     }
 
     //public void createBackground()
