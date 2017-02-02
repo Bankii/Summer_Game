@@ -593,7 +593,7 @@ public class CPlayer : CGameObject
     {
         if (coll.gameObject.tag == "Coin")
         {
-            addCoins(1);
+            addCoins(CGame.inst().getCoinMultip());
             Destroy(coll.gameObject);
         }
         if (coll.gameObject.tag == "Box")

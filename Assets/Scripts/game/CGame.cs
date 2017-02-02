@@ -71,8 +71,13 @@ public class CGame : MonoBehaviour
     private bool _checkPlatforms = true;
 
     private CPlatform _lastPlatform;
-        
-   
+
+    private float _comboElapsedTime = 0;
+    private int _comboMultip = 1;
+    public float _comboMaxTime;
+    public int _comboMaxMultip;
+    private bool _comboPause = false;
+
     void Awake()
 	{
 		if (mInstance != null) 
@@ -152,22 +157,28 @@ public class CGame : MonoBehaviour
         _isGameOver = false;
         _isFirstTimeShowSequence = true;
         _isFirstPlatform = true;
+        _difficulty = 0;
         _platformCount = 0;
         _platformNum = 1;
         _platformGreen = null;
         _platformRed = null;
         _platformYellow = null;
         _platformBlue = null;
+        _comboElapsedTime = 0;
+        _comboMultip = 1;
+        _comboPause = false;
 
-        //_backgroundParent = new GameObject();
-        //_backgroundParent.transform.name = "Background";
-        //_backgroundParent.AddComponent<CDestroyOnRestart>();
-        //_firstBackground = Instantiate(_backgroundPrefab, new Vector3(_camera.getX() - CGameConstants.SCREEN_WIDTH / 2, _camera.getY() + CGameConstants.SCREEN_HEIGHT / 2 + 1100), Quaternion.identity);
-        //_firstBackground.name = "Background";
-        //_firstBackground.transform.SetParent(_backgroundParent.transform);
-        //_background = _firstBackground.GetComponent<CBackground>();
-                
-        _camera.setGameObjectToFollow(_player);
+    #region BACKGROUND COMENTED STUFF
+    //_backgroundParent = new GameObject();
+    //_backgroundParent.transform.name = "Background";
+    //_backgroundParent.AddComponent<CDestroyOnRestart>();
+    //_firstBackground = Instantiate(_backgroundPrefab, new Vector3(_camera.getX() - CGameConstants.SCREEN_WIDTH / 2, _camera.getY() + CGameConstants.SCREEN_HEIGHT / 2 + 1100), Quaternion.identity);
+    //_firstBackground.name = "Background";
+    //_firstBackground.transform.SetParent(_backgroundParent.transform);
+    //_background = _firstBackground.GetComponent<CBackground>();
+    #endregion
+
+    _camera.setGameObjectToFollow(_player);
     }
 
 	private void update()
@@ -175,18 +186,31 @@ public class CGame : MonoBehaviour
 		CMouse.update ();
 		CKeyboard.update ();
 
+        // adding time to the combo and checking it's not over.
+        if (!_comboPause)
+        {
+            _comboElapsedTime += Time.deltaTime;
+            if (_comboElapsedTime >= _comboMaxTime)
+            {
+                _comboElapsedTime = _comboMaxTime;
+                _comboMultip = 1;
+            }
+        }
+
         if (_restartGame && _wasRestartLastFrame)
         {
             _restartGame = false;
             resetVariables();
 
             createPlatform();
-            
+
+            #region OLD CODE
             //if (_platformGreen.getState() != STATE_PLATFORM_TRANSITION_DONE && _platformRed.getState() != STATE_PLATFORM_TRANSITION_DONE
             //    && _platformYellow.getState() != STATE_PLATFORM_TRANSITION_DONE && _platformBlue.getState() != STATE_PLATFORM_TRANSITION_DONE)
             //{
             //    createPlatform();
             //}
+            #endregion
         }
 
         if (_player.getState() == 4)
@@ -221,9 +245,14 @@ public class CGame : MonoBehaviour
                 && _platformYellow.getState() != STATE_PLATFORM_TRANSITION && _platformBlue.getState() != STATE_PLATFORM_TRANSITION)
                 {
                     showSimonSequence();
+                    _comboPause = true;
                 }                
             }
             
+        }
+        else
+        {
+            _comboPause = false;
         }
 
         // Check the platform the player may be standing in.
@@ -247,7 +276,7 @@ public class CGame : MonoBehaviour
                         if (!checkPlatform(_platformBlue))
                         {
                             _platformBlue.setWalkable(false);
-                            _player.setState(4);
+                            _player.setState(CPlayer.STATE_DYING);
                             // TODO: Add everything else that shows you lost.
                         }
                         else
@@ -255,6 +284,7 @@ public class CGame : MonoBehaviour
                             _simonSequence.RemoveAt(0);
                             //_player.setColor(_platformBlue.getType());
                             _lastPlatform = _platformBlue;
+                            increaseCombo();
                         }
 
                     }
@@ -264,7 +294,7 @@ public class CGame : MonoBehaviour
                         if (!checkPlatform(_platformRed))
                         {
                             _platformRed.setWalkable(false);
-                            _player.setState(4);
+                            _player.setState(CPlayer.STATE_DYING);
                             // TODO: Add everything else that shows you lost.
                         }
                         else
@@ -272,6 +302,7 @@ public class CGame : MonoBehaviour
                             _simonSequence.RemoveAt(0);
                             //_player.setColor(_platformRed.getType());
                             _lastPlatform = _platformRed;
+                            increaseCombo();
                         }
                     }
                     // Checking for platform Yellow
@@ -280,7 +311,7 @@ public class CGame : MonoBehaviour
                         if (!checkPlatform(_platformYellow))
                         {
                             _platformYellow.setWalkable(false);
-                            _player.setState(4);
+                            _player.setState(CPlayer.STATE_DYING);
                             // TODO: Add everything else that shows you lost.
                         }
                         else
@@ -288,6 +319,7 @@ public class CGame : MonoBehaviour
                             _simonSequence.RemoveAt(0);
                             //_player.setColor(_platformYellow.getType());
                             _lastPlatform = _platformYellow;
+                            increaseCombo();
                         }
                     }
                     // Checking for platform Green
@@ -296,7 +328,7 @@ public class CGame : MonoBehaviour
                         if (!checkPlatform(_platformGreen))
                         {
                             _platformGreen.setWalkable(false);
-                            _player.setState(4);
+                            _player.setState(CPlayer.STATE_DYING);
                             // TODO: Add everything else that shows you lost.
                         }
                         else
@@ -304,6 +336,7 @@ public class CGame : MonoBehaviour
                             _simonSequence.RemoveAt(0);
                             //_player.setColor(_platformGreen.getType());
                             _lastPlatform = _platformGreen;
+                            increaseCombo();
                         }
                     }
                 }
@@ -327,6 +360,15 @@ public class CGame : MonoBehaviour
                 
     }
 
+    public void increaseCombo()
+    {
+        _comboMultip += 1;
+        if (_comboMultip > _comboMaxMultip)
+        {
+            _comboMultip = _comboMaxMultip;
+        }
+        _comboElapsedTime = 0;
+    }
 
 	public void destroy()
 	{
@@ -695,6 +737,16 @@ public class CGame : MonoBehaviour
     {
         Object box = Resources.Load("Prefabs/Box");
         Instantiate(box, new Vector3(aPlatform.getX() + PLATFORM_WIDTH / 2, aPlatform.getY() + CBox.HEIGHT, 0), Quaternion.identity);
+    }
+
+    public int getCoinMultip()
+    {
+        return _comboMultip;
+    }
+
+    public float getComboElapsedTime()
+    {
+        return _comboElapsedTime;
     }
 
     //public void createBackground()
