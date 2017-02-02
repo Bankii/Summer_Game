@@ -29,14 +29,6 @@ public class CPlatform : CGameObject {
 
     private bool _walkable = true;
 
-    //public Sprite _platformGreenInactive;
-    //public Sprite _platformGreenActive;
-    //public Sprite _platformRedInactive;
-    //public Sprite _platformRedActive;
-    //public Sprite _platformYellowInactive;
-    //public Sprite _platformYellowActive;
-    //public Sprite _platformBlueInactive;
-    //public Sprite _platformBlueActive;
     public Sprite _platformShutdown;
     public Sprite _platformDone;
 
@@ -59,8 +51,6 @@ public class CPlatform : CGameObject {
 
         setState(STATE_TRANSITION);
         _anim = GetComponentInChildren<Animator>();
-        //_spriteRenderer = GetComponent<SpriteRenderer>();
-        //_platformFX = GetComponent<AudioSource>();
         setWidth(PLATFORM_WIDTH);
         setHeight(PLATFORM_HEIGHT);
     }
@@ -82,7 +72,7 @@ public class CPlatform : CGameObject {
     public override void apiUpdate()
     {
         base.apiUpdate();
-        
+        #region STATE_OFF
         if (getState() == STATE_OFF)
         {
             if (getType() == PLATFORM_GREEN)
@@ -107,7 +97,9 @@ public class CPlatform : CGameObject {
             }
 
         }
+        #endregion
 
+        #region STATE_ON
         if (getState() == STATE_ON)
         {
             if (getType() == PLATFORM_GREEN)
@@ -136,7 +128,9 @@ public class CPlatform : CGameObject {
                 setState(STATE_TRANSITION);
             }
         }
+        #endregion
 
+        #region STATE_TRANSITION
         if (getState() == STATE_TRANSITION)
         {
             if (getType() == PLATFORM_GREEN)
@@ -165,7 +159,9 @@ public class CPlatform : CGameObject {
                 setState(STATE_OFF);
             }
         }
+        #endregion
 
+        #region STATE_SHUTDOWN
         if (getState() == STATE_SHUTDOWN)
         {
             _spriteRenderer.sprite = _platformShutdown;
@@ -181,12 +177,14 @@ public class CPlatform : CGameObject {
                 setState(STATE_DONE);
             }
         }
+        #endregion
 
+        #region STATE_DONE
         if (getState() == STATE_DONE)
         {
             _spriteRenderer.sprite = _platformDone;
         }
-
+        #endregion
     }
 
     public void playPlatformFX()

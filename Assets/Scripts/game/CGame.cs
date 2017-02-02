@@ -21,6 +21,8 @@ public class CGame : MonoBehaviour
     public float _difficulty; //Simon difficulty
     public float _difficultyIncrement; //Increment for each platform solved
 
+    public int _platformSeparation;
+
     public GameObject _platformPrefab;
     //public GameObject _coinPrefab;
     //public GameObject _boxPrefab;
@@ -489,6 +491,11 @@ public class CGame : MonoBehaviour
         else
         {
             _isShowed = true;
+            _platformGreen.setState(STATE_PLATFORM_ON);
+            _platformRed.setState(STATE_PLATFORM_ON);
+            _platformYellow.setState(STATE_PLATFORM_ON);
+            _platformBlue.setState(STATE_PLATFORM_ON);
+
         }
     }
 
@@ -605,19 +612,19 @@ public class CGame : MonoBehaviour
         _platformGreen = platform.GetComponent<CPlatform>();
         _platformGreen.setType(PLATFORM_GREEN);
 
-        platform = Instantiate(_platformPrefab, new Vector3(_randomPlatformX + PLATFORM_WIDTH, _randomPlatformY), Quaternion.identity);
+        platform = Instantiate(_platformPrefab, new Vector3(_randomPlatformX + PLATFORM_WIDTH + _platformSeparation, _randomPlatformY), Quaternion.identity);
         platform.name = "Platform_Red";
         platform.transform.SetParent(_platformParent.transform);
         _platformRed = platform.GetComponent<CPlatform>();
         _platformRed.setType(PLATFORM_RED);
 
-        platform = Instantiate(_platformPrefab, new Vector3(_randomPlatformX + PLATFORM_WIDTH * 2, _randomPlatformY), Quaternion.identity);
+        platform = Instantiate(_platformPrefab, new Vector3((_randomPlatformX + PLATFORM_WIDTH * 2) + _platformSeparation *2, _randomPlatformY), Quaternion.identity);
         platform.name = "Platform_Yellow";
         platform.transform.SetParent(_platformParent.transform);
         _platformYellow = platform.GetComponent<CPlatform>();
         _platformYellow.setType(PLATFORM_YELLOW);
 
-        platform = Instantiate(_platformPrefab, new Vector3(_randomPlatformX + PLATFORM_WIDTH * 3, _randomPlatformY), Quaternion.identity);
+        platform = Instantiate(_platformPrefab, new Vector3((_randomPlatformX + PLATFORM_WIDTH * 3) + _platformSeparation *3, _randomPlatformY), Quaternion.identity);
         platform.name = "Platform_Blue";
         platform.transform.SetParent(_platformParent.transform);
         _platformBlue = platform.GetComponent<CPlatform>();
@@ -626,8 +633,48 @@ public class CGame : MonoBehaviour
         _isFirstPlatform = false;
         _platformNum++;
 
-        createCoin(_platformYellow);
-        createBox(_platformRed);
+        #region COIN_SPAWN
+        int platCoinReward = CMath.randomIntBetween(CGameConstants.COLOR_GREEN, CGameConstants.COLOR_BLUE);
+        if (platCoinReward == CGameConstants.COLOR_GREEN)
+        {
+            createCoin(_platformGreen);
+        }
+        else if (platCoinReward == CGameConstants.COLOR_RED)
+        {
+            createCoin(_platformRed);
+
+        }else if (platCoinReward == CGameConstants.COLOR_YELLOW)
+        {
+            createCoin(_platformYellow);
+
+        }else if (platCoinReward == CGameConstants.COLOR_BLUE)
+        {
+            createCoin(_platformBlue);
+        }
+        #endregion
+
+        #region REWARD_SPAWN
+        platCoinReward = CMath.randomIntBetween(CGameConstants.COLOR_GREEN, CGameConstants.COLOR_BLUE);
+        if (platCoinReward == CGameConstants.COLOR_GREEN)
+        {
+            createBox(_platformGreen);
+        }
+        else if (platCoinReward == CGameConstants.COLOR_RED)
+        {
+            createBox(_platformRed);
+
+        }
+        else if (platCoinReward == CGameConstants.COLOR_YELLOW)
+        {
+            createBox(_platformYellow);
+
+        }
+        else if (platCoinReward == CGameConstants.COLOR_BLUE)
+        {
+            createBox(_platformBlue);
+        }
+        #endregion
+
 
         _camera.setMax(_randomPlatformY - PLATFORM_HEIGHT + CGameConstants.SCREEN_HEIGHT / 2);
 
@@ -749,12 +796,5 @@ public class CGame : MonoBehaviour
         return _comboElapsedTime;
     }
 
-    //public void createBackground()
-    //{
-    //    GameObject background = Instantiate(_backgroundPrefab, new Vector3(_background.getX(), _background.getY() + _background.getHeight()), Quaternion.identity);
-    //    background.name = "Background";
-    //    background.transform.SetParent(_backgroundParent.transform);
-    //    _background = background.GetComponent<CBackground>();
-    //}
 
 }
