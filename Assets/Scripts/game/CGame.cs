@@ -20,8 +20,9 @@ public class CGame : MonoBehaviour
 
     public float _difficulty; //Simon difficulty
     public float _difficultyIncrement; //Increment for each platform solved
-
     public int _platformSeparation;
+    public float _spawnCoinRate;
+    public float _spawnRewardRate;
 
     public GameObject _platformPrefab;
     //public GameObject _coinPrefab;
@@ -80,6 +81,14 @@ public class CGame : MonoBehaviour
     public int _comboMaxMultip;
     private bool _comboPause = false;
 
+    
+    private float _spawnDeterminator; //Used to determinate if there will be coins or rewards in the platform
+    private int _platCoinReward; //Used to determinate in which platform the reward/coin will spawn
+
+    private float _resetDifficulty;
+    public float _resetSpawnCoinRate;
+    public float _resetSpawnRewardRate;
+
     void Awake()
 	{
 		if (mInstance != null) 
@@ -112,16 +121,20 @@ public class CGame : MonoBehaviour
         _isFirstPlatform = true;
         _platformCount = 0;
         _platformNum = 1;
-        
-        //_backgroundParent = new GameObject();
-        //_backgroundParent.transform.name = "Background";
-        //_backgroundParent.AddComponent<CDestroyOnRestart>();
-        //_firstBackground = Instantiate(_backgroundPrefab, new Vector3(_camera.getX() - CGameConstants.SCREEN_WIDTH / 2, _camera.getY() - CGameConstants.SCREEN_HEIGHT / 2 + 1100 * 2), Quaternion.identity);
-        //_firstBackground.name = "Background";
-        //_firstBackground.transform.SetParent(_backgroundParent.transform);
-        //_background = _firstBackground.GetComponent<CBackground>();
-        
-        _camera.setGameObjectToFollow(_player);
+
+        _resetDifficulty = _difficulty;
+        _resetSpawnCoinRate = _spawnCoinRate;
+        _resetSpawnRewardRate = _spawnRewardRate;
+
+    //_backgroundParent = new GameObject();
+    //_backgroundParent.transform.name = "Background";
+    //_backgroundParent.AddComponent<CDestroyOnRestart>();
+    //_firstBackground = Instantiate(_backgroundPrefab, new Vector3(_camera.getX() - CGameConstants.SCREEN_WIDTH / 2, _camera.getY() - CGameConstants.SCREEN_HEIGHT / 2 + 1100 * 2), Quaternion.identity);
+    //_firstBackground.name = "Background";
+    //_firstBackground.transform.SetParent(_backgroundParent.transform);
+    //_background = _firstBackground.GetComponent<CBackground>();
+
+    _camera.setGameObjectToFollow(_player);
 
         //Instantiating Platforms
         createPlatform();    
@@ -159,7 +172,9 @@ public class CGame : MonoBehaviour
         _isGameOver = false;
         _isFirstTimeShowSequence = true;
         _isFirstPlatform = true;
-        _difficulty = 0;
+        _difficulty = _resetDifficulty;
+        _spawnCoinRate = _resetSpawnCoinRate;
+        _spawnRewardRate = _resetSpawnRewardRate;
         _platformCount = 0;
         _platformNum = 1;
         _platformGreen = null;
@@ -187,7 +202,6 @@ public class CGame : MonoBehaviour
 	{
 		CMouse.update ();
 		CKeyboard.update ();
-
         // adding time to the combo and checking it's not over.
         if (!_comboPause)
         {
@@ -205,6 +219,10 @@ public class CGame : MonoBehaviour
             resetVariables();
 
             createPlatform();
+            _platformGreen.setState(STATE_PLATFORM_TRANSITION);
+            _platformRed.setState(STATE_PLATFORM_TRANSITION);
+            _platformYellow.setState(STATE_PLATFORM_TRANSITION);
+            _platformBlue.setState(STATE_PLATFORM_TRANSITION);
 
             #region OLD CODE
             //if (_platformGreen.getState() != STATE_PLATFORM_TRANSITION_DONE && _platformRed.getState() != STATE_PLATFORM_TRANSITION_DONE
@@ -633,48 +651,57 @@ public class CGame : MonoBehaviour
         _isFirstPlatform = false;
         _platformNum++;
 
-        #region COIN_SPAWN
-        int platCoinReward = CMath.randomIntBetween(CGameConstants.COLOR_GREEN, CGameConstants.COLOR_BLUE);
-        if (platCoinReward == CGameConstants.COLOR_GREEN)
+        _spawnDeterminator = CMath.randomIntBetween(0, 100);
+        if (_spawnDeterminator < 100 / _spawnCoinRate)
         {
-            createCoin(_platformGreen);
-        }
-        else if (platCoinReward == CGameConstants.COLOR_RED)
-        {
-            createCoin(_platformRed);
+            #region COIN_SPAWN
+            _platCoinReward = CMath.randomIntBetween(CGameConstants.COLOR_GREEN, CGameConstants.COLOR_BLUE);
+            if (_platCoinReward == CGameConstants.COLOR_GREEN)
+            {
+                createCoin(_platformGreen);
+            }
+            else if (_platCoinReward == CGameConstants.COLOR_RED)
+            {
+                createCoin(_platformRed);
 
-        }else if (platCoinReward == CGameConstants.COLOR_YELLOW)
-        {
-            createCoin(_platformYellow);
+            }
+            else if (_platCoinReward == CGameConstants.COLOR_YELLOW)
+            {
+                createCoin(_platformYellow);
 
-        }else if (platCoinReward == CGameConstants.COLOR_BLUE)
-        {
-            createCoin(_platformBlue);
+            }
+            else if (_platCoinReward == CGameConstants.COLOR_BLUE)
+            {
+                createCoin(_platformBlue);
+            }
+            #endregion
         }
-        #endregion
 
-        #region REWARD_SPAWN
-        platCoinReward = CMath.randomIntBetween(CGameConstants.COLOR_GREEN, CGameConstants.COLOR_BLUE);
-        if (platCoinReward == CGameConstants.COLOR_GREEN)
+        _spawnDeterminator = CMath.randomIntBetween(0, 100);
+        if (_spawnDeterminator < 100 / _spawnRewardRate)
         {
-            createBox(_platformGreen);
-        }
-        else if (platCoinReward == CGameConstants.COLOR_RED)
-        {
-            createBox(_platformRed);
+            #region REWARD_SPAWN
+            _platCoinReward = CMath.randomIntBetween(CGameConstants.COLOR_GREEN, CGameConstants.COLOR_BLUE);
+            if (_platCoinReward == CGameConstants.COLOR_GREEN)
+            {
+                createBox(_platformGreen);
+            }
+            else if (_platCoinReward == CGameConstants.COLOR_RED)
+            {
+                createBox(_platformRed);
 
-        }
-        else if (platCoinReward == CGameConstants.COLOR_YELLOW)
-        {
-            createBox(_platformYellow);
+            }
+            else if (_platCoinReward == CGameConstants.COLOR_YELLOW)
+            {
+                createBox(_platformYellow);
 
+            }
+            else if (_platCoinReward == CGameConstants.COLOR_BLUE)
+            {
+                createBox(_platformBlue);
+            }
+            #endregion
         }
-        else if (platCoinReward == CGameConstants.COLOR_BLUE)
-        {
-            createBox(_platformBlue);
-        }
-        #endregion
-
 
         _camera.setMax(_randomPlatformY - PLATFORM_HEIGHT + CGameConstants.SCREEN_HEIGHT / 2);
 
@@ -742,7 +769,9 @@ public class CGame : MonoBehaviour
                 && _platformYellow.getState() == STATE_PLATFORM_DONE && _platformBlue.getState() == STATE_PLATFORM_DONE)
             {
                 _isSolved = true;
-                _difficulty = _difficulty + _difficultyIncrement;            
+                _difficulty = _difficulty + _difficultyIncrement;
+                _spawnCoinRate -= _difficulty;
+                _spawnRewardRate -= _difficulty;
                 createPlatform();
                 Debug.Log("You WIN, next platform...");
             }
