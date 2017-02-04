@@ -360,6 +360,7 @@ public class CGame : MonoBehaviour
             if (_wasGroundedLastFrame && _onQueueToShutDown)
             {
                 setAllPrevPlatformsInactive();
+                _onQueueToShutDown = false;
             }
             _checkPlatforms = true;
             _wasGroundedLastFrame = false;
@@ -701,10 +702,11 @@ public class CGame : MonoBehaviour
     // Makes all platforms not walkable and puts them on shutdown state.
     private void setAllPlatformsInactive()
     {
-        _platformGreen.setState(STATE_PLATFORM_SHUTDOWN);
+        _platformGreen.setState(STATE_PLATFORM_SHUTDOWN);     
         _platformRed.setState(STATE_PLATFORM_SHUTDOWN);
         _platformYellow.setState(STATE_PLATFORM_SHUTDOWN);
         _platformBlue.setState(STATE_PLATFORM_SHUTDOWN);
+        
 
         _platformBlue.setWalkable(false);
         _platformGreen.setWalkable(false);
@@ -718,21 +720,33 @@ public class CGame : MonoBehaviour
         {
             _prevPlatformGreen.setState(STATE_PLATFORM_SHUTDOWN);
             _prevPlatformGreen.setWalkable(false);
+            //GameObject particle = Resources.Load<GameObject>("Prefabs/Platform_Explotion_Particle");
+            //particle = Instantiate(particle, new Vector3(_prevPlatformGreen.getX() + _prevPlatformGreen.getWidth() / 2, _prevPlatformGreen.getY() - _prevPlatformGreen.getHeight() / 2, 0), Quaternion.Euler(-90, 0, 0));
         }
         if (_prevPlatformRed != null)
         {
             _prevPlatformRed.setState(STATE_PLATFORM_SHUTDOWN);
             _prevPlatformRed.setWalkable(false);
+            //GameObject particle = Resources.Load<GameObject>("Prefabs/Platform_Explotion_Particle");
+            //particle = Instantiate(particle, new Vector3(_prevPlatformRed.getX() + _prevPlatformRed.getWidth() / 2, _prevPlatformRed.getY() - _prevPlatformRed.getHeight()/2, 0), Quaternion.Euler(-90, 0, 0));
+            GameObject particle = Resources.Load<GameObject>("Prefabs/Platform_Explotion_Particle");
+            particle = Instantiate(particle, new Vector3(_prevPlatformRed.getX() + _prevPlatformRed.getWidth(), _prevPlatformRed.getY() - _prevPlatformRed.getHeight()/2, 0), Quaternion.Euler(-90, 0, 0));
+
         }
         if (_prevPlatformYellow != null)
         {
             _prevPlatformYellow.setState(STATE_PLATFORM_SHUTDOWN);
             _prevPlatformYellow.setWalkable(false);
+            //GameObject particle = Resources.Load<GameObject>("Prefabs/Platform_Explotion_Particle");
+            //particle = Instantiate(particle, new Vector3(_prevPlatformYellow.getX() + _prevPlatformYellow.getWidth() / 2, _prevPlatformYellow.getY() - _prevPlatformYellow.getHeight() / 2, 0), Quaternion.Euler(-90, 0, 0));
+            
         }
         if (_prevPlatformBlue != null)
         {
             _prevPlatformBlue.setState(STATE_PLATFORM_SHUTDOWN);
             _prevPlatformBlue.setWalkable(false);
+            //GameObject particle = Resources.Load<GameObject>("Prefabs/Platform_Explotion_Particle");
+            //particle = Instantiate(particle, new Vector3(_prevPlatformBlue.getX() + _prevPlatformBlue.getWidth() / 2, _prevPlatformBlue.getY() - _prevPlatformBlue.getHeight() / 2, 0), Quaternion.Euler(-90, 0, 0));
         }
     }
 
