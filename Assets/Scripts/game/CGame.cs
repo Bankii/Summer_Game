@@ -100,9 +100,7 @@ public class CGame : MonoBehaviour
 
 		CMouse.init();
 		CKeyboard.init ();
-
-		//setState(new CLevelState (_platform_Green, _platform_Red, _platform_Yellow, _platform_Blue));
-		//setState(new CMainMenuState ());
+        
 	}
 
 	static public CGame inst()
@@ -125,16 +123,9 @@ public class CGame : MonoBehaviour
         _resetDifficulty = _difficulty;
         _resetSpawnCoinRate = _spawnCoinRate;
         _resetSpawnRewardRate = _spawnRewardRate;
+        
 
-    //_backgroundParent = new GameObject();
-    //_backgroundParent.transform.name = "Background";
-    //_backgroundParent.AddComponent<CDestroyOnRestart>();
-    //_firstBackground = Instantiate(_backgroundPrefab, new Vector3(_camera.getX() - CGameConstants.SCREEN_WIDTH / 2, _camera.getY() - CGameConstants.SCREEN_HEIGHT / 2 + 1100 * 2), Quaternion.identity);
-    //_firstBackground.name = "Background";
-    //_firstBackground.transform.SetParent(_backgroundParent.transform);
-    //_background = _firstBackground.GetComponent<CBackground>();
-
-    _camera.setGameObjectToFollow(_player);
+        _camera.setGameObjectToFollow(_player);
 
         //Instantiating Platforms
         createPlatform();    
@@ -649,7 +640,7 @@ public class CGame : MonoBehaviour
         _platformBlue.setType(PLATFORM_BLUE);
 
         _isFirstPlatform = false;
-        _platformNum++;
+        _platformNum++; 
 
         _spawnDeterminator = CMath.randomIntBetween(0, 100);
         if (_spawnDeterminator < 100 / _spawnCoinRate)

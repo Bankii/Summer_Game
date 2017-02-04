@@ -47,6 +47,7 @@ public class CPlayer : CGameObject
     public AudioClip _gameOverFX;
 
     public Text _coinUI;
+    private CText _coinUIScript;
 
     public CPlayerController _playerControllers;
 
@@ -60,6 +61,8 @@ public class CPlayer : CGameObject
         _restartPos = getPos();
 
         _playerFX = GetComponent<AudioSource>();
+        
+        _coinUIScript = _coinUI.GetComponent<CText>();
 
         setColor(CGameConstants.COLOR_BASE);
 
@@ -610,6 +613,7 @@ public class CPlayer : CGameObject
     {
         _coins += aCoins;
         _coinUI.text = _coins.ToString();
+        _coinUIScript.sizeBounce(30);
     }
 }
 
