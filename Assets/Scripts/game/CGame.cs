@@ -450,6 +450,8 @@ public class CGame : MonoBehaviour
 
     private void showSimonSequence()
     {
+        _camera.centerYCameraTo(_platformBlue.getY());
+
         if (_platformCount < _simonSequence.Count)
         {
 
@@ -504,7 +506,6 @@ public class CGame : MonoBehaviour
                     }
                 }
             }
-            
         }
         else
         {

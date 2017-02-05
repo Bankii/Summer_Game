@@ -11,6 +11,9 @@ public class CCamera: CGameObject
 
     private CGameObject mGameObjectToFollow;
 
+    private bool _center = false;
+    private float _centerY;
+
     void Update()
     {
         apiUpdate();
@@ -25,6 +28,12 @@ public class CCamera: CGameObject
         }
         // Chequear que la camara no se vaya de los bordes.
         checkBorder();
+
+        if (_center)
+        {
+            setY(_centerY);
+            _center = false;
+        }
     }
         
     public void setMax(float aMax)
@@ -63,5 +72,12 @@ public class CCamera: CGameObject
     public CGameObject getGameObjectToFollow()
     {
         return mGameObjectToFollow;
+    }
+
+    // Centers camera for a frame.
+    public void centerYCameraTo(float aY)
+    {
+        _center = true;
+        _centerY = aY;
     }
 }

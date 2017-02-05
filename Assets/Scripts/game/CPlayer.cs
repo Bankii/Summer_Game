@@ -54,6 +54,11 @@ public class CPlayer : CGameObject
 
     void Start()
     {
+        if (CSkinManager.inst.getEquipedSkin() != null)
+        {
+            _playerControllers = CSkinManager.inst.getEquipedSkin();
+        }
+
         setState(STATE_IDLE);
         checkPoints();
 
@@ -616,14 +621,15 @@ public class CPlayer : CGameObject
 [System.Serializable]
 public class CPlayerController
 {
+    public int _index;
 
-    public string _idleAnim;
-    public string _landingAnim;
-    public string _walkingAnim;
-    public string _chargingAnim;
-    public string _jumpingAnim;
-    public string _fallingAnim;
-    public string _dyingAnim;
+    public string _idleAnim = "Idle";
+    public string _landingAnim = "Landing";
+    public string _walkingAnim = "Walk";
+    public string _chargingAnim = "Charge";
+    public string _jumpingAnim = "Jump";
+    public string _fallingAnim = "Fall";
+    public string _dyingAnim = "Die";
 
     public RuntimeAnimatorController _controllerBase;
     public RuntimeAnimatorController _controllerGreen;
