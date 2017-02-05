@@ -164,7 +164,8 @@ public class CPlatform : CGameObject {
         #region STATE_SHUTDOWN
         if (getState() == STATE_SHUTDOWN)
         {
-            _spriteRenderer.sprite = _platformShutdown;
+            _anim.runtimeAnimatorController = null;
+            _spriteRenderer.sprite = _platformShutdown;            
         }
 
         if (getState() == STATE_TRANSITION_DONE)
