@@ -53,9 +53,11 @@ public class CPlayer : CGameObject
 
     private LayerMask _platformMask = 1 << 8;
 
+    public float _timeToMaxCharge;
+
     void Start()
     {
-        if (CSkinManager.inst.getEquipedSkin() != null)
+        if (CSkinManager.inst != null)
         {
             _playerControllers = CSkinManager.inst.getEquipedSkin();
         }
@@ -229,7 +231,7 @@ public class CPlayer : CGameObject
             case STATE_CHARGING:
                 if (Input.GetKey(KeyCode.Space) || Input.GetKey("joystick button 1") || Input.GetKey("joystick button 0"))
                 {                    
-                    _jumpMultiplyer += 0.35f * Time.deltaTime;
+                    _jumpMultiplyer += 1/_timeToMaxCharge * Time.deltaTime;
                     _anim.SetFloat("chargeValue", _jumpMultiplyer);
                 }
                 if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp("joystick button 1") || Input.GetKeyUp("joystick button 0"))
@@ -449,6 +451,7 @@ public class CPlayer : CGameObject
                 particle = Instantiate(particle, new Vector3(getX() + _width /2, getY() - _height, 0), Quaternion.Euler(-90,0,0));
                 CDestroyOnPlayerNotCharging particleScript = particle.GetComponent<CDestroyOnPlayerNotCharging>();
                 particleScript.setPlayer(this);
+                stopMove();
                 break;
             case STATE_DYING:
                 _playerFX.clip = _gameOverFX;
@@ -626,6 +629,10 @@ public class CPlayer : CGameObject
 public class CPlayerController
 {
     public int _index;
+
+    public Sprite _preview;
+
+    public string _name;
 
     public string _idleAnim = "Idle";
     public string _landingAnim = "Landing";

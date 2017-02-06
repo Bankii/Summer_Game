@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class CShopManager : MonoBehaviour {
 
+    public GameObject _skinPanel;
+
+    private List<CShopPanel> _panels;
+
 	// Use this for initialization
 	void Start () {
 		

@@ -351,4 +351,13 @@ public class CGameObject : MonoBehaviour {
         mMass = aMass;
     }
 
+    public void setScale(Vector3 aScale)
+    {
+        _transform.localScale = aScale;
+    }
+
+    public Vector3 getScale()
+    {
+        return _transform.localScale;
+    }
 }

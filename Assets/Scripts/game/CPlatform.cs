@@ -11,7 +11,9 @@ public class CPlatform : CGameObject {
     private const int STATE_DONE = 3;
     private const int STATE_TRANSITION = 4;
     private const int STATE_TRANSITION_DONE = 5;
+    public const int STATE_INITIAL = 6;
 
+    public float _initialStateTime;
 
     public const int PLATFORM_GREEN = 0;
     public const int PLATFORM_RED = 1;
@@ -49,10 +51,10 @@ public class CPlatform : CGameObject {
     // Use this for initialization
     void Start () {
 
-        setState(STATE_TRANSITION);
         _anim = GetComponentInChildren<Animator>();
         setWidth(PLATFORM_WIDTH);
         setHeight(PLATFORM_HEIGHT);
+        setState(STATE_INITIAL);
     }
 
     void Update()
@@ -100,7 +102,7 @@ public class CPlatform : CGameObject {
         #endregion
 
         #region STATE_ON
-        if (getState() == STATE_ON)
+        else if (getState() == STATE_ON)
         {
             if (getType() == PLATFORM_GREEN)
             {
@@ -131,7 +133,7 @@ public class CPlatform : CGameObject {
         #endregion
 
         #region STATE_TRANSITION
-        if (getState() == STATE_TRANSITION)
+        else if (getState() == STATE_TRANSITION)
         {
             if (getType() == PLATFORM_GREEN)
             {
@@ -162,7 +164,7 @@ public class CPlatform : CGameObject {
         #endregion
 
         #region STATE_SHUTDOWN
-        if (getState() == STATE_SHUTDOWN)
+        else if (getState() == STATE_SHUTDOWN)
         {
             _anim.runtimeAnimatorController = null;
             _spriteRenderer.sprite = _platformShutdown;            
@@ -181,9 +183,25 @@ public class CPlatform : CGameObject {
         #endregion
 
         #region STATE_DONE
-        if (getState() == STATE_DONE)
+        else if (getState() == STATE_DONE)
         {
             _spriteRenderer.sprite = _platformDone;
+        }
+        #endregion
+
+        #region STATE_INITIAL
+        else if (getState() == STATE_INITIAL)
+        {
+            
+            if (getTimeState() < _initialStateTime)
+            {
+                float aux = Mathf.Lerp(0, 1, getTimeState() / _initialStateTime);
+                setScale(new Vector3(aux, aux, 1));
+            }
+            else
+            {
+                setState(STATE_OFF);
+            }
         }
         #endregion
     }
@@ -209,6 +227,37 @@ public class CPlatform : CGameObject {
         {
             _platformFX.clip = _blueFX;
             _platformFX.Play();
+        }
+    }
+
+    public override void setState(int aState)
+    {
+        base.setState(aState);
+        setScale(new Vector3(1, 1, 1));
+        if (getState() == STATE_INITIAL)
+        {
+            setScale(new Vector3(0, 0, 1));
+
+            if (getType() == PLATFORM_GREEN)
+            {
+                _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_GREEN, STATE_OFF);
+                //_spriteRenderer.sprite = _platformGreenInactive;
+            }
+            else if (getType() == PLATFORM_RED)
+            {
+                _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_RED, STATE_OFF);
+                //_spriteRenderer.sprite = _platformRedInactive;
+            }
+            else if (getType() == PLATFORM_YELLOW)
+            {
+                _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_YELLOW, STATE_OFF);
+                //_spriteRenderer.sprite = _platformYellowInactive;
+            }
+            else if (getType() == PLATFORM_BLUE)
+            {
+                _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_BLUE, STATE_OFF);
+                //_spriteRenderer.sprite = _platformBlueInactive;
+            }
         }
     }
 

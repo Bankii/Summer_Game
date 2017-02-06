@@ -253,13 +253,15 @@ public class CGame : MonoBehaviour
             if (_platformGreen != null && _platformRed != null && _platformYellow != null && _platformBlue != null)
             {                
                 if (_platformGreen.getState() != STATE_PLATFORM_TRANSITION && _platformRed.getState() != STATE_PLATFORM_TRANSITION 
-                && _platformYellow.getState() != STATE_PLATFORM_TRANSITION && _platformBlue.getState() != STATE_PLATFORM_TRANSITION)
+                && _platformYellow.getState() != STATE_PLATFORM_TRANSITION && _platformBlue.getState() != STATE_PLATFORM_TRANSITION
+                && _platformGreen.getState() != CPlatform.STATE_INITIAL && _platformRed.getState() != CPlatform.STATE_INITIAL 
+                && _platformYellow.getState() != CPlatform.STATE_INITIAL && _platformBlue.getState() != CPlatform.STATE_INITIAL)
                 {
                     showSimonSequence();
-                    _comboPause = true;
-                }                
+                }   
+                _comboPause = true;
             }
-            
+
         }
         else
         {
