@@ -145,7 +145,7 @@ public class CVector
 
     // Normalizes the vector. Equivalent to setting the lenght to one, but more efficient.
     // Returns a reference to this vector.
-    public CVector Normalize()
+    public CVector normalize()
     {
         _vector.Normalize();
         return this;
@@ -191,10 +191,10 @@ public class CVector
     public static float getAngleBetween(CVector aVector1, CVector aVector2)
     {
         if (!aVector1.isNormalized())
-            aVector1.clone().Normalize();
+            aVector1.clone().normalize();
 
         if (!aVector2.isNormalized())
-            aVector2.clone().Normalize();
+            aVector2.clone().normalize();
 
         return Mathf.Acos(aVector1.dotProd(aVector2));
     }

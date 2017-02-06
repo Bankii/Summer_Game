@@ -444,8 +444,8 @@ public class CGame : MonoBehaviour
 
     private void showSimonSequence()
     {
-        _camera.centerYCameraTo(_platformBlue.getY());
-
+        //_camera.centerYCameraTo(_platformBlue.getY());
+        _camera.goTo(_platformBlue.getX(), _platformBlue.getY());
         if (_platformCount < _simonSequence.Count)
         {
 
