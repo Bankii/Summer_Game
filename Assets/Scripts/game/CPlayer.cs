@@ -628,12 +628,15 @@ public class CPlayer : CGameObject
 [System.Serializable]
 public class CPlayerController
 {
+    [Header("Shop Information")]
     public int _index;
 
     public Sprite _preview;
 
     public string _name;
 
+    [Space(10)]
+    [Header("Player Skin Attributes")]
     public string _idleAnim = "Idle";
     public string _landingAnim = "Landing";
     public string _walkingAnim = "Walk";

@@ -8,6 +8,7 @@ public class CShopPanel : MonoBehaviour {
     private int _index;
     public Image _preview;
     public Button _button;
+    public Text _name;
     private bool _isBought = false;
     private bool _isEquipped = false;
 
@@ -17,8 +18,12 @@ public class CShopPanel : MonoBehaviour {
 	}
 
     // Update is called once per frame
-    void Update() {
-        
+    void Update()
+    {
+        if (CSkinManager.inst.getEquipedSkinIndex() != _index)
+        {
+            setEquipped(false);
+        }
         
     }
 
@@ -27,12 +32,14 @@ public class CShopPanel : MonoBehaviour {
         _isBought = aBool;
         if (_isBought)
         {
-            _button.GetComponent<GUIText>().text = "Equip";
+            Text text = _button.GetComponentInChildren<Text>();
+            text.text = "Equip";
             _button.onClick.AddListener(equip);
         }
         else
         {
-            _button.GetComponent<GUIText>().text = "Buy";
+            Text text = _button.GetComponentInChildren<Text>();
+            text.text = "Buy";
         }
     }
 
@@ -52,6 +59,7 @@ public class CShopPanel : MonoBehaviour {
     void equip()
     {
         CSkinManager.inst.equip(_index);
+        setEquipped(true);
     }
 
     public void setIndex(int aIndex)
@@ -59,8 +67,18 @@ public class CShopPanel : MonoBehaviour {
         _index = aIndex;
     }
 
+    public int getIndex()
+    {
+        return _index;
+    }
+
     public void setPreview(Sprite aPreview)
     {
         _preview.sprite = aPreview;
+    }
+
+    public void setName(string aName)
+    {
+        _name.text = aName;
     }
 }
