@@ -146,7 +146,10 @@ public class CPlayer : CGameObject
 
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 1") || Input.GetKeyDown("joystick button 0"))
                 {
-                    setState(STATE_JUMPING);
+                    if (CGame.inst().isShowed())
+                    {
+                        setState(STATE_JUMPING);
+                    }                    
                     //setState(STATE_CHARGING);
                     break;
                 }
@@ -188,7 +191,10 @@ public class CPlayer : CGameObject
                 }
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 1") || Input.GetKeyDown("joystick button 0"))
                 {
-                    setState(STATE_JUMPING);
+                    if (CGame.inst().isShowed())
+                    {
+                        setState(STATE_JUMPING);
+                    }
                     //setState(STATE_CHARGING);
                     break;
                 }

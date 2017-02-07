@@ -838,5 +838,10 @@ public class CGame : MonoBehaviour
         return _comboElapsedTime;
     }
 
+    public bool isShowed()
+    {
+        return _isShowed;
+    }
+
 
 }
