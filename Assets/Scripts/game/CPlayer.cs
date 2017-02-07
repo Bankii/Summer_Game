@@ -146,7 +146,8 @@ public class CPlayer : CGameObject
 
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 1") || Input.GetKeyDown("joystick button 0"))
                 {
-                    setState(STATE_CHARGING);
+                    setState(STATE_JUMPING);
+                    //setState(STATE_CHARGING);
                     break;
                 }
                 break;
@@ -187,7 +188,8 @@ public class CPlayer : CGameObject
                 }
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 1") || Input.GetKeyDown("joystick button 0"))
                 {
-                    setState(STATE_CHARGING);
+                    setState(STATE_JUMPING);
+                    //setState(STATE_CHARGING);
                     break;
                 }
 
@@ -252,6 +254,7 @@ public class CPlayer : CGameObject
                     setState(STATE_FALLING);
                 }
 
+                #region Commented Code
                 //if no arrow is pressed then no movement on the X axis.
                 //if (!Input.GetKey("left") && !Input.GetKey("right") && !Input.GetKey("joystick button 8") && !Input.GetKey("joystick button 9"))
                 //{
@@ -270,6 +273,7 @@ public class CPlayer : CGameObject
                 //    _spriteRenderer.flipX = false;
                 //    _spriteRenderer.gameObject.transform.position = getPos();
                 //}
+                #endregion
 
                 if (Input.GetAxisRaw("Horizontal") == 0)
                 {
@@ -308,6 +312,26 @@ public class CPlayer : CGameObject
                 else if (getX() <= _minX && Input.GetAxisRaw("Horizontal") < 0)
                 {
                     setVelX(0);
+                }
+
+                // Saving the last vertical speed before acceleration boost.
+                if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") < 0)
+                {
+                    _preBoostSpeed = getVelY();
+                }
+                // Loading the previous speed.
+                if (Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") < 0)
+                {
+                    setVelY(_preBoostSpeed);
+                }
+                // Acceleration boost if the down arrow is pressed.
+                if (Input.GetKey(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") < 0)
+                {
+                    setAccelY(_GRAVITY_FALL + _ACCEL_BOOST);
+                }
+                else if (!Input.GetKey(KeyCode.DownArrow) && Input.GetAxisRaw("Vertical") == 0)
+                {
+                    setAccelY(_GRAVITY_FALL);
                 }
                 break;
 #endregion
