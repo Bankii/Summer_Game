@@ -19,6 +19,8 @@ public class CCamera: CGameObject
     private bool _hasToGo = false;
     private float _goX;
     private float _goY;
+    
+    
 
     void Update()
     {
@@ -27,32 +29,33 @@ public class CCamera: CGameObject
     public override void apiUpdate()
     {
         base.apiUpdate();
+        
         if (mGameObjectToFollow != null)
         {
             //setX (mGameObjectToFollow.getX () - WIDTH / 2);
-            setY(mGameObjectToFollow.getY() - HEIGHT / 4);// + HEIGHT / 2);
+            //setY(mGameObjectToFollow.getY() - HEIGHT / 4);// + HEIGHT / 2);
         }
         // Chequear que la camara no se vaya de los bordes.
         checkBorder();
 
-        /*if (_center)
+        if (_center)
         {
             setY(_centerY);
             _center = false;
-        }*/
+        }
     
         if (getGameObjectToFollow() != null)
         {
             if (_hasToGo)
             {
-                CVector gotoPos = new CVector(_goX, _goY);
+                CVector gotoPos = new CVector(_goX, _goY);                
                 if (getX() == _goX && getY() == _goY)
                 {
                     setVelXY(0, 0);
                     setXY(_goX, _goY);
                 }
                 else
-                {
+                {                    
                     CVector actualPos = new CVector(getX(), getY());
                     CVector diference = gotoPos - actualPos;
                     diference = diference.normalize() * 200;
@@ -60,11 +63,12 @@ public class CCamera: CGameObject
                 }
                 //setXY(mGoX, mGoY);
             }
-            /*else
+            else
             {
-                setX(getGameObjectToFollow().getX() - WIDTH / 2);
-                setY(getGameObjectToFollow().getY() - HEIGHT / 2);
-            }*/
+                setY(mGameObjectToFollow.getY() - HEIGHT / 4);
+                //    setX(getGameObjectToFollow().getX() - WIDTH / 2);
+                //    setY(getGameObjectToFollow().getY() - HEIGHT / 2);
+            }
         }
         
     }
@@ -75,26 +79,29 @@ public class CCamera: CGameObject
     }
     private void checkBorder()
     {
-        if (getX() != 960)//getX() <= 0)
+        if (!_hasToGo)
         {
-            setX(960);
-        }
+            if (getX() != 960)//getX() <= 0)
+            {
+                setX(960);
+            }
 
-        if (getY() <= -HEIGHT / 2)
-        {
-            setY(-HEIGHT / 2);
-        }
+            if (getY() <= -HEIGHT / 2)
+            {
+                setY(-HEIGHT / 2);
+            }
 
-        //if (getX() >= CTileMap.inst().WORLD_WIDTH - WIDTH)
-        //{
-        //    setX(CTileMap.inst().WORLD_WIDTH - WIDTH);
-        //    onBorder = true;
-        //}
+            //if (getX() >= CTileMap.inst().WORLD_WIDTH - WIDTH)
+            //{
+            //    setX(CTileMap.inst().WORLD_WIDTH - WIDTH);
+            //    onBorder = true;
+            //}
 
-        if (getY() >= _max)
-        {
-            setY(_max);
-        }
+            if (getY() >= _max)
+            {
+                setY(_max);
+            }
+        }        
     }
 
     public void setGameObjectToFollow(CGameObject aGameObjectToFollow)
@@ -117,9 +124,10 @@ public class CCamera: CGameObject
     public void goTo(float aX, float aY)
     {
         _hasToGo = true;
-        _goX = aX - WIDTH / 2;
-        _goY = aY - HEIGHT / 2;
+        _goX = aX;// - WIDTH / 2;
+        _goY = aY + HEIGHT / 2;
     }
+
     public void releaseToGo()
     {
         _hasToGo = false;

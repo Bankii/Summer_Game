@@ -445,7 +445,8 @@ public class CGame : MonoBehaviour
     private void showSimonSequence()
     {
         //_camera.centerYCameraTo(_platformBlue.getY());
-        _camera.goTo(_platformBlue.getX(), _platformBlue.getY());
+        _camera.goTo(_camera.getX(), _platformBlue.getY());
+
         if (_platformCount < _simonSequence.Count)
         {
 
@@ -508,6 +509,8 @@ public class CGame : MonoBehaviour
             _platformRed.setState(STATE_PLATFORM_ON);
             _platformYellow.setState(STATE_PLATFORM_ON);
             _platformBlue.setState(STATE_PLATFORM_ON);
+            _camera.releaseToGo();
+            //_camera.goTo(_camera.getX(), _player.getY());
 
         }
     }
