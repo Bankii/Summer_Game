@@ -6,10 +6,12 @@ public class CSkinManager : MonoBehaviour {
 
     static public CSkinManager inst;
 
-    public int _skinCount;
+    //public int _skinCount;
 
-    public CPlayerController _baseSkin;
-    public CPlayerController _skin1;
+    //public CPlayerController _baseSkin;
+    //public CPlayerController _skin1;
+
+    public List<CPlayerController> _skins;
 
     private CPlayerController _equiped;
 
@@ -36,18 +38,19 @@ public class CSkinManager : MonoBehaviour {
 	
     public void equip(int aIndex)
     {
-        if (_baseSkin._index == aIndex)
-        {
-            _equiped = _baseSkin;
-            Debug.Log("Equiped: " + _equiped._name);
-            return;
-        }
-        else if (_skin1._index == aIndex)
-        {
-            _equiped = _skin1;
-            Debug.Log("Equiped: " + _equiped._name);
-            return;
-        }
+        _equiped = _skins[aIndex];
+        //if (_baseSkin._index == aIndex)
+        //{
+        //    _equiped = _baseSkin;
+        //    Debug.Log("Equiped: " + _equiped._name);
+        //    return;
+        //}
+        //else if (_skin1._index == aIndex)
+        //{
+        //    _equiped = _skin1;
+        //    Debug.Log("Equiped: " + _equiped._name);
+        //    return;
+        //}
     }
 
     public CPlayerController getEquipedSkin()
@@ -62,15 +65,21 @@ public class CSkinManager : MonoBehaviour {
 
     public CPlayerController getSkin(int aIndex)
     {
-        if (_baseSkin._index == aIndex)
-        {
-            return _baseSkin;
-        }
-        else if (_skin1._index == aIndex)
-        {
-            return _skin1;
-        }
-        return null;
+        return _skins[aIndex];
+        //if (_baseSkin._index == aIndex)
+        //{
+        //    return _baseSkin;
+        //}
+        //else if (_skin1._index == aIndex)
+        //{
+        //    return _skin1;
+        //}
+        //return null;
+    }
+
+    public int getSkinCount()
+    {
+        return _skins.Count;
     }
 
 	// Update is called once per frame

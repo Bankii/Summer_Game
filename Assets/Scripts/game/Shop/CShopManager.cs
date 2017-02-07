@@ -16,7 +16,7 @@ public class CShopManager : MonoBehaviour {
         _panels = new List<CShopPanel>();
 
         GameObject canvas = GameObject.Find("Canvas");
-        for (int i = 0; i < CSkinManager.inst._skinCount; i++)
+        for (int i = 0; i < CSkinManager.inst.getSkinCount(); i++)
         {
             GameObject panel = Instantiate(_skinPanel, canvas.transform);
             RectTransform rectTransf = panel.GetComponent<RectTransform>();
