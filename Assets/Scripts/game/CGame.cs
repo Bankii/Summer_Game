@@ -258,6 +258,7 @@ public class CGame : MonoBehaviour
                 && _platformYellow.getState() != CPlatform.STATE_INITIAL && _platformBlue.getState() != CPlatform.STATE_INITIAL)
                 {
                     showSimonSequence();
+                                      
                 }   
                 _comboPause = true;
             }
@@ -266,6 +267,7 @@ public class CGame : MonoBehaviour
         else
         {
             _comboPause = false;
+            //_camera.getX(), _player.getY());
         }
 
         // Check the platform the player may be standing in.
@@ -451,7 +453,7 @@ public class CGame : MonoBehaviour
         {
 
             if (!_isFirstTimeShowSequence)
-            {
+            {                
                 if (_platformGreen.getState() == STATE_PLATFORM_OFF && _platformRed.getState() == STATE_PLATFORM_OFF &&
                 _platformYellow.getState() == STATE_PLATFORM_OFF && _platformBlue.getState() == STATE_PLATFORM_OFF)
                 {
@@ -509,9 +511,9 @@ public class CGame : MonoBehaviour
             _platformRed.setState(STATE_PLATFORM_ON);
             _platformYellow.setState(STATE_PLATFORM_ON);
             _platformBlue.setState(STATE_PLATFORM_ON);
-            _camera.releaseToGo();
-            //_camera.goTo(_camera.getX(), _player.getY());
 
+            _camera.releaseToGo();
+            _camera.goToPlayer();
         }
     }
 
