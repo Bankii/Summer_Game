@@ -327,11 +327,11 @@ public class CPlayer : CGameObject
                 // Acceleration boost if the down arrow is pressed.
                 if (Input.GetKey(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") < 0)
                 {
-                    setAccelY(_GRAVITY_FALL + _ACCEL_BOOST);
+                    setAccelY(_GRAVITY_JUMP + _ACCEL_BOOST);
                 }
                 else if (!Input.GetKey(KeyCode.DownArrow) && Input.GetAxisRaw("Vertical") == 0)
                 {
-                    setAccelY(_GRAVITY_FALL);
+                    setAccelY(_GRAVITY_JUMP);
                 }
                 break;
 #endregion
