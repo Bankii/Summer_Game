@@ -17,7 +17,7 @@ public class CCamera: CGameObject
     private float _centerY;
 
     private bool _hasToGo = false;
-    private bool _haToGoPlayer = false;
+    private bool _hasToGoPlayer = false;
     private int _goX;
     private int _goY;
     
@@ -69,7 +69,7 @@ public class CCamera: CGameObject
                 }
                 //setXY(mGoX, mGoY);
             }
-            else if (_haToGoPlayer)
+            else if (_hasToGoPlayer)
             {
                 CVector gotoPos = new CVector(_goX, _goY);
                 
@@ -156,7 +156,7 @@ public class CCamera: CGameObject
 
     public void goToPlayer()// float aX, float aY)
     {
-        _haToGoPlayer = true;
+        _hasToGoPlayer = true;
         //_goX = (int)aX;
         //_goY = (int)aY;
         _goX = (int)getX();
@@ -166,8 +166,13 @@ public class CCamera: CGameObject
     public void releaseToGo()
     {
         _hasToGo = false;
-        _haToGoPlayer = false;
+        _hasToGoPlayer = false;
         _goX = 0;
         _goY = 0;
+    }
+
+    public bool hasToGoPlayer()
+    {
+        return _hasToGoPlayer;
     }
 }

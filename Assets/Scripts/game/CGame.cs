@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+
 
 public class CGame : MonoBehaviour 
 {
@@ -23,6 +25,8 @@ public class CGame : MonoBehaviour
     public int _platformSeparation;
     public float _spawnCoinRate;
     public float _spawnRewardRate;
+    public CText _goText;
+
 
     public GameObject _platformPrefab;
     //public GameObject _coinPrefab;
@@ -514,6 +518,8 @@ public class CGame : MonoBehaviour
 
             _camera.releaseToGo();
             _camera.goToPlayer();
+
+            _goText.sizeBounce(50);
         }
     }
 
@@ -843,5 +849,8 @@ public class CGame : MonoBehaviour
         return _isShowed;
     }
 
-
+    public bool hasToGoPlayer()
+    {
+        return _camera.hasToGoPlayer();
+    }
 }

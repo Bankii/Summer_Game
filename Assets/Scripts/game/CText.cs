@@ -67,7 +67,7 @@ public class CText : CGameObject
     public override void apiUpdate()
     {
         base.apiUpdate();
-
+        
         if (isSizeBounce)
         {
 
@@ -200,7 +200,7 @@ public class CText : CGameObject
         isGrowing = true;
         maxSize = aMaxSize;
         normalSize = getFontSize();
-        
+
     }
         
 
