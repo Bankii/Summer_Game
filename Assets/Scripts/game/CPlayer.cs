@@ -146,7 +146,7 @@ public class CPlayer : CGameObject
 
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 1") || Input.GetKeyDown("joystick button 0"))
                 {
-                    if (CGame.inst().isShowed())
+                    if (CGame.inst().isShowed() && (CGame.inst().getStateGO() == CTextGo.STATE_OFF || CGame.inst().getStateGO() == CTextGo.STATE_REDUCING))
                     {
                         setState(STATE_JUMPING);
                     }                    
@@ -191,7 +191,7 @@ public class CPlayer : CGameObject
                 }
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 1") || Input.GetKeyDown("joystick button 0"))
                 {
-                    if (CGame.inst().isShowed())
+                    if (CGame.inst().isShowed() && (CGame.inst().getStateGO() == CTextGo.STATE_OFF || CGame.inst().getStateGO() == CTextGo.STATE_REDUCING))
                     {
                         setState(STATE_JUMPING);
                     }
@@ -651,7 +651,7 @@ public class CPlayer : CGameObject
     {
         _coins += aCoins;
         _coinUI.text = _coins.ToString();
-        _coinUIScript.sizeBounce(30);
+        _coinUIScript.sizeBounce(30, 1, 1);
     }
 }
 

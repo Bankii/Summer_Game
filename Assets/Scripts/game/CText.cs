@@ -18,6 +18,9 @@ public class CText : CGameObject
     private Transform mTransform;
     private bool mFlip = false;
 
+    private int _speedSizeGrow;
+    private int _speedSizeReduce;
+
     public enum alignment
     {
         TOP_CENTER,
@@ -25,7 +28,7 @@ public class CText : CGameObject
     }
 
 
-    public CText(string aText = "noText", alignment aAlign = alignment.CENTER, int aFontSize = 38, string aFontName = "Arial")
+    /*public CText(string aText = "noText", alignment aAlign = alignment.CENTER, int aFontSize = 38, string aFontName = "Arial")
     {
         mSprite = new GameObject();
         mSprite.name = aText;
@@ -57,7 +60,7 @@ public class CText : CGameObject
             mText.alignment = TextAnchor.UpperLeft;
         }
         render();
-    }
+    }*/
 
     void Update()
     {
@@ -73,11 +76,11 @@ public class CText : CGameObject
 
             if (getFontSize() > normalSize && !isGrowing)
             {
-                setFontSize(getFontSize() - 1);
+                setFontSize(getFontSize() - _speedSizeReduce);
             }
             else if (getFontSize() < maxSize && isGrowing)
             {
-                setFontSize(getFontSize() + 1);
+                setFontSize(getFontSize() + _speedSizeGrow);
             }
             else if (getFontSize() == normalSize)
             {
@@ -123,15 +126,7 @@ public class CText : CGameObject
     {
         return mText.enabled;
     }
-    public void setName(string aName)
-    {
-        //base.setName(aName);
-        mSprite.name = aName;
-    }
-    public string getName()
-    {
-        return mSprite.name;
-    }
+    
 
     public void setFontSize(int aFontSize)
     {
@@ -194,12 +189,14 @@ public class CText : CGameObject
         return mText.text;
     }
     
-    public void sizeBounce(int aMaxSize)
+    public virtual void sizeBounce(int aMaxSize, int aSpeedGrow, int aSpeedReduce)
     {
         isSizeBounce = true;
         isGrowing = true;
         maxSize = aMaxSize;
         normalSize = getFontSize();
+        _speedSizeGrow = aSpeedGrow;
+        _speedSizeReduce = aSpeedReduce;
 
     }
         
