@@ -79,7 +79,10 @@ public class CPlayer : CGameObject
 
     void Update()
     {
-        apiUpdate();
+        if (!CGame.inst().getPause())
+        {
+           apiUpdate();
+        }
     }
 
     void FixedUpdate()

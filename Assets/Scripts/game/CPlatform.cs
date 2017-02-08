@@ -59,7 +59,10 @@ public class CPlatform : CGameObject {
 
     void Update()
     {
-        apiUpdate();
+        if (!CGame.inst().getPause())
+        {
+            apiUpdate();
+        }
     }
 
     public void setWalkable(bool aWalkable)

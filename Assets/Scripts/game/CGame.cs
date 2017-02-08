@@ -34,6 +34,8 @@ public class CGame : MonoBehaviour
     public CCamera _camera;
     //public GameObject _backgroundPrefab;
 
+    public GameObject _canvas;
+
     public CPlayer _player;
 
     private CPlatform _platformGreen;
@@ -93,6 +95,8 @@ public class CGame : MonoBehaviour
     public float _resetSpawnCoinRate;
     public float _resetSpawnRewardRate;
 
+    private bool _pause = false;
+
     void Awake()
 	{
 		if (mInstance != null) 
@@ -138,8 +142,11 @@ public class CGame : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		update ();
-	}
+        if (!_pause)
+        {
+            update();
+        }
+    }
 
     public bool isRestart()
     {
@@ -197,8 +204,17 @@ public class CGame : MonoBehaviour
 	{
 		CMouse.update ();
 		CKeyboard.update ();
+
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
+        {
+            _pause = true;
+            GameObject pauseMenu = Instantiate(Resources.Load<GameObject>("Prefabs/Menus/PauseMenu"), _canvas.transform);
+            pauseMenu.transform.localScale = new Vector3(1, 1, 1);
+            pauseMenu.transform.localPosition = new Vector3(0, 0, 0);
+        }
+
         // adding time to the combo and checking it's not over.
-        if (!_comboPause)
+        if (_isShowed)
         {
             _comboElapsedTime += Time.deltaTime;
             if (_comboElapsedTime >= _comboMaxTime)
@@ -264,15 +280,15 @@ public class CGame : MonoBehaviour
                     showSimonSequence();
                                       
                 }   
-                _comboPause = true;
+                //_comboPause = true;
             }
 
         }
-        else
-        {
-            _comboPause = false;
-            //_camera.getX(), _player.getY());
-        }
+        //else
+        //{
+        //    _comboPause = false;
+        //    //_camera.getX(), _player.getY());
+        //}
 
         // Check the platform the player may be standing in.
         if (_player.isGrounded())
@@ -511,6 +527,7 @@ public class CGame : MonoBehaviour
         else
         {
             _isShowed = true;
+            _comboPause = false;
             _platformGreen.setState(STATE_PLATFORM_ON);
             _platformRed.setState(STATE_PLATFORM_ON);
             _platformYellow.setState(STATE_PLATFORM_ON);
@@ -603,7 +620,8 @@ public class CGame : MonoBehaviour
     }
 
     private void createPlatform()
-    {    
+    {
+        _comboPause = true;
         if (_isFirstPlatform)
         {
             _randomPlatformX = CMath.randomIntBetween(300, 450);
@@ -852,5 +870,15 @@ public class CGame : MonoBehaviour
     public bool hasToGoPlayer()
     {
         return _camera.hasToGoPlayer();
+    }
+
+    public void setPause(bool aBool)
+    {
+        _pause = aBool;
+    }
+
+    public bool getPause()
+    {
+        return _pause;
     }
 }

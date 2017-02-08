@@ -23,12 +23,15 @@ public class CBox : CGameObject
 	// Update is called once per frame
 	void Update ()
     {
-        apiUpdate();
-        if (getState() == STATE_DIE)
+        if (!CGame.inst().getPause())
         {
-            if (_anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 && _anim.GetCurrentAnimatorStateInfo(0).IsName(_dieAnim))
+            apiUpdate();
+            if (getState() == STATE_DIE)
             {
-                Destroy(gameObject);
+                if (_anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1 && _anim.GetCurrentAnimatorStateInfo(0).IsName(_dieAnim))
+                {
+                    Destroy(gameObject);
+                }
             }
         }
 	}
