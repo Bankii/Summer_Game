@@ -148,6 +148,7 @@ public class CPlayer : CGameObject
                 {
                     if (CGame.inst().isShowed() && (CGame.inst().getStateGO() == CTextGo.STATE_OFF || CGame.inst().getStateGO() == CTextGo.STATE_REDUCING))
                     {
+                        playJumpFX();
                         setState(STATE_JUMPING);
                     }                    
                     //setState(STATE_CHARGING);
@@ -193,6 +194,7 @@ public class CPlayer : CGameObject
                 {
                     if (CGame.inst().isShowed() && (CGame.inst().getStateGO() == CTextGo.STATE_OFF || CGame.inst().getStateGO() == CTextGo.STATE_REDUCING))
                     {
+                        playJumpFX();
                         setState(STATE_JUMPING);
                     }
                     //setState(STATE_CHARGING);

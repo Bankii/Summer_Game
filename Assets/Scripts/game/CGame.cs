@@ -519,7 +519,7 @@ public class CGame : MonoBehaviour
             _camera.releaseToGo();
             _camera.goToPlayer();
 
-            _goText.goSizeBounce(50, 1, 4);
+            _goText.goSizeBounce(50, 3, 6);
         }
     }
 
