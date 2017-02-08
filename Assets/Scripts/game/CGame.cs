@@ -25,7 +25,7 @@ public class CGame : MonoBehaviour
     public int _platformSeparation;
     public float _spawnCoinRate;
     public float _spawnRewardRate;
-    public CText _goText;
+    public CTextGo _goText;
 
 
     public GameObject _platformPrefab;
@@ -536,7 +536,7 @@ public class CGame : MonoBehaviour
             _camera.releaseToGo();
             _camera.goToPlayer();
 
-            _goText.sizeBounce(50);
+            _goText.goSizeBounce(50, 3, 6);
         }
     }
 
@@ -867,9 +867,9 @@ public class CGame : MonoBehaviour
         return _isShowed;
     }
 
-    public bool hasToGoPlayer()
+    public int getStateGO()
     {
-        return _camera.hasToGoPlayer();
+        return _goText.getState();
     }
 
     public void setPause(bool aBool)
