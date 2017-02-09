@@ -6,25 +6,24 @@ public class CBackground : CGameObject
 {
     public float SPEED;
     private float startY;
-
-    private Transform _camera;
+    
+    public CCamera _camera;
     public CGameObject _otherBg;
 
     void Start()
     {
         setVelY(SPEED);
-        _camera = Camera.main.transform;
 
-        setHeight(1100);
-        setWidth(1600);
+        setHeight(1080);
+        setWidth(1920);
     }
 
     void Update()
     {
         apiUpdate();
-        if (getY() + getHeight() < _camera.position.y - CGameConstants.SCREEN_HEIGHT /2)
+        if (getY() + getHeight() < _camera.getY() + CGameConstants.SCREEN_HEIGHT /2)
         {
-            setY(_otherBg.getY() + _otherBg.getHeight() + _otherBg.getHeight()/2);
+            setY(_otherBg.getY() + _otherBg.getHeight());
         }
     }
 }
