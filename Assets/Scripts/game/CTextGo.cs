@@ -9,17 +9,16 @@ public class CTextGo : CGameObject {
     public const int STATE_OFF = 0;
     public const int STATE_GROWING = 1;
     public const int STATE_REDUCING = 2;
-    public const int STATE_BIG = 3;
-
-
+    public const int STATE_BIG_READY = 3;
+    public const int STATE_BIG_GO = 4;
+    
     public Text _text;
     private bool _isSizeBounce;
     private bool _isGrowing;
     private int _maxSize;
     private int _normalSize;
     private bool _isMaxSize;
-
-
+    
     private int _speedSizeGrow;
     private int _speedSizeReduce;
 
@@ -61,7 +60,7 @@ public class CTextGo : CGameObject {
                 _isGrowing = false;
                 if (!_isMaxSize)
                 {
-                    setState(STATE_BIG);
+                    setState(STATE_BIG_READY);
                     _isMaxSize = true;
                 }
                 
@@ -72,6 +71,7 @@ public class CTextGo : CGameObject {
 
         if (getState() == STATE_OFF)
         {
+            _text.text = "READY?";
             _text.enabled = false;
         }
         else if (getState() == STATE_GROWING)
@@ -82,9 +82,17 @@ public class CTextGo : CGameObject {
         {
             _text.enabled = true;
         }
-        else if (getState() == STATE_BIG)
+        else if (getState() == STATE_BIG_READY)
         {
             if (getTimeState() >= 1f)
+            {
+                setState(STATE_BIG_GO);
+            }
+        }
+        else if (getState() == STATE_BIG_GO)
+        {
+            _text.text = "GO!";
+            if (getTimeState() >= 0.5f)
             {
                 setState(STATE_REDUCING);
             }
