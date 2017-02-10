@@ -146,6 +146,16 @@ public class CGame : MonoBehaviour
         {
             update();
         }
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
+        {
+            _pause = !_pause;
+            if (_pause)
+            {
+                GameObject pauseMenu = Instantiate(Resources.Load<GameObject>("Prefabs/Menus/PauseMenu"), _canvas.transform);
+                pauseMenu.transform.localScale = new Vector3(1, 1, 1);
+                pauseMenu.transform.localPosition = new Vector3(0, 0, 0);
+            }
+        }
     }
 
     public bool isRestart()
@@ -205,13 +215,7 @@ public class CGame : MonoBehaviour
 		CMouse.update ();
 		CKeyboard.update ();
 
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
-        {
-            _pause = true;
-            GameObject pauseMenu = Instantiate(Resources.Load<GameObject>("Prefabs/Menus/PauseMenu"), _canvas.transform);
-            pauseMenu.transform.localScale = new Vector3(1, 1, 1);
-            pauseMenu.transform.localPosition = new Vector3(0, 0, 0);
-        }
+       
 
         // adding time to the combo and checking it's not over.
         if (_isShowed)
