@@ -15,4 +15,9 @@ public class CButtonManager : MonoBehaviour {
     {
         Application.Quit();
     }
+
+    public void eraseLoad()
+    {
+        CSaveLoad.eraseLoad();
+    }
 }

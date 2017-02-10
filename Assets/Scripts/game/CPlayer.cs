@@ -654,8 +654,9 @@ public class CPlayer : CGameObject
 
     public void addCoins(int aCoins)
     {
-        _coins += aCoins;
-        _coinUI.text = _coins.ToString();
+        CSaveLoad.money += aCoins;
+        //_coins += aCoins;
+        //_coinUI.text = _coins.ToString();
         _coinUIScript.sizeBounce(30, 1, 1);
     }
 }

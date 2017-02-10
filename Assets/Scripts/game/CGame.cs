@@ -152,7 +152,7 @@ public class CGame : MonoBehaviour
             if (_pause)
             {
                 GameObject pauseMenu = Instantiate(Resources.Load<GameObject>("Prefabs/Menus/PauseMenu"), _canvas.transform);
-                pauseMenu.transform.localScale = new Vector3(1, 1, 1);
+                pauseMenu.transform.localScale = new Vector3(3, 3, 3);
                 pauseMenu.transform.localPosition = new Vector3(0, 0, 0);
             }
         }

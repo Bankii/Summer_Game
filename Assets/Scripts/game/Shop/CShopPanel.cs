@@ -20,7 +20,7 @@ public class CShopPanel : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (CSkinManager.inst.getEquipedSkinIndex() != _index)
+        if (CSaveLoad.equipped != _index)
         {
             setEquipped(false);
         }

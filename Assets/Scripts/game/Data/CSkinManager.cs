@@ -18,6 +18,8 @@ public class CSkinManager : MonoBehaviour {
     [HideInInspector]
     public bool _hasInstantiated = false;
 
+    private bool _load = true;
+
 	// Use this for initialization
 	void Start () {
         GameObject other = GameObject.Find("SkinsManager");
@@ -25,13 +27,17 @@ public class CSkinManager : MonoBehaviour {
         {
             Debug.Log("Destroying instance");
             Destroy(gameObject);
+            _load = false;
             return;
         }
 
+        CSaveLoad.load();
+
         DontDestroyOnLoad(gameObject);
         inst = this;
-        // TODO change this for the saved info after I do that!!
-        equip(0);
+
+        equip(CSaveLoad.equipped);
+
         _hasInstantiated = true;
         
 	}
@@ -39,6 +45,8 @@ public class CSkinManager : MonoBehaviour {
     public void equip(int aIndex)
     {
         _equiped = _skins[aIndex];
+        CSaveLoad.equipped = aIndex;
+        //_equiped = _skins[aIndex];
         //if (_baseSkin._index == aIndex)
         //{
         //    _equiped = _baseSkin;
@@ -58,10 +66,10 @@ public class CSkinManager : MonoBehaviour {
         return _equiped;
     }
 
-    public int getEquipedSkinIndex()
-    {
-        return _equiped._index;
-    }
+    //public int getEquipedSkinIndex()
+    //{
+    //    return _equiped._index;
+    //}
 
     public CPlayerController getSkin(int aIndex)
     {
@@ -86,4 +94,10 @@ public class CSkinManager : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    void OnDestroy()
+    {
+        if(_load)
+            CSaveLoad.save();
+    }
 }
