@@ -520,7 +520,7 @@ public class CGame : MonoBehaviour
             }
             
 
-            _goText.goSizeBounce(50, 6, 12);
+            _goText.goSizeBounce(400, 15, 40);
         }
     }
 
