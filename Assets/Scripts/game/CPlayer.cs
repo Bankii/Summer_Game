@@ -46,8 +46,8 @@ public class CPlayer : CGameObject
     public AudioClip _jumpFX2;
     public AudioClip _gameOverFX;
 
-    public Text _coinUI;
-    private CText _coinUIScript;
+    //public Text _coinUI;
+    //private CText _coinUIScript;
 
     public CPlayerController _playerControllers;
 
@@ -69,7 +69,7 @@ public class CPlayer : CGameObject
 
         _playerFX = GetComponent<AudioSource>();
         
-        _coinUIScript = _coinUI.GetComponent<CText>();
+        //_coinUIScript = _coinUI.GetComponent<CText>();
 
         setColor(CGameConstants.COLOR_BASE);
 
@@ -113,8 +113,11 @@ public class CPlayer : CGameObject
                     //}
                     if (Input.GetAxisRaw("Horizontal") > 0 || Input.GetAxisRaw("Horizontal") < 0)
                     {
-                        setState(STATE_WALKING);
-                        break;
+                        if (CGame.inst().isShowed() && (CGame.inst().getStateGO() == CTextGo.STATE_OFF || CGame.inst().getStateGO() == CTextGo.STATE_REDUCING) || CGame.inst().getStateGO() == CTextGo.STATE_BIG_GO)
+                        {
+                            setState(STATE_WALKING);
+                            break;
+                        }                        
                     }
                 }
                 // Checking that the input of the player is the oposite of the wall it's against.
@@ -131,13 +134,19 @@ public class CPlayer : CGameObject
 
                 if (getX() == _maxX && Input.GetAxisRaw("Horizontal") < 0)
                 {
-                    setState(STATE_WALKING);
-                    break;
+                    if (CGame.inst().isShowed() && (CGame.inst().getStateGO() == CTextGo.STATE_OFF || CGame.inst().getStateGO() == CTextGo.STATE_REDUCING) || CGame.inst().getStateGO() == CTextGo.STATE_BIG_GO)
+                    {
+                        setState(STATE_WALKING);
+                        break;
+                    }
                 }
                 if (getX() == _minX && Input.GetAxisRaw("Horizontal") > 0)
                 {
-                    setState(STATE_WALKING);
-                    break;
+                    if (CGame.inst().isShowed() && (CGame.inst().getStateGO() == CTextGo.STATE_OFF || CGame.inst().getStateGO() == CTextGo.STATE_REDUCING) || CGame.inst().getStateGO() == CTextGo.STATE_BIG_GO)
+                    {
+                        setState(STATE_WALKING);
+                        break;
+                    }
                 }
 
                 // Checking if there is no floor underneath.
@@ -430,6 +439,7 @@ public class CPlayer : CGameObject
                 }
                 break;
             #endregion
+                
 
             default:
                 break;
@@ -657,8 +667,9 @@ public class CPlayer : CGameObject
         CSaveLoad.money += aCoins;
         //_coins += aCoins;
         //_coinUI.text = _coins.ToString();
-        _coinUIScript.sizeBounce(30, 1, 1);
+        //_coinUIScript.sizeBounce(30, 1, 1);
     }
+    
 }
 
 [System.Serializable]
@@ -711,5 +722,7 @@ public class CPlayerController
             return _controllerBase;
         }
     }
+
+
 
 }

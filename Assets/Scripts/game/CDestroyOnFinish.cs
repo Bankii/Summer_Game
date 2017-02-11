@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CParticle : MonoBehaviour {
+public class CDestroyOnFinish : MonoBehaviour {
 
     public ParticleSystem ps;
 

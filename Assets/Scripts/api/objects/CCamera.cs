@@ -51,7 +51,7 @@ public class CCamera: CGameObject
         {
             if (_hasToGo)
             {
-
+                
                 CVector gotoPos = new CVector(_goX, _goY);
                 
                 if (getX() == _goX && getY() >= _goY)
@@ -64,7 +64,7 @@ public class CCamera: CGameObject
                 {                                        
                     CVector actualPos = new CVector(getX(), getY());
                     CVector diference = gotoPos - actualPos;
-                    diference = diference.normalize() * 300;
+                    diference = diference.normalize() * 800;
                     setVelXY(diference.x(), diference.y());
                 }
                 //setXY(mGoX, mGoY);
@@ -72,7 +72,7 @@ public class CCamera: CGameObject
             else if (_hasToGoPlayer)
             {
                 CVector gotoPos = new CVector(_goX, _goY);
-                
+
                 if (getX() == _goX && getY() <= _goY)
                 {
                     setVelXY(0, 0);
@@ -84,7 +84,7 @@ public class CCamera: CGameObject
                 {
                     CVector actualPos = new CVector(getX(), getY());
                     CVector diference = gotoPos - actualPos;
-                    diference = diference.normalize() * 300;
+                    diference = diference.normalize() * 1200;
                     setVelXY(diference.x(), diference.y());
                 }
             }else

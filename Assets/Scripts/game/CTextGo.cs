@@ -84,15 +84,16 @@ public class CTextGo : CGameObject {
         }
         else if (getState() == STATE_BIG_READY)
         {
-            if (getTimeState() >= 1f)
+            if (getTimeState() >= 0.5f)
             {
                 setState(STATE_BIG_GO);
             }
         }
         else if (getState() == STATE_BIG_GO)
         {
+            CGame.inst().setComboPause(false);
             _text.text = "GO!";
-            if (getTimeState() >= 0.5f)
+            if (getTimeState() >= 0.3f)
             {
                 setState(STATE_REDUCING);
             }

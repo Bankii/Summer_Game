@@ -8,10 +8,10 @@ using UnityEngine.UI;
 
 public class CText : CGameObject
 {
-    public Text mText;
+    public Text _text;
 
     private GameObject mSprite;
-    public bool isSizeBounce;
+    private bool isSizeBounce;
     private bool isGrowing;
     private int maxSize;
     private int normalSize;
@@ -73,7 +73,6 @@ public class CText : CGameObject
         
         if (isSizeBounce)
         {
-
             if (getFontSize() > normalSize && !isGrowing)
             {
                 setFontSize(getFontSize() - _speedSizeReduce);
@@ -82,7 +81,7 @@ public class CText : CGameObject
             {
                 setFontSize(getFontSize() + _speedSizeGrow);
             }
-            else if (getFontSize() == normalSize)
+            else if (getFontSize() <= normalSize)
             {
                 isSizeBounce = false;
             }
@@ -119,23 +118,23 @@ public class CText : CGameObject
 
     public void setVisible(bool aIsVisible)
     {
-        mText.enabled = aIsVisible;
+        _text.enabled = aIsVisible;
     }
 
     public bool isVisible()
     {
-        return mText.enabled;
+        return _text.enabled;
     }
     
 
     public void setFontSize(int aFontSize)
     {
-        mText.fontSize = aFontSize;
+        _text.fontSize = aFontSize;
     }
 
     public int getFontSize()
     {
-        return mText.fontSize;
+        return _text.fontSize;
     }
 
     public void setScale(float aScale)
@@ -154,39 +153,39 @@ public class CText : CGameObject
     }
     public void setAlpha(float aAlpha)
     {
-        Color color = mText.color;
-        mText.color = new Color(color.r, color.g, color.b, aAlpha);
+        Color color = _text.color;
+        _text.color = new Color(color.r, color.g, color.b, aAlpha);
     }
     public void setColor(Color aColor)
     {
-        mText.color = aColor;
+        _text.color = aColor;
     }
     public Color getColor()
     {
-        return mText.color;
+        return _text.color;
     }
 
     public void setText(string aText)
     {
-        mText.text = aText;
+        _text.text = aText;
     }
 
     public void setSize(float aWidth, float aHeight)
     {
-        mText.rectTransform.sizeDelta = new Vector2(aWidth, aHeight);
+        _text.rectTransform.sizeDelta = new Vector2(aWidth, aHeight);
     }
     public void setStyle(FontStyle on)
     {
-        mText.fontStyle = on;
+        _text.fontStyle = on;
     }
     public void setHorizontalOverflow(HorizontalWrapMode aWrap)
     {
-        mText.horizontalOverflow = aWrap;
+        _text.horizontalOverflow = aWrap;
     }
 
     public string getText()
     {
-        return mText.text;
+        return _text.text;
     }
     
     public virtual void sizeBounce(int aMaxSize, int aSpeedGrow, int aSpeedReduce)
