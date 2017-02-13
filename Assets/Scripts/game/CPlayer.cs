@@ -671,6 +671,10 @@ public class CPlayerController
 
     public string _name;
 
+    public int _unlockableAt;
+
+    public int _price;
+
     [Space(10)]
     [Header("Player Skin Attributes")]
     public string _idleAnim = "Idle";

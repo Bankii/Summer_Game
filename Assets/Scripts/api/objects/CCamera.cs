@@ -7,7 +7,7 @@ public class CCamera: CGameObject
     public const int WIDTH = CGameConstants.SCREEN_WIDTH;
     public const int HEIGHT = CGameConstants.SCREEN_HEIGHT;
 
-    private float _max = -540;
+    private float _max = -1080;
 
     public const int SPEED = 60;
 
@@ -112,7 +112,7 @@ public class CCamera: CGameObject
             setX(960);
         }
 
-        if (getY() <= -HEIGHT / 2)
+        if (getY() < -HEIGHT / 2)
         {
             setY(-HEIGHT / 2);
         }

@@ -9,6 +9,8 @@ public static class CSaveLoad
     public static int equipped = 0;
     public static int money = 0;
     public static List<int> bought = new List<int>();
+    public static List<int> unlocked = new List<int>();
+    public static int bestScore = 0;
 
     public static void save()
     {
@@ -25,6 +27,16 @@ public static class CSaveLoad
         bf = new BinaryFormatter();
         file = File.Create(Application.persistentDataPath + "/money.gd");
         bf.Serialize(file, CSaveLoad.money);
+        file.Close();
+
+        bf = new BinaryFormatter();
+        file = File.Create(Application.persistentDataPath + "/unlocked.gd");
+        bf.Serialize(file, CSaveLoad.unlocked);
+        file.Close();
+
+        bf = new BinaryFormatter();
+        file = File.Create(Application.persistentDataPath + "/score.gd");
+        bf.Serialize(file, CSaveLoad.bestScore);
         file.Close();
     }
 
@@ -53,6 +65,22 @@ public static class CSaveLoad
             CSaveLoad.money = (int)bf.Deserialize(file);
             file.Close();
         }
+
+        if (File.Exists(Application.persistentDataPath + "/unlocked.gd"))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/unlocked.gd", FileMode.Open);
+            CSaveLoad.unlocked = (List<int>)bf.Deserialize(file);
+            file.Close();
+        }
+
+        if (File.Exists(Application.persistentDataPath + "/score.gd"))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/score.gd", FileMode.Open);
+            CSaveLoad.bestScore = (int)bf.Deserialize(file);
+            file.Close();
+        }
     }
 
     public static void eraseLoad()
@@ -60,6 +88,8 @@ public static class CSaveLoad
         equipped = 0;
         bought = new List<int>();
         money = 0;
+        unlocked = new List<int>();
+        bestScore = 0;
         save();
     }
 }
