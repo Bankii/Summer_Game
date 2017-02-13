@@ -7,8 +7,11 @@ public class CShopPanel : MonoBehaviour {
 
     private int _index;
     public Image _preview;
+    public Image _lockImg;
     public Button _button;
     public Text _name;
+    public Text _unlocksAtText;
+    private bool _isUnlocked = false;
     private bool _isBought = false;
     private bool _isEquipped = false;
 
@@ -40,6 +43,21 @@ public class CShopPanel : MonoBehaviour {
         {
             Text text = _button.GetComponentInChildren<Text>();
             text.text = "Buy";
+        }
+    }
+
+    public void setUnlocked(bool aUnlocked)
+    {
+        _isUnlocked = aUnlocked;
+        if (_isUnlocked)
+        {
+            _lockImg.enabled = false;
+            _button.interactable = true;
+        }
+        else
+        {
+            _lockImg.enabled = true;
+            _button.interactable = false;
         }
     }
 
