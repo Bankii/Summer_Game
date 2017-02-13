@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CComboUI : MonoBehaviour {
+public class CComboUI : CText {
 
-    private Text _txtComponent;
+    //private Text _txtComponent;
     private Slider _sliderComponent;
+    private int _coinMultip;
 
 	// Use this for initialization
 	void Start () {
-        _txtComponent = gameObject.GetComponent<Text>();
+
+        //_txtComponent = gameObject.GetComponent<Text>();
         _sliderComponent = gameObject.GetComponent<Slider>();
+
+        _coinMultip = CGame.inst().getCoinMultip();
+
         if (_sliderComponent != null)
         {
             _sliderComponent.maxValue = CGame.inst()._comboMaxTime;
@@ -20,9 +25,17 @@ public class CComboUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (_txtComponent != null)
+        base.apiUpdate();
+
+        if (_text != null)
         {
-            _txtComponent.text = "x" + CGame.inst().getCoinMultip();
+            if (_coinMultip != CGame.inst().getCoinMultip())
+            {
+                _text.text = "x" + CGame.inst().getCoinMultip();
+                _coinMultip = CGame.inst().getCoinMultip();
+                sizeBounce(150, 5, 10);
+            }
+            
         }
         if (_sliderComponent != null)
         {

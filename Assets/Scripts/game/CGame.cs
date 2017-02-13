@@ -215,17 +215,20 @@ public class CGame : MonoBehaviour
 		CMouse.update ();
 		CKeyboard.update ();
 
-       
 
         // adding time to the combo and checking it's not over.
         if (_isShowed)
         {
-            _comboElapsedTime += Time.deltaTime;
-            if (_comboElapsedTime >= _comboMaxTime)
+            if (!_comboPause)
             {
-                _comboElapsedTime = _comboMaxTime;
-                _comboMultip = 1;
+                _comboElapsedTime += Time.deltaTime;
+                if (_comboElapsedTime >= _comboMaxTime)
+                {
+                    _comboElapsedTime = _comboMaxTime;
+                    _comboMultip = 1;
+                }
             }
+            
         }
 
         if (_restartGame && _wasRestartLastFrame)
@@ -265,8 +268,7 @@ public class CGame : MonoBehaviour
             
         }
         else if (_isGameOver)
-        {
-            Debug.Log("You LOSE");
+        {            
             // TODO: see if this doesn't make it tiring for the 
             // person to wait for the character to fall to the bottom.
         }
@@ -432,34 +434,7 @@ public class CGame : MonoBehaviour
         {
             _randomNum = CMath.randomIntBetween(CGameConstants.COLOR_GREEN, CGameConstants.COLOR_BLUE);
 
-            _simonSequence.Add(_randomNum);
-
-            //Debug.Log for testing
-            switch (_randomNum)
-            {
-                case CGameConstants.COLOR_GREEN:
-                    //Green
-                    Debug.Log("Sequence: Green");
-
-                    break;
-                case CGameConstants.COLOR_RED:
-                    //Red
-                    Debug.Log("Sequence: Red");
-
-                    break;
-                case CGameConstants.COLOR_YELLOW:
-                    //Yellow
-                    Debug.Log("Sequence: Yellow");
-
-                    break;
-                case CGameConstants.COLOR_BLUE:
-                    //Blue
-                    Debug.Log("Sequence: Blue");
-
-                    break;
-                default:
-                    break;
-            }
+            _simonSequence.Add(_randomNum);                       
 
         }
 
@@ -531,16 +506,21 @@ public class CGame : MonoBehaviour
         else
         {
             _isShowed = true;
-            _comboPause = false;
+            //_comboPause = false;
             _platformGreen.setState(STATE_PLATFORM_ON);
             _platformRed.setState(STATE_PLATFORM_ON);
             _platformYellow.setState(STATE_PLATFORM_ON);
             _platformBlue.setState(STATE_PLATFORM_ON);
 
             _camera.releaseToGo();
-            _camera.goToPlayer();
 
-            _goText.goSizeBounce(50, 3, 6);
+            if (_platformNum >= 4)
+            {
+                _camera.goToPlayer();
+            }
+            
+
+            _goText.goSizeBounce(400, 15, 40);
         }
     }
 
@@ -553,67 +533,6 @@ public class CGame : MonoBehaviour
         return _simonSequence[0] == platform.getType();
     }
 
-    private void playerInput()
-    {
-        //Replace CKeyboard.pressed with collision detection
-        if (Input.GetKeyUp(KeyCode.G))
-        {
-            Debug.Log("G");
-            if (_simonSequence[0] == PLATFORM_GREEN)
-            {
-                _platformGreen.setState(STATE_PLATFORM_ON);
-                Debug.Log("Green: Correct");
-                _simonSequence.RemoveAt(0);
-            }
-            else
-            {
-                _isGameOver = true;
-            }
-        }
-        else if (Input.GetKeyUp(KeyCode.R))
-        {
-            Debug.Log("R");
-            if (_simonSequence[0] == PLATFORM_RED)
-            {
-                _platformRed.setState(STATE_PLATFORM_ON);
-                Debug.Log("Red: Correct");
-                _simonSequence.RemoveAt(0);
-            }
-            else
-            {
-                _isGameOver = true;
-            }
-        }
-        else if (Input.GetKeyUp(KeyCode.Y))
-        {
-            Debug.Log("Y");
-            if (_simonSequence[0] == PLATFORM_YELLOW)
-            {
-                _platformYellow.setState(STATE_PLATFORM_ON);
-                Debug.Log("Yellow: Correct");
-                _simonSequence.RemoveAt(0);
-            }
-            else
-            {
-                _isGameOver = true;
-            }
-        }
-        else if (Input.GetKeyUp(KeyCode.B))
-        {
-            Debug.Log("B");
-            if (_simonSequence[0] == PLATFORM_BLUE)
-            {
-                _platformBlue.setState(STATE_PLATFORM_ON);
-                Debug.Log("Blue: Correct");
-                _simonSequence.RemoveAt(0);
-            }
-            else
-            {
-                _isGameOver = true;
-            }
-        }
-    }
-
     // Sets the variables prevPlatforms with the actual platforms, use before re-instancing new platforms.
     private void setPrevPlatforms()
     {
@@ -624,7 +543,7 @@ public class CGame : MonoBehaviour
     }
 
     private void createPlatform()
-    {
+    {        
         _comboPause = true;
         if (_isFirstPlatform)
         {
@@ -811,10 +730,19 @@ public class CGame : MonoBehaviour
             {
                 _isSolved = true;
                 _difficulty = _difficulty + _difficultyIncrement;
-                _spawnCoinRate -= _difficulty;
-                _spawnRewardRate -= _difficulty;
+
+                _spawnCoinRate -= _difficultyIncrement;
+                if (_spawnCoinRate < 1 )
+                {
+                    _spawnCoinRate = 1;
+                }
+
+                _spawnRewardRate -= _difficultyIncrement;
+                if (_spawnRewardRate < 1)
+                {
+                    _spawnRewardRate = 1;
+                }
                 createPlatform();
-                Debug.Log("You WIN, next platform...");
             }
             
         }
@@ -884,5 +812,10 @@ public class CGame : MonoBehaviour
     public bool getPause()
     {
         return _pause;
+    }
+
+    public void setComboPause(bool aComboPause)
+    {
+        _comboPause = aComboPause;
     }
 }
