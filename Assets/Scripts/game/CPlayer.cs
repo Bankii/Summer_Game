@@ -650,6 +650,8 @@ public class CPlayer : CGameObject
         if (coll.gameObject.tag == "Coin")
         {
             addCoins(CGame.inst().getCoinMultip());
+            GameObject coinParticle = Resources.Load<GameObject>("Prefabs/Coin_Pick_Up_Particle");
+            coinParticle = Instantiate(coinParticle, new Vector3(getX() + _width / 2, getY() - _height /2, -900), Quaternion.Euler(-90, 0, 0));
             Destroy(coll.gameObject);
         }
         if (coll.gameObject.tag == "Box")
