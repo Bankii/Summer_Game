@@ -11,6 +11,7 @@ public class CShopPanel : MonoBehaviour {
     public Button _button;
     public Text _name;
     public Text _unlocksAtText;
+    public Text _price;
     private bool _isUnlocked = false;
     private bool _isBought = false;
     private bool _isEquipped = false;
@@ -98,5 +99,15 @@ public class CShopPanel : MonoBehaviour {
     public void setName(string aName)
     {
         _name.text = aName;
+    }
+
+    public void setUnlockText(string aText)
+    {
+        _unlocksAtText.text = aText;
+    }
+
+    public void setPrice(int aPrice)
+    {
+        _price.text = aPrice.ToString();
     }
 }
