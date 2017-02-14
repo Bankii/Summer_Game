@@ -29,6 +29,8 @@ public class CShopManager : MonoBehaviour {
             _panels[i].setPreview(controller._preview);
             _panels[i].setName(controller._name);
             _panels[i].setEquipped(_panels[i].getIndex() == CSaveLoad.equipped);
+            _panels[i].setUnlockText(controller._unlockableAt.ToString());
+            _panels[i].setUnlocked(CSaveLoad.bestScore >= controller._unlockableAt);
 
             // TODO change this to the actual stuff once I manage buying things
             _panels[i].setBought(true);
