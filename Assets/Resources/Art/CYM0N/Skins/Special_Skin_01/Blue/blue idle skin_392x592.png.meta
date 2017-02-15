@@ -1,15 +1,13 @@
 fileFormatVersion: 2
-guid: 4304a2683452b9a41803c5a67b209253
-timeCreated: 1487119974
+guid: cc234f32ff03f4547823638bf133b8c6
+timeCreated: 1487118148
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: reward animation 64x49_0
-    21300002: reward animation 64x49_1
-    21300004: reward animation 64x49_2
-    21300006: reward animation 64x49_3
-    21300008: reward animation 64x49_4
-    21300010: reward animation 64x49_5
+    21300000: blue idle skin_392x592_0
+    21300002: blue idle skin_392x592_1
+    21300004: blue idle skin_392x592_2
+    21300006: blue idle skin_392x592_3
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -46,7 +44,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 0.6
+  spritePixelsToUnits: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -76,80 +74,54 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: reward animation 64x49_0
+      name: blue idle skin_392x592_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 250
-        width: 65
-        height: 50
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        y: 592
+        width: 392
+        height: 592
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: reward animation 64x49_1
+      name: blue idle skin_392x592_1
       rect:
         serializedVersion: 2
-        x: 0
-        y: 200
-        width: 65
-        height: 50
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 392
+        y: 592
+        width: 392
+        height: 592
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: reward animation 64x49_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 150
-        width: 65
-        height: 50
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: reward animation 64x49_3
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 100
-        width: 65
-        height: 50
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: reward animation 64x49_4
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 50
-        width: 65
-        height: 50
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: reward animation 64x49_5
+      name: blue idle skin_392x592_2
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 65
-        height: 50
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 392
+        height: 592
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: blue idle skin_392x592_3
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 0
+        width: 392
+        height: 592
+      alignment: 1
+      pivot: {x: 0, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
