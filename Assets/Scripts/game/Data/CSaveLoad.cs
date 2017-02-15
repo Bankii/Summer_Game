@@ -92,4 +92,12 @@ public static class CSaveLoad
         bestScore = 0;
         save();
     }
+
+    public static void setBestScore(int aScore)
+    {
+        if (aScore > bestScore)
+        {
+            bestScore = aScore;
+        }
+    }
 }

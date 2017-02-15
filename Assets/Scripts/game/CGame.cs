@@ -97,6 +97,8 @@ public class CGame : MonoBehaviour
 
     private bool _pause = false;
 
+    private int _score = 0;
+
     void Awake()
 	{
 		if (mInstance != null) 
@@ -178,6 +180,8 @@ public class CGame : MonoBehaviour
 
     private void resetVariables()
     {
+        CSaveLoad.setBestScore(_score);
+        _score = 0;
         _simonSequence = new List<int>();
         _isSolved = true;
         _isShowed = false;
@@ -730,6 +734,7 @@ public class CGame : MonoBehaviour
             {
                 _isSolved = true;
                 _difficulty = _difficulty + _difficultyIncrement;
+                _score = (int)(_difficulty * 100);
 
                 _spawnCoinRate -= _difficultyIncrement;
                 if (_spawnCoinRate < 1 )
@@ -817,5 +822,10 @@ public class CGame : MonoBehaviour
     public void setComboPause(bool aComboPause)
     {
         _comboPause = aComboPause;
+    }
+
+    public int getScore()
+    {
+        return _score;
     }
 }

@@ -7,7 +7,7 @@ public class CShopPanel : MonoBehaviour {
 
     private int _index;
     public Image _preview;
-    public Image _lockImg;
+    public GameObject _lockImg;
     public Button _button;
     public Text _name;
     public Text _unlocksAtText;
@@ -52,12 +52,12 @@ public class CShopPanel : MonoBehaviour {
         _isUnlocked = aUnlocked;
         if (_isUnlocked)
         {
-            _lockImg.enabled = false;
+            _lockImg.SetActive(false);
             _button.interactable = true;
         }
         else
         {
-            _lockImg.enabled = true;
+            _lockImg.SetActive(true);
             _button.interactable = false;
         }
     }
