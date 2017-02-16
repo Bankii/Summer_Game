@@ -79,7 +79,7 @@ public class CText : CGameObject
             }
             else if (getFontSize() < maxSize && isGrowing)
             {
-                setFontSize(getFontSize() + _speedSizeGrow);
+                setFontSize(getFontSize() + _speedSizeGrow);                
             }
             else if (getFontSize() <= normalSize)
             {
@@ -196,7 +196,6 @@ public class CText : CGameObject
         normalSize = getFontSize();
         _speedSizeGrow = aSpeedGrow;
         _speedSizeReduce = aSpeedReduce;
-
     }
         
 

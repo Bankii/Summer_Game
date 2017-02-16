@@ -690,7 +690,6 @@ public class CGame : MonoBehaviour
             //particle = Instantiate(particle, new Vector3(_prevPlatformRed.getX() + _prevPlatformRed.getWidth() / 2, _prevPlatformRed.getY() - _prevPlatformRed.getHeight()/2, 0), Quaternion.Euler(-90, 0, 0));
             GameObject particle = Resources.Load<GameObject>("Prefabs/Platform_Explotion_Particle");
             particle = Instantiate(particle, new Vector3(_prevPlatformRed.getX() + _prevPlatformRed.getWidth(), _prevPlatformRed.getY() - _prevPlatformRed.getHeight()/2, 0), Quaternion.Euler(-90, 0, 0));
-
         }
         if (_prevPlatformYellow != null)
         {
