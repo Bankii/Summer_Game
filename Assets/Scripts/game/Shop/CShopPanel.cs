@@ -11,7 +11,8 @@ public class CShopPanel : MonoBehaviour {
     public Button _button;
     public Text _name;
     public Text _unlocksAtText;
-    public Text _price;
+    public Text _priceTxt;
+    private int _price;
     private bool _isUnlocked = false;
     private bool _isBought = false;
     private bool _isEquipped = false;
@@ -28,22 +29,56 @@ public class CShopPanel : MonoBehaviour {
         {
             setEquipped(false);
         }
+        if (_isUnlocked)
+        {
+            if (!_isBought)
+            {
+                _button.interactable = CSaveLoad.money >= _price;
+            }
+            else
+            {
+                if (_isEquipped)
+                {
+                    _button.interactable = false;
+                }
+                else
+                {
+                    _button.interactable = true;
+                }
+            }
+        }
         
     }
 
     public void setBought(bool aBool)
     {
         _isBought = aBool;
+        if (_isEquipped)
+        {
+            _isBought = true;
+            if (!CSaveLoad.isBought(_index))
+            {
+                CSaveLoad.bought.Add(_index);
+            }
+
+        }
         if (_isBought)
         {
             Text text = _button.GetComponentInChildren<Text>();
             text.text = "Equip";
+            _button.onClick.RemoveAllListeners();
             _button.onClick.AddListener(equip);
         }
         else
         {
             Text text = _button.GetComponentInChildren<Text>();
             text.text = "Buy";
+            _button.onClick.RemoveAllListeners();
+            _button.onClick.AddListener(buy);
+            if (CSaveLoad.money < _price)
+            {
+                _button.interactable = false;
+            }
         }
     }
 
@@ -65,20 +100,22 @@ public class CShopPanel : MonoBehaviour {
     public void setEquipped(bool aBool)
     {
         _isEquipped = aBool;
-        if (_isEquipped)
-        {
-            _button.interactable = false;
-        }
-        else
-        {
-            _button.interactable = true;
-        }
     }
 
     void equip()
     {
         CSkinManager.inst.equip(_index);
         setEquipped(true);
+    }
+
+    void buy()
+    {
+        if (CSaveLoad.money >= _price)
+        {
+            CSaveLoad.money -= _price;
+            setBought(true);
+            CSaveLoad.bought.Add(_index);
+        }
     }
 
     public void setIndex(int aIndex)
@@ -108,6 +145,7 @@ public class CShopPanel : MonoBehaviour {
 
     public void setPrice(int aPrice)
     {
-        _price.text = aPrice.ToString();
+        _price = aPrice;
+        _priceTxt.text = aPrice.ToString();
     }
 }

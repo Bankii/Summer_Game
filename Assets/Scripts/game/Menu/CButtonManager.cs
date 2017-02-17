@@ -9,6 +9,14 @@ public class CButtonManager : MonoBehaviour {
     {
         SceneManager.LoadScene(aScene);
         // TODO: add a loading image.
+        if (aScene == 1)
+        {
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.visible = true;
+        }
     }
 
     public void quit()

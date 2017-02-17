@@ -156,6 +156,11 @@ public class CGame : MonoBehaviour
                 GameObject pauseMenu = Instantiate(Resources.Load<GameObject>("Prefabs/Menus/PauseMenu"), _canvas.transform);
                 pauseMenu.transform.localScale = new Vector3(3, 3, 3);
                 pauseMenu.transform.localPosition = new Vector3(0, 0, 0);
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.visible = false;
             }
         }
     }
@@ -180,7 +185,6 @@ public class CGame : MonoBehaviour
 
     private void resetVariables()
     {
-        CSaveLoad.setBestScore(_score);
         _score = 0;
         _simonSequence = new List<int>();
         _isSolved = true;
@@ -826,5 +830,10 @@ public class CGame : MonoBehaviour
     public int getScore()
     {
         return _score;
+    }
+
+    void OnDestroy()
+    {
+        CSaveLoad.setBestScore(_score);
     }
 }

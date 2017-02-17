@@ -44,6 +44,13 @@ public class CPlatform : CGameObject {
 
     private bool _isShutdown;
 
+    [Space(10)]
+    public float _yLerpRange;
+    public float _yLerpTime;
+    private float _origY;
+    private float _elapsedTime;
+    private bool _goingUp = true;
+
     void Awake()
     {
         apiAwake();
@@ -59,6 +66,11 @@ public class CPlatform : CGameObject {
         setState(STATE_INITIAL);
 
         _isShutdown = false;
+
+        _origY = getY();
+        float random = CMath.randomFloatBetween(0.1f, 1);
+        setY(getY() - _yLerpRange / 2 + _yLerpRange * random);
+        _elapsedTime = _yLerpTime *random;
     }
 
     void Update()
@@ -81,6 +93,24 @@ public class CPlatform : CGameObject {
     public override void apiUpdate()
     {
         base.apiUpdate();
+
+        if (_goingUp)
+        {
+            _elapsedTime += Time.deltaTime;
+        }
+        else
+            _elapsedTime -= Time.deltaTime;
+
+        setY(Mathf.Lerp(_origY - _yLerpRange / 2, _origY + _yLerpRange / 2, _elapsedTime / _yLerpTime));
+        if (_elapsedTime >= _yLerpTime)
+        {
+            _goingUp = false;
+        }
+        else if (_elapsedTime < 0)
+        {
+            _goingUp = true;
+        }
+
         #region STATE_OFF
         if (getState() == STATE_OFF)
         {
