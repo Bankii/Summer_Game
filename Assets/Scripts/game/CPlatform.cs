@@ -42,6 +42,15 @@ public class CPlatform : CGameObject {
 
     public CPlatformController _platformControllers;
 
+    private bool _isShutdown;
+
+    [Space(10)]
+    public float _yLerpRange;
+    public float _yLerpTime;
+    private float _origY;
+    private float _elapsedTime;
+    private bool _goingUp = true;
+
     void Awake()
     {
         apiAwake();
@@ -55,6 +64,13 @@ public class CPlatform : CGameObject {
         setWidth(PLATFORM_WIDTH);
         setHeight(PLATFORM_HEIGHT);
         setState(STATE_INITIAL);
+
+        _isShutdown = false;
+
+        _origY = getY();
+        float random = CMath.randomFloatBetween(0.1f, 1);
+        setY(getY() - _yLerpRange / 2 + _yLerpRange * random);
+        _elapsedTime = _yLerpTime *random;
     }
 
     void Update()
@@ -77,6 +93,24 @@ public class CPlatform : CGameObject {
     public override void apiUpdate()
     {
         base.apiUpdate();
+
+        if (_goingUp)
+        {
+            _elapsedTime += Time.deltaTime;
+        }
+        else
+            _elapsedTime -= Time.deltaTime;
+
+        setY(Mathf.Lerp(_origY - _yLerpRange / 2, _origY + _yLerpRange / 2, _elapsedTime / _yLerpTime));
+        if (_elapsedTime >= _yLerpTime)
+        {
+            _goingUp = false;
+        }
+        else if (_elapsedTime < 0)
+        {
+            _goingUp = true;
+        }
+
         #region STATE_OFF
         if (getState() == STATE_OFF)
         {
@@ -169,13 +203,25 @@ public class CPlatform : CGameObject {
         #region STATE_SHUTDOWN
         else if (getState() == STATE_SHUTDOWN)
         {
-            _anim.runtimeAnimatorController = null;
-            _spriteRenderer.sprite = _platformShutdown;            
+            if (!_isShutdown)
+            {
+                _anim.runtimeAnimatorController = _platformControllers.getController(CGameConstants.COLOR_BASE, STATE_SHUTDOWN);
+                _isShutdown = true;
+            }
+                        
+            if (_anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !_anim.IsInTransition(0))
+            {
+                _anim.runtimeAnimatorController = null;
+                _spriteRenderer.sprite = _platformShutdown;
+            }
+                     
         }
+        #endregion
 
+        #region STATE_TRANSITION_DONE
         if (getState() == STATE_TRANSITION_DONE)
         {
-            _anim.runtimeAnimatorController = _platformControllers.getController(CGameConstants.COLOR_BASE, STATE_OFF);
+            _anim.runtimeAnimatorController = _platformControllers.getController(CGameConstants.COLOR_BASE, STATE_DONE);
             //_spriteRenderer.sprite = _platformDone;
 
             if (getTimeState() >= 0.5f)
@@ -276,6 +322,7 @@ public class CPlatform : CGameObject {
         public RuntimeAnimatorController _platformBlueInactiveAnim;
         public RuntimeAnimatorController _platformBlueActiveAnim;
         public RuntimeAnimatorController _platformNeutralAnim;
+        public RuntimeAnimatorController _platformNeutralDestructionAnim;
 
         public RuntimeAnimatorController getController(int aPlatform, int aState)
         {
@@ -325,7 +372,15 @@ public class CPlatform : CGameObject {
             }
             else if (aPlatform == CGameConstants.COLOR_BASE)
             {
-                return _platformNeutralAnim;
+                if (aState == STATE_DONE)
+                {
+                    return _platformNeutralAnim; ;
+                }
+                else
+                {
+                    return _platformNeutralDestructionAnim;
+                }
+                
             }
             else
             {

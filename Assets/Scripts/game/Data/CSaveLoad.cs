@@ -100,4 +100,9 @@ public static class CSaveLoad
             bestScore = aScore;
         }
     }
+
+    public static bool isBought(int aIndex)
+    {
+        return bought.Contains(aIndex);
+    }
 }

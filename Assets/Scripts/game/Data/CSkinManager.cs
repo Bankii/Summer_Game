@@ -92,7 +92,10 @@ public class CSkinManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		
+        if (CSaveLoad.equipped != _equiped._index)
+        {
+            equip(CSaveLoad.equipped);
+        }
 	}
 
     void OnDestroy()

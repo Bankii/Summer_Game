@@ -13,11 +13,11 @@ public class CCoinCounter : CText {
 	void Start () {
         //_textComp = GetComponent<Text>();
         _coins = CSaveLoad.money;
-
+        _text.text = CSaveLoad.money.ToString();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
 
         base.apiUpdate();
 
