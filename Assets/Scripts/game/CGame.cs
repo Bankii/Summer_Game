@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class CGame : MonoBehaviour 
 {
+    public bool _PlatformLerp = true;
+
 	static private CGame mInstance;
     
     private List<int> _simonSequence; //Color sequence for Simon

@@ -13,8 +13,11 @@ public class CPlayer : CGameObject
     public const int STATE_CHARGING = 5;
 
     public float _horizontalSpeed;
-    public float _verticalMaxSpeed;
-    public float _verticalMinSpeed;
+    //public float _verticalMaxSpeed;
+    //public float _verticalMinSpeed;
+    public float _jumpSpeed;
+    public float _maxHoldTime;
+    public float _jumpReleaseSpeed;
     public float _GRAVITY_JUMP;
     public float _GRAVITY_FALL;
     private float _jumpMultiplyer = 0;
@@ -54,6 +57,8 @@ public class CPlayer : CGameObject
     private LayerMask _platformMask = 1 << 8;
 
     public float _timeToMaxCharge;
+
+    private bool _hasPeakedJump = false;
 
     void Start()
     {
@@ -269,6 +274,18 @@ public class CPlayer : CGameObject
             #region STATE JUMPING
             case STATE_JUMPING:
 
+                if ((Input.GetKey(KeyCode.Space) || Input.GetKey("joystick button 1") || Input.GetKey("joystick button 0")) 
+                    && (getTimeState() <= _maxHoldTime))
+                {
+                    setVelY(_jumpSpeed);
+                }
+                if ((Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp("joystick button 1") || Input.GetKeyUp("joystick button 0"))
+                    || (getTimeState() > _maxHoldTime && !_hasPeakedJump))
+                {
+                    _hasPeakedJump = true;
+                    setVelY(_jumpReleaseSpeed);
+                }
+
                 if (getVelY() <= 0)
                 {
                     setState(STATE_FALLING);
@@ -470,16 +487,22 @@ public class CPlayer : CGameObject
                 break;
             case STATE_JUMPING:
                 _anim.Play(_playerControllers._jumpingAnim);
-                setVelY(_verticalMaxSpeed * _jumpMultiplyer);
+                //setVelY(_verticalMaxSpeed * _jumpMultiplyer);
                 setAccelY(_GRAVITY_JUMP);
-                if (getVelY() < _verticalMinSpeed)
-                {
-                    setVelY(_verticalMinSpeed);
-                }
-                else if (getVelY() > _verticalMaxSpeed)
-                {
-                    setVelY(_verticalMaxSpeed);
-                }
+                _hasPeakedJump = false;
+                setVelY(_jumpSpeed);
+
+                #region
+                //if (getVelY() < _verticalMinSpeed)
+                //{
+                //    setVelY(_verticalMinSpeed);
+                //}
+                //else if (getVelY() > _verticalMaxSpeed)
+                //{
+                //    setVelY(_verticalMaxSpeed);
+                //}
+                #endregion
+
                 _jumpMultiplyer = 0;
                 break;
             case STATE_FALLING:

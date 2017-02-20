@@ -93,22 +93,24 @@ public class CPlatform : CGameObject {
     public override void apiUpdate()
     {
         base.apiUpdate();
+        if (CGame.inst()._PlatformLerp)
+        {
+            if (_goingUp)
+            {
+                _elapsedTime += Time.deltaTime;
+            }
+            else
+                _elapsedTime -= Time.deltaTime;
 
-        if (_goingUp)
-        {
-            _elapsedTime += Time.deltaTime;
-        }
-        else
-            _elapsedTime -= Time.deltaTime;
-
-        setY(Mathf.Lerp(_origY - _yLerpRange / 2, _origY + _yLerpRange / 2, _elapsedTime / _yLerpTime));
-        if (_elapsedTime >= _yLerpTime)
-        {
-            _goingUp = false;
-        }
-        else if (_elapsedTime < 0)
-        {
-            _goingUp = true;
+            setY(Mathf.Lerp(_origY - _yLerpRange / 2, _origY + _yLerpRange / 2, _elapsedTime / _yLerpTime));
+            if (_elapsedTime >= _yLerpTime)
+            {
+                _goingUp = false;
+            }
+            else if (_elapsedTime < 0)
+            {
+                _goingUp = true;
+            }
         }
 
         #region STATE_OFF
