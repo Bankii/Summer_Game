@@ -298,15 +298,17 @@ public class CPlayer : CGameObject
             case STATE_JUMPING:
 
                 if ((Input.GetKey(KeyCode.Space) || Input.GetKey("joystick button 1") || Input.GetKey("joystick button 0")) 
-                    && (getTimeState() <= _maxHoldTime))
+                    && (getTimeState() <= _maxHoldTime) && !_hasPeakedJump)
                 {
-                    setVelY(_jumpSpeed);
+                    //setVelY(_jumpSpeed);
+                    setAccelY(-50);
                 }
                 if ((Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp("joystick button 1") || Input.GetKeyUp("joystick button 0"))
                     || (getTimeState() > _maxHoldTime && !_hasPeakedJump))
                 {
                     _hasPeakedJump = true;
-                    setVelY(_jumpReleaseSpeed);
+                    //setVelY(_jumpReleaseSpeed);
+                    setAccelY(_GRAVITY_JUMP);
                 }
 
                 if (getVelY() <= 0)
@@ -385,14 +387,14 @@ public class CPlayer : CGameObject
                     setVelY(_preBoostSpeed);
                 }
                 // Acceleration boost if the down arrow is pressed.
-                if (Input.GetAxisRaw("Vertical") < 0)
-                {
-                    setAccelY(_GRAVITY_JUMP + _ACCEL_BOOST);
-                }
-                else if (Input.GetAxisRaw("Vertical") == 0)
-                {
-                    setAccelY(_GRAVITY_JUMP);
-                }
+                //if (Input.GetAxisRaw("Vertical") < 0)
+                //{
+                //    setAccelY(_GRAVITY_JUMP + _ACCEL_BOOST);
+                //}
+                //else if (Input.GetAxisRaw("Vertical") == 0)
+                //{
+                //    setAccelY(_GRAVITY_JUMP);
+                //}
                 break;
 #endregion
 
@@ -511,7 +513,8 @@ public class CPlayer : CGameObject
             case STATE_JUMPING:
                 _anim.Play(_playerControllers._jumpingAnim);
                 //setVelY(_verticalMaxSpeed * _jumpMultiplyer);
-                setAccelY(_GRAVITY_JUMP);
+                //setAccelY(_GRAVITY_JUMP);
+                setAccelY(-50);
                 _hasPeakedJump = false;
                 setVelY(_jumpSpeed);
 
