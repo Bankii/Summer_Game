@@ -300,10 +300,10 @@ public class CPlayer : CGameObject
                 if ((Input.GetKey(KeyCode.Space) || Input.GetKey("joystick button 1") || Input.GetKey("joystick button 0")) 
                     && (getTimeState() <= _maxHoldTime) && !_hasPeakedJump)
                 {
-                    setVelY(_jumpSpeed);
+                    //setVelY(_jumpSpeed);
                 }
                 if ((Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp("joystick button 1") || Input.GetKeyUp("joystick button 0"))
-                    || (getTimeState() > _maxHoldTime && !_hasPeakedJump))
+                    && !_hasPeakedJump)//|| (getTimeState() > _maxHoldTime && !_hasPeakedJump))
                 {
                     _hasPeakedJump = true;
                     setVelY(_jumpReleaseSpeed);
