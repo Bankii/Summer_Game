@@ -16,7 +16,7 @@ public class CPlayer : CGameObject
     //public float _verticalMaxSpeed;
     //public float _verticalMinSpeed;
     public float _jumpSpeed;
-    public float _maxHoldTime;
+    //public float _maxHoldTime;
     public float _jumpReleaseSpeed;
     public float _GRAVITY_JUMP;
     public float _GRAVITY_FALL;
@@ -297,13 +297,9 @@ public class CPlayer : CGameObject
             #region STATE JUMPING
             case STATE_JUMPING:
 
-                if ((Input.GetKey(KeyCode.Space) || Input.GetKey("joystick button 1") || Input.GetKey("joystick button 0")) 
-                    && (getTimeState() <= _maxHoldTime) && !_hasPeakedJump)
-                {
-                    //setVelY(_jumpSpeed);
-                }
+                
                 if ((Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp("joystick button 1") || Input.GetKeyUp("joystick button 0"))
-                    && !_hasPeakedJump)//|| (getTimeState() > _maxHoldTime && !_hasPeakedJump))
+                    && !_hasPeakedJump)
                 {
                     _hasPeakedJump = true;
                     setVelY(_jumpReleaseSpeed);
