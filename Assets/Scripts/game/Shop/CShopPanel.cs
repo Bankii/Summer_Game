@@ -66,6 +66,11 @@ public class CShopPanel : MonoBehaviour {
         {
             Text text = _button.GetComponentInChildren<Text>();
             text.text = "Equip";
+            if (_isEquipped)
+            {
+                text.text = "Equipped";
+                text.fontSize = 17;
+            }
             _button.onClick.RemoveAllListeners();
             _button.onClick.AddListener(equip);
         }
@@ -100,6 +105,12 @@ public class CShopPanel : MonoBehaviour {
     public void setEquipped(bool aBool)
     {
         _isEquipped = aBool;
+        if (_isEquipped)
+        {
+            Text text = _button.GetComponentInChildren<Text>();
+            text.text = "Equipped";
+            text.fontSize = 17;
+        }
     }
 
     void equip()

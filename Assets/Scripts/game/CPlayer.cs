@@ -29,6 +29,8 @@ public class CPlayer : CGameObject
     public float _collitionOffsetLeft;
     public float _collitionOffsetRight;
 
+    public float _collitionOffsetUp;
+
     public int _height;
     public int _width;
 
@@ -92,10 +94,10 @@ public class CPlayer : CGameObject
 
     void FixedUpdate()
     {
-        if (getState() != STATE_IDLE && getState() != STATE_CHARGING)
-        {
+        //if (getState() != STATE_IDLE && getState() != STATE_CHARGING)
+        //{
             checkPoints();
-        }
+        //}
     }
 
     public override void apiUpdate()
@@ -154,11 +156,21 @@ public class CPlayer : CGameObject
                     }
                 }
 
-                // Checking if there is no floor underneath.
-                if (getY() - _height > _maxY)
+                // Checking if there is no floor underneath in over 100 pixels.
+                if (getY() - _height > _maxY && getY() - _height - _maxY > 100)
                 {
                     setState(STATE_FALLING);
                     break;
+                }
+                // Checking if there is no floor underneath, below a 100 pixels, to correct to the platform.
+                if (getY() - _height > _maxY && getY() - _height - _maxY <= 100)
+                {
+                    setY(_maxY + _height);
+                }
+                // Checking if the floor is higher.
+                if (getY() - _height < _maxY)
+                {
+                    setY(_maxY + _height);
                 }
 
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 1") || Input.GetKeyDown("joystick button 0"))
@@ -245,12 +257,23 @@ public class CPlayer : CGameObject
                     _spriteRenderer.gameObject.transform.position = getPos();
                 }
 
-
-                // Checking if there is no floor underneath.
-                if (getY() - _height > _maxY)
+                // Checking if there is no floor underneath in over 100 pixels.
+                if (getY() - _height > _maxY && getY() - _height - _maxY > 100)
                 {
                     setState(STATE_FALLING);
+                    break;
                 }
+                // Checking if there is no floor underneath, below a 100 pixels, to correct to the platform.
+                if (getY() - _height > _maxY && getY() - _height - _maxY <= 100)
+                {
+                    setY(_maxY + _height);
+                }
+                // Checking if the floor is higher.
+                if (getY() - _height < _maxY)
+                {
+                    setY(_maxY + _height);
+                }
+
                 break;
             #endregion
 
@@ -538,8 +561,10 @@ public class CPlayer : CGameObject
     {
         float auxWidth = getX() + _width - _collitionOffsetRight;
         float auxX = getX() + _collitionOffsetLeft;
+        float auxY = getY() - _collitionOffsetUp;
 
-        Vector3 auxPos = new Vector3(auxX, getY(), getZ());
+        //Vector3 auxPos = new Vector3(auxX, getY(), getZ());
+        Vector3 auxPos = new Vector3(auxX, auxY, getZ());
 
 
         // --------Checking the floor.--------
@@ -555,7 +580,8 @@ public class CPlayer : CGameObject
         }
 
         // Down right.
-        hitInfo = Physics2D.Raycast(new Vector3(auxWidth, getY(), getZ()), Vector3.down, 1000, _platformMask);
+        //hitInfo = Physics2D.Raycast(new Vector3(auxWidth, getY(), getZ()), Vector3.down, 1000, _platformMask);
+        hitInfo = Physics2D.Raycast(new Vector3(auxWidth, auxY, getZ()), Vector3.down, 1000, _platformMask);
         if (hitInfo.collider != null && hitInfo.collider.tag == "Platform")
         {
             rightY = hitInfo.point.y;
@@ -584,6 +610,7 @@ public class CPlayer : CGameObject
         // Setting the down variable.
         _minY = Mathf.Min(leftY, rightY);
 
+        #region sides
         //// --------Checking the Right.--------
         //float upX = CGameConstants.SCREEN_WIDTH;
         //float downX = CGameConstants.SCREEN_WIDTH;
@@ -625,6 +652,7 @@ public class CPlayer : CGameObject
 
         //// Setting the down variable.
         //_minX = Mathf.Min(upX, downX);
+        #endregion
     }
 
     public void setColor(int aColor)
@@ -695,6 +723,11 @@ public class CPlayer : CGameObject
         //_coinUIScript.sizeBounce(30, 1, 1);
     }
     
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawRay(new Vector3(getX() + _collitionOffsetLeft, getY() - _collitionOffsetUp, -3), Vector3.down*100);
+
+    }
 }
 
 [System.Serializable]
