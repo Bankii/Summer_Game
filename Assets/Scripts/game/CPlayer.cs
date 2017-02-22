@@ -721,8 +721,11 @@ public class CPlayer : CGameObject
     
     void OnDrawGizmos()
     {
-        Gizmos.DrawRay(new Vector3(getX() + _collitionOffsetLeft, getY() - _collitionOffsetUp, -3), Vector3.down*100);
+        if (_playerFX != null)
+        {
+            Gizmos.DrawRay(new Vector3(getX() + _collitionOffsetLeft, getY() - _collitionOffsetUp, -3), Vector3.down * 100);
 
+        }
     }
 }
 

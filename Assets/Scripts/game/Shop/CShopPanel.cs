@@ -65,11 +65,11 @@ public class CShopPanel : MonoBehaviour {
         if (_isBought)
         {
             Text text = _button.GetComponentInChildren<Text>();
-            text.text = "Equip";
+            text.text = "EQUIP";
             if (_isEquipped)
             {
-                text.text = "Equipped";
-                text.fontSize = 17;
+                text.text = "EQUIPPED";
+                text.fontSize = 15;
             }
             _button.onClick.RemoveAllListeners();
             _button.onClick.AddListener(equip);
@@ -77,7 +77,7 @@ public class CShopPanel : MonoBehaviour {
         else
         {
             Text text = _button.GetComponentInChildren<Text>();
-            text.text = "Buy";
+            text.text = "BUILD";
             _button.onClick.RemoveAllListeners();
             _button.onClick.AddListener(buy);
             if (CSaveLoad.money < _price)
@@ -108,8 +108,8 @@ public class CShopPanel : MonoBehaviour {
         if (_isEquipped)
         {
             Text text = _button.GetComponentInChildren<Text>();
-            text.text = "Equipped";
-            text.fontSize = 17;
+            text.text = "EQUIPPED";
+            text.fontSize = 15;
         }
     }
 

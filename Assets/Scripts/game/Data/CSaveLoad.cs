@@ -12,6 +12,9 @@ public static class CSaveLoad
     public static List<int> unlocked = new List<int>();
     public static int bestScore = 0;
 
+    public static float soundVolume = 1;
+    public static float musicVolume = 1;
+
     public static void save()
     {
         BinaryFormatter bf = new BinaryFormatter();
@@ -38,6 +41,17 @@ public static class CSaveLoad
         file = File.Create(Application.persistentDataPath + "/score.gd");
         bf.Serialize(file, CSaveLoad.bestScore);
         file.Close();
+
+        bf = new BinaryFormatter();
+        file = File.Create(Application.persistentDataPath + "/sound.gd");
+        bf.Serialize(file, CSaveLoad.soundVolume);
+        file.Close();
+
+        bf = new BinaryFormatter();
+        file = File.Create(Application.persistentDataPath + "/music.gd");
+        bf.Serialize(file, CSaveLoad.musicVolume);
+        file.Close();
+
     }
 
     public static void load()
@@ -81,6 +95,22 @@ public static class CSaveLoad
             CSaveLoad.bestScore = (int)bf.Deserialize(file);
             file.Close();
         }
+
+        if (File.Exists(Application.persistentDataPath + "/sound.gd"))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/sound.gd", FileMode.Open);
+            CSaveLoad.soundVolume = (float)bf.Deserialize(file);
+            file.Close();
+        }
+
+        if (File.Exists(Application.persistentDataPath + "/music.gd"))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/music.gd", FileMode.Open);
+            CSaveLoad.musicVolume = (float)bf.Deserialize(file);
+            file.Close();
+        }
     }
 
     public static void eraseLoad()
@@ -90,8 +120,20 @@ public static class CSaveLoad
         money = 0;
         unlocked = new List<int>();
         bestScore = 0;
+        musicVolume = 1;
+        soundVolume = 1;
         save();
     }
+
+    //public static void setMusicVolume(float aVolume)
+    //{
+    //    musicVolume = aVolume;
+    //}
+
+    //public static void setSoundVolume(float aVolume)
+    //{
+    //    soundVolume = aVolume;
+    //}
 
     public static void setBestScore(int aScore)
     {

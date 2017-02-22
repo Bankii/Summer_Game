@@ -791,7 +791,7 @@ public class CGame : MonoBehaviour
     public void createBox(CPlatform aPlatform)
     {
         Object box = Resources.Load("Prefabs/Box");
-        Instantiate(box, new Vector3(aPlatform.getX() + PLATFORM_WIDTH / 2, aPlatform.getY() + CBox.HEIGHT, 0), Quaternion.identity);
+        Instantiate(box, new Vector3(aPlatform.getX() + PLATFORM_WIDTH / 2, aPlatform.getY() + CBox.HEIGHT, 0), Quaternion.identity, aPlatform.gameObject.transform);
     }
 
     public int getCoinMultip()

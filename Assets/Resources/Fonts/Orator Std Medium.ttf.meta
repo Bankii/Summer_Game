@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 5ba0445c8d6c3d84080b3b329580bae9
+timeCreated: 1487787913
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Orator Std
+  fontNames:
+  - Orator Std
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
