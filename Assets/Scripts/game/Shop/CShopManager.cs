@@ -8,7 +8,7 @@ public class CShopManager : MonoBehaviour {
 
     public float _offsetX;
 
-    private List<CShopPanel> _panels;
+    private static List<CShopPanel> _panels;
 
 	// Use this for initialization
 	void Start ()
@@ -44,6 +44,14 @@ public class CShopManager : MonoBehaviour {
         }	
 	}
 	
+    public static void equip(int aIndex)
+    {
+        for (int i = 0; i < _panels.Count; i++)
+        {
+            _panels[i].setEquipped(_panels[i].getIndex() == aIndex);
+        }
+    }
+
 	// Update is called once per frame
 	void Update () {
 		

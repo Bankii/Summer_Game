@@ -111,12 +111,21 @@ public class CShopPanel : MonoBehaviour {
             text.text = "EQUIPPED";
             text.fontSize = 15;
         }
+        else
+        {
+            if (_isBought)
+            {
+                Text text = _button.GetComponentInChildren<Text>();
+                text.text = "EQUIP";
+                text.fontSize = 20;
+            }
+        }
     }
 
     void equip()
     {
         CSkinManager.inst.equip(_index);
-        setEquipped(true);
+        CShopManager.equip(_index);
     }
 
     void buy()
