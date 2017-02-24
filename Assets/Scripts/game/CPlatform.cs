@@ -45,16 +45,31 @@ public class CPlatform : CGameObject {
     private bool _isShutdown;
 
     [Space(10)]
+    public GameObject _bright;
+    private SpriteRenderer _brightRenderer;
+    
+    public Sprite _greenBright;
+    public Sprite _redBright;
+    public Sprite _yellowBright;
+    public Sprite _blueBright;
+
+    [Space(10)]
     public float _yLerpRange;
     public float _yLerpTime;
     private float _origY;
     private float _elapsedTime;
     private bool _goingUp = true;
 
+
+
     void Awake()
     {
         apiAwake();
         _platformFX = GetComponent<AudioSource>();
+
+        _brightRenderer = _bright.GetComponent<SpriteRenderer>();
+
+
     }
 
     // Use this for initialization
@@ -116,6 +131,8 @@ public class CPlatform : CGameObject {
         #region STATE_OFF
         if (getState() == STATE_OFF)
         {
+            _bright.SetActive(false);
+
             if (getType() == PLATFORM_GREEN)
             {
                 _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_GREEN, STATE_OFF);
@@ -143,24 +160,30 @@ public class CPlatform : CGameObject {
         #region STATE_ON
         else if (getState() == STATE_ON)
         {
+            _bright.SetActive(true);
+
             if (getType() == PLATFORM_GREEN)
             {
-                _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_GREEN, STATE_ON); 
+                _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_GREEN, STATE_ON);
+                _brightRenderer.sprite = _greenBright;
                 //_spriteRenderer.sprite = _platformGreenActive;                
             }
             else if (getType() == PLATFORM_RED)
             {
                 _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_RED, STATE_ON);
+                _brightRenderer.sprite = _redBright;
                 //_spriteRenderer.sprite = _platformRedActive;
             }
             else if (getType() == PLATFORM_YELLOW)
             {
                 _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_YELLOW, STATE_ON);
+                _brightRenderer.sprite = _yellowBright;
                 //_spriteRenderer.sprite = _platformYellowActive;
             }
             else if (getType() == PLATFORM_BLUE)
             {
                 _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_BLUE, STATE_ON);
+                _brightRenderer.sprite = _blueBright;
                 //_spriteRenderer.sprite = _platformBlueActive;
             }
 
@@ -174,6 +197,8 @@ public class CPlatform : CGameObject {
         #region STATE_TRANSITION
         else if (getState() == STATE_TRANSITION)
         {
+            _bright.SetActive(false);
+
             if (getType() == PLATFORM_GREEN)
             {
                 _anim.runtimeAnimatorController = _platformControllers.getController(PLATFORM_GREEN, STATE_OFF);
@@ -205,6 +230,8 @@ public class CPlatform : CGameObject {
         #region STATE_SHUTDOWN
         else if (getState() == STATE_SHUTDOWN)
         {
+            _bright.SetActive(false);
+
             if (!_isShutdown)
             {
                 _anim.runtimeAnimatorController = _platformControllers.getController(CGameConstants.COLOR_BASE, STATE_SHUTDOWN);
@@ -214,7 +241,8 @@ public class CPlatform : CGameObject {
             if (_anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !_anim.IsInTransition(0))
             {
                 _anim.runtimeAnimatorController = null;
-                _spriteRenderer.sprite = _platformShutdown;
+                _spriteRenderer.sprite = null;
+                enabled = false;
             }
                      
         }
@@ -223,8 +251,9 @@ public class CPlatform : CGameObject {
         #region STATE_TRANSITION_DONE
         if (getState() == STATE_TRANSITION_DONE)
         {
+            _bright.SetActive(false);
+
             _anim.runtimeAnimatorController = _platformControllers.getController(CGameConstants.COLOR_BASE, STATE_DONE);
-            //_spriteRenderer.sprite = _platformDone;
 
             if (getTimeState() >= 0.5f)
             {
@@ -237,13 +266,15 @@ public class CPlatform : CGameObject {
         else if (getState() == STATE_DONE)
         {
             _spriteRenderer.sprite = _platformDone;
+            _bright.SetActive(false);
         }
         #endregion
 
         #region STATE_INITIAL
         else if (getState() == STATE_INITIAL)
         {
-            
+            _bright.SetActive(false);
+
             if (getTimeState() < _initialStateTime)
             {
                 float aux = Mathf.Lerp(0, 1, getTimeState() / _initialStateTime);

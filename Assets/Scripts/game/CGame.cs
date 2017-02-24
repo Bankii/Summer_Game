@@ -455,8 +455,8 @@ public class CGame : MonoBehaviour
 
     private void showSimonSequence()
     {
-        //_camera.centerYCameraTo(_platformBlue.getY());
-        _camera.goTo(_camera.getX(), _platformBlue.getY());
+        
+        //_camera.goTo(_camera.getX(), _platformBlue.getY());
 
         if (_platformCount < _simonSequence.Count)
         {
@@ -522,15 +522,15 @@ public class CGame : MonoBehaviour
             _platformYellow.setState(STATE_PLATFORM_ON);
             _platformBlue.setState(STATE_PLATFORM_ON);
 
-            _camera.releaseToGo();
+            /*_camera.releaseToGo();
 
             if (_platformNum >= 4)
             {
                 _camera.goToPlayer();
             }
-            
+            */
 
-            _goText.goSizeBounce(400, 15, 40);
+            _goText.goSizeBounce(400, 35, 50);
         }
     }
 
@@ -711,7 +711,7 @@ public class CGame : MonoBehaviour
             _prevPlatformBlue.setWalkable(false);
             //GameObject particle = Resources.Load<GameObject>("Prefabs/Platform_Explotion_Particle");
             //particle = Instantiate(particle, new Vector3(_prevPlatformBlue.getX() + _prevPlatformBlue.getWidth() / 2, _prevPlatformBlue.getY() - _prevPlatformBlue.getHeight() / 2, 0), Quaternion.Euler(-90, 0, 0));
-        }
+        }        
     }
 
     private void setAllPlatformsDone()

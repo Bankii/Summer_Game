@@ -17,4 +17,6 @@ public class CSoundVolume : MonoBehaviour {
         else
             _audioSrc.volume = 0;
     }
+    
+
 }

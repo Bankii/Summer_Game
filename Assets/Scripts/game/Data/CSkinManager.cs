@@ -97,6 +97,7 @@ public class CSkinManager : MonoBehaviour {
             equip(CSaveLoad.equipped);
         }
 	}
+    
 
     void OnDestroy()
     {

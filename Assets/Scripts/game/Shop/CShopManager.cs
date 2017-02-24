@@ -20,9 +20,17 @@ public class CShopManager : MonoBehaviour {
         {
             GameObject panel = Instantiate(_skinPanel, canvas.transform);
             RectTransform rectTransf = panel.GetComponent<RectTransform>();
-            rectTransf.localPosition = new Vector3(-696 + _offsetX * i, -40, 0);
+            if (i <= 3)
+            {
+                rectTransf.localPosition = new Vector3(-450 + _offsetX * i, 220, 0);
+            }
+            else
+            {
+                rectTransf.localPosition = new Vector3(-450 + _offsetX * i, -167, 0);
+            }
+            
             rectTransf.sizeDelta = new Vector2(120, 254);
-            rectTransf.localScale = new Vector3(3, 3, 3);
+            rectTransf.localScale = new Vector3(1.5f, 1.5f, 1.5f);
             _panels.Add(panel.GetComponent<CShopPanel>());
             CPlayerController controller = CSkinManager.inst.getSkin(i);
             _panels[i].setIndex(i);

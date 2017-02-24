@@ -60,7 +60,8 @@ public class CTextGo : CGameObject {
                 _isGrowing = false;
                 if (!_isMaxSize)
                 {
-                    setState(STATE_BIG_READY);
+                    //setState(STATE_BIG_READY);
+                    setState(STATE_BIG_GO);
                     _isMaxSize = true;
                 }
                 
@@ -71,7 +72,7 @@ public class CTextGo : CGameObject {
 
         if (getState() == STATE_OFF)
         {
-            _text.text = "READY?";
+            //_text.text = "READY?";
             _text.enabled = false;
         }
         else if (getState() == STATE_GROWING)
@@ -82,17 +83,17 @@ public class CTextGo : CGameObject {
         {
             _text.enabled = true;
         }
-        else if (getState() == STATE_BIG_READY)
-        {
-            if (getTimeState() >= 0.5f)
-            {
-                setState(STATE_BIG_GO);
-            }
-        }
+        //else if (getState() == STATE_BIG_READY)
+        //{
+        //    if (getTimeState() >= 0.5f)
+        //    {
+        //        setState(STATE_BIG_GO);
+        //    }
+        //}
         else if (getState() == STATE_BIG_GO)
         {
             CGame.inst().setComboPause(false);
-            _text.text = "GO!";
+            //_text.text = "GO!";
             if (getTimeState() >= 0.3f)
             {
                 setState(STATE_REDUCING);

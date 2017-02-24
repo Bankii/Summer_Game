@@ -9,7 +9,7 @@ public class CPauseMenuController : MonoBehaviour {
     public bool _isResume;
     public bool _isMenu;
     public bool _isParent;
-
+    
     public Button _button;
 
 	// Use this for initialization
@@ -22,6 +22,7 @@ public class CPauseMenuController : MonoBehaviour {
         {
             _button.onClick.AddListener(OnMenu);
         }
+        
     }
 	
     public void OnResume()
@@ -36,6 +37,7 @@ public class CPauseMenuController : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
         if (_isParent && !CGame.inst().getPause())
         {
             Destroy(gameObject);

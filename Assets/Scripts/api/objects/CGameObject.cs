@@ -35,6 +35,7 @@ public class CGameObject : MonoBehaviour {
     private float mWanderDistance = 50;
     private float mWanderRandomRange = 100;
 
+    
     void Awake()
     {
         apiAwake();
@@ -211,6 +212,7 @@ public class CGameObject : MonoBehaviour {
         mVel.truncate(mMaxSpeed);
 
         _transform.position = _transform.position + mVel._vector * Time.deltaTime;
+        
     }
 
     virtual public void render()
@@ -360,4 +362,6 @@ public class CGameObject : MonoBehaviour {
     {
         return _transform.localScale;
     }
+
+   
 }
