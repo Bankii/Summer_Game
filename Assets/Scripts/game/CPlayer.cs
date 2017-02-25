@@ -56,6 +56,8 @@ public class CPlayer : CGameObject
 
     public CPlayerController _playerControllers;
 
+    public CSpriteTrail _spriteTrail;
+
     private LayerMask _platformMask = 1 << 8;
 
     public float _timeToMaxCharge;
@@ -103,7 +105,7 @@ public class CPlayer : CGameObject
     public override void apiUpdate()
     {
         base.apiUpdate();
-        //_anim.SetFloat("Jump", getVelY());
+        //_anim.SetFloat("Jump", getVelY());               
 
         switch (getState())
         {
@@ -120,10 +122,14 @@ public class CPlayer : CGameObject
                     //}
                     if (Input.GetAxisRaw("Horizontal") > 0 || Input.GetAxisRaw("Horizontal") < 0)
                     {
-                        if (CGame.inst().isShowed() && (CGame.inst().getStateGO() == CTextGo.STATE_OFF || CGame.inst().getStateGO() == CTextGo.STATE_REDUCING) || CGame.inst().getStateGO() == CTextGo.STATE_BIG_GO)
+                        if ((CGame.inst().isShowed() && (CGame.inst().getStateGO() == CTextGo.STATE_OFF || 
+                            CGame.inst().getStateGO() == CTextGo.STATE_REDUCING || CGame.inst().getStateGO() == CTextGo.STATE_BIG_GO)))
                         {
-                            setState(STATE_WALKING);
-                            break;
+                            if (CGame.inst().getStatePlatform() != CPlatform.STATE_INITIAL)
+                            {
+                                setState(STATE_WALKING);
+                                break;
+                            }                            
                         }                        
                     }
                 }
@@ -141,18 +147,26 @@ public class CPlayer : CGameObject
 
                 if (getX() == _maxX && Input.GetAxisRaw("Horizontal") < 0)
                 {
-                    if (CGame.inst().isShowed() && (CGame.inst().getStateGO() == CTextGo.STATE_OFF || CGame.inst().getStateGO() == CTextGo.STATE_REDUCING) || CGame.inst().getStateGO() == CTextGo.STATE_BIG_GO)
+                    if ((CGame.inst().isShowed() && (CGame.inst().getStateGO() == CTextGo.STATE_OFF ||
+                            CGame.inst().getStateGO() == CTextGo.STATE_REDUCING || CGame.inst().getStateGO() == CTextGo.STATE_BIG_GO)))
                     {
-                        setState(STATE_WALKING);
-                        break;
+                        if (CGame.inst().getStatePlatform() != CPlatform.STATE_INITIAL)
+                        {
+                            setState(STATE_WALKING);
+                            break;
+                        }                        
                     }
                 }
                 if (getX() == _minX && Input.GetAxisRaw("Horizontal") > 0)
                 {
-                    if (CGame.inst().isShowed() && (CGame.inst().getStateGO() == CTextGo.STATE_OFF || CGame.inst().getStateGO() == CTextGo.STATE_REDUCING) || CGame.inst().getStateGO() == CTextGo.STATE_BIG_GO)
+                    if ((CGame.inst().isShowed() && (CGame.inst().getStateGO() == CTextGo.STATE_OFF ||
+                            CGame.inst().getStateGO() == CTextGo.STATE_REDUCING || CGame.inst().getStateGO() == CTextGo.STATE_BIG_GO)))
                     {
-                        setState(STATE_WALKING);
-                        break;
+                        if (CGame.inst().getStatePlatform() != CPlatform.STATE_INITIAL)
+                        {
+                            setState(STATE_WALKING);
+                            break;
+                        }
                     }
                 }
 
@@ -175,10 +189,14 @@ public class CPlayer : CGameObject
 
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 1") || Input.GetKeyDown("joystick button 0"))
                 {
-                    if (CGame.inst().isShowed() && (CGame.inst().getStateGO() == CTextGo.STATE_OFF || CGame.inst().getStateGO() == CTextGo.STATE_REDUCING) || CGame.inst().getStateGO() == CTextGo.STATE_BIG_GO)
+                    if ((CGame.inst().isShowed() && (CGame.inst().getStateGO() == CTextGo.STATE_OFF ||
+                       CGame.inst().getStateGO() == CTextGo.STATE_REDUCING) || CGame.inst().getStateGO() == CTextGo.STATE_BIG_GO))
                     {
-                        playJumpFX();
-                        setState(STATE_JUMPING);
+                        if (CGame.inst().getStatePlatform() != CPlatform.STATE_INITIAL)
+                        {
+                            playJumpFX();
+                            setState(STATE_JUMPING);
+                        }                        
                     }                    
                     //setState(STATE_CHARGING);
                     break;
@@ -188,22 +206,6 @@ public class CPlayer : CGameObject
 
             #region STATE WALKING
             case STATE_WALKING:
-
-                //if (!Input.GetKey("left") && !Input.GetKey("right") && !Input.GetKey("joystick button 8") && !Input.GetKey("joystick button 9"))
-                //{
-                //    setState(STATE_IDLE);
-                //    break;
-                //}
-                //if (getX() + _width >= _maxX && Input.GetKey("joystick button 9"))//Input.GetKey("right"))
-                //{
-                //    setState(STATE_IDLE);
-                //    break;
-                //}
-                //if (getX() <= _minX && Input.GetKey("joystick button 8"))//Input.GetKey("left"))
-                //{
-                //    setState(STATE_IDLE);
-                //    break;
-                //}
                 if (Input.GetAxisRaw("Horizontal") == 0)
                 {
                     setState(STATE_IDLE);
@@ -221,29 +223,19 @@ public class CPlayer : CGameObject
                 }
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 1") || Input.GetKeyDown("joystick button 0"))
                 {
-                    if (CGame.inst().isShowed() && (CGame.inst().getStateGO() == CTextGo.STATE_OFF || CGame.inst().getStateGO() == CTextGo.STATE_REDUCING) || CGame.inst().getStateGO() == CTextGo.STATE_BIG_GO)
+                    if ((CGame.inst().isShowed() && (CGame.inst().getStateGO() == CTextGo.STATE_OFF ||
+                            CGame.inst().getStateGO() == CTextGo.STATE_REDUCING || CGame.inst().getStateGO() == CTextGo.STATE_BIG_GO)))
                     {
-                        playJumpFX();
-                        setState(STATE_JUMPING);
+                        if (CGame.inst().getStatePlatform() != CPlatform.STATE_INITIAL)
+                        {
+                            playJumpFX();
+                            setState(STATE_JUMPING);
+                        }
                     }
                     //setState(STATE_CHARGING);
                     break;
                 }
-
-                // Set vel and flip according to the side.
-                //if (Input.GetKey("left") || Input.GetKey("joystick button 8"))
-                //{
-                //    setVelX(-_horizontalSpeed);
-                //    _spriteRenderer.flipX = true;
-                //    _spriteRenderer.gameObject.transform.position = new Vector3(getX() + _width, getY(), getZ());
-                //}
-                //else if (Input.GetKey("right") || Input.GetKey("joystick button 9"))
-                //{
-                //    setVelX(_horizontalSpeed);
-                //    _spriteRenderer.flipX = false;
-                //    _spriteRenderer.gameObject.transform.position = getPos();
-                //}
-
+                
                 if (Input.GetAxisRaw("Horizontal") < 0)
                 {
                     setVelX(-_horizontalSpeed);
@@ -396,7 +388,7 @@ public class CPlayer : CGameObject
             case STATE_FALLING:
                 //_anim.SetBool("isGrounded", false);
                 if (getY() < -CGameConstants.SCREEN_HEIGHT)
-                {                    
+                {
                     setState(STATE_DYING);
                     break;
                 }
@@ -439,6 +431,10 @@ public class CPlayer : CGameObject
                 if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") < 0)
                 {
                     _preBoostSpeed = getVelY();
+
+                    //Show trail
+                    CSpriteTrail sp = Instantiate(_spriteTrail, new Vector3(getX(), getY(), 0), Quaternion.Euler(0, 0, 0));
+                    sp.setSprite(_spriteRenderer.sprite);                    
                 }
                 // Loading the previous speed.
                 if (Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") < 0)
@@ -460,6 +456,7 @@ public class CPlayer : CGameObject
 
             #region STATE DYING
             case STATE_DYING:
+                _anim.Play(_playerControllers._dyingAnim);
                 if (getY() - _height <= -CGameConstants.SCREEN_HEIGHT - _height - 10)
                 {
                     setY(_maxY + _height);

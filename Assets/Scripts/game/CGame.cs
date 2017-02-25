@@ -146,6 +146,8 @@ public class CGame : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
+
+        
         if (!_pause)
         {
             update();
@@ -812,6 +814,11 @@ public class CGame : MonoBehaviour
     public int getStateGO()
     {
         return _goText.getState();
+    }
+
+    public int getStatePlatform()
+    {
+        return _platformGreen.getState();
     }
 
     public void setPause(bool aBool)
