@@ -10,6 +10,8 @@ public class CSpriteTrail : CGameObject
     void Start()
     {
         _color = GetComponent<SpriteRenderer>().color;
+
+        _color.a = 0.7f;
     }
 
     public override void apiUpdate()
@@ -18,7 +20,7 @@ public class CSpriteTrail : CGameObject
 
         if (_color.a >= 0)
         {
-            _color.a = _color.a - 0.10f;
+            _color.a = _color.a - 0.05f;
 
             _sr.color = _color;
         }
@@ -38,6 +40,15 @@ public class CSpriteTrail : CGameObject
     public void setSprite(Sprite aSprite)
     {
         _sr.sprite = aSprite;
+    }
+
+    public void setFlipX(bool aFlipX)
+    {
+        _sr.flipX = aFlipX;
+        if (aFlipX)
+        {
+            setX(getX() + CGame.inst()._player.getWidth());
+        }        
     }
 
 }

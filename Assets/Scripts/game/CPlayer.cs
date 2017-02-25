@@ -434,7 +434,8 @@ public class CPlayer : CGameObject
 
                     //Show trail
                     CSpriteTrail sp = Instantiate(_spriteTrail, new Vector3(getX(), getY(), 0), Quaternion.Euler(0, 0, 0));
-                    sp.setSprite(_spriteRenderer.sprite);                    
+                    sp.setSprite(_spriteRenderer.sprite);
+                    sp.setFlipX(_spriteRenderer.flipX);              
                 }
                 // Loading the previous speed.
                 if (Input.GetKeyUp(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") < 0)
