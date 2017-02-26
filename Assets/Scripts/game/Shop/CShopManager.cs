@@ -26,7 +26,7 @@ public class CShopManager : MonoBehaviour {
             }
             else
             {
-                rectTransf.localPosition = new Vector3(-450 + _offsetX * i, -167, 0);
+                rectTransf.localPosition = new Vector3(-450 + _offsetX * (i -4), -167, 0);
             }
             
             rectTransf.sizeDelta = new Vector2(120, 254);
