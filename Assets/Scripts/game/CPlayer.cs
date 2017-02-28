@@ -11,6 +11,8 @@ public class CPlayer : CGameObject
     public const int STATE_FALLING = 3;
     public const int STATE_DYING = 4;
     public const int STATE_CHARGING = 5;
+    public const int STATE_OFF = 6;
+    public const int STATE_ON = 7;
 
     public float _horizontalSpeed;
     //public float _verticalMaxSpeed;
@@ -473,7 +475,54 @@ public class CPlayer : CGameObject
                 }
                 break;
             #endregion
-                
+
+            #region STATE OFF
+            case STATE_OFF:
+                _anim.Play(_playerControllers._OffAnim);
+                // Checking if there is no floor underneath in over 100 pixels.
+                if (getY() - _height > _maxY && getY() - _height - _maxY > 100)
+                {
+                    setState(STATE_FALLING);
+                    break;
+                }
+                // Checking if there is no floor underneath, below a 100 pixels, to correct to the platform.
+                if (getY() - _height > _maxY && getY() - _height - _maxY <= 100)
+                {
+                    setY(_maxY + _height);
+                }
+                // Checking if the floor is higher.
+                if (getY() - _height < _maxY)
+                {
+                    setY(_maxY + _height);
+                }
+                break;
+            #endregion
+
+            #region STATE ON
+            case STATE_ON:
+                if (_anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !_anim.IsInTransition(0))
+                {
+                    setState(STATE_IDLE);
+                    CGame.inst().setComboPause(false);
+                }
+                // Checking if there is no floor underneath in over 100 pixels.
+                if (getY() - _height > _maxY && getY() - _height - _maxY > 100)
+                {
+                    setState(STATE_FALLING);
+                    break;
+                }
+                // Checking if there is no floor underneath, below a 100 pixels, to correct to the platform.
+                if (getY() - _height > _maxY && getY() - _height - _maxY <= 100)
+                {
+                    setY(_maxY + _height);
+                }
+                // Checking if the floor is higher.
+                if (getY() - _height < _maxY)
+                {
+                    setY(_maxY + _height);
+                }
+                break;    
+            #endregion   
 
             default:
                 break;
@@ -482,7 +531,7 @@ public class CPlayer : CGameObject
 
     public bool isGrounded()
     {
-        return getState() == STATE_IDLE || getState() == STATE_WALKING || getState() == STATE_CHARGING;
+        return getState() == STATE_IDLE || getState() == STATE_WALKING || getState() == STATE_CHARGING || getState() == STATE_ON || getState() == STATE_OFF;
     }
 
     public override void setState(int aState)
@@ -545,6 +594,13 @@ public class CPlayer : CGameObject
                 setVelX(0);
                 setVelY(0);
                 setAccelY(_GRAVITY_FALL);
+                break;
+            case STATE_OFF:
+                _anim.Play(_playerControllers._OffAnim);
+                stopMove();
+                break;
+            case STATE_ON:
+                _anim.Play(_playerControllers._OnAnim);
                 break;
             default:
                 break;
@@ -750,6 +806,8 @@ public class CPlayerController
     public string _jumpingAnim = "Jump";
     public string _fallingAnim = "Fall";
     public string _dyingAnim = "Die";
+    public string _OffAnim = "Off";
+    public string _OnAnim = "On";
 
     public RuntimeAnimatorController _controllerBase;
     public RuntimeAnimatorController _controllerGreen;
