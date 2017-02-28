@@ -555,7 +555,8 @@ public class CGame : MonoBehaviour
     }
 
     private void createPlatform()
-    {        
+    {
+        _camera.makeItShake(20);
         _comboPause = true;
         if (_isFirstPlatform)
         {

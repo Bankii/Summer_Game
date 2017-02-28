@@ -20,7 +20,13 @@ public class CCamera: CGameObject
     private bool _hasToGoPlayer = false;
     private int _goX;
     private int _goY;
-    
+
+    private bool _screenshake = false;
+    private bool _wasScreenshakeLastFrame;
+    private float _shakeStrength;
+    private Vector2 _preShakePos;
+    public float _shakeDuration;
+    private float _timer;
     
 
     void Update()
@@ -30,7 +36,14 @@ public class CCamera: CGameObject
     public override void apiUpdate()
     {
         base.apiUpdate();
-        
+
+        _wasScreenshakeLastFrame = _screenshake;
+
+        if (_preShakePos != null && (_screenshake || _wasScreenshakeLastFrame))
+        {
+            setXY(_preShakePos.x, _preShakePos.y);
+        }
+
         /*if (mGameObjectToFollow != null)
         {
             setX (mGameObjectToFollow.getX () - WIDTH / 2);
@@ -94,10 +107,22 @@ public class CCamera: CGameObject
                 //    setY(getGameObjectToFollow().getY() - HEIGHT / 2);
             }
         }
+        if (_screenshake)
+        {
+            _timer -= Time.deltaTime;
+            Vector3 aux = Random.insideUnitCircle * _shakeStrength;
+            setXY(getX() + aux.x, getY() + aux.y);
+            if (_timer <= 0)
+            {
+                _screenshake = false;
+            }
+        }
+        else
+        {
+            checkBorder();
 
-
-        checkBorder();
-
+        }
+        
     }
         
     public void setMax(float aMax)
@@ -174,5 +199,14 @@ public class CCamera: CGameObject
     public bool hasToGoPlayer()
     {
         return _hasToGoPlayer;
+    }
+
+    public void makeItShake(int aStrength)
+    {
+        Debug.Log("here");
+        _preShakePos = new Vector2(getX(), getY());
+        _screenshake = true;
+        _shakeStrength = aStrength;
+        _timer = _shakeDuration;
     }
 }
