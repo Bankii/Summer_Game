@@ -145,9 +145,7 @@ public class CGame : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () 
-	{
-
-        
+	{        
         if (!_pause)
         {
             update();
@@ -524,6 +522,7 @@ public class CGame : MonoBehaviour
             _platformYellow.setState(STATE_PLATFORM_ON);
             _platformBlue.setState(STATE_PLATFORM_ON);
 
+            _player.setState(CPlayer.STATE_ON);
             /*_camera.releaseToGo();
 
             if (_platformNum >= 4)
@@ -556,7 +555,7 @@ public class CGame : MonoBehaviour
 
     private void createPlatform()
     {
-        _camera.makeItShake(20);
+        _player.setState(CPlayer.STATE_OFF);        
         _comboPause = true;
         if (_isFirstPlatform)
         {

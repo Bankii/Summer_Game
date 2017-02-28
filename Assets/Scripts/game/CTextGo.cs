@@ -91,8 +91,7 @@ public class CTextGo : CGameObject {
         //    }
         //}
         else if (getState() == STATE_BIG_GO)
-        {
-            CGame.inst().setComboPause(false);
+        {            
             //_text.text = "GO!";
             if (getTimeState() >= 0.3f)
             {
