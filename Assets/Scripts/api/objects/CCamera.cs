@@ -37,7 +37,6 @@ public class CCamera: CGameObject
     {
         base.apiUpdate();
 
-        _wasScreenshakeLastFrame = _screenshake;
 
         if (_preShakePos != null && (_screenshake || _wasScreenshakeLastFrame))
         {
@@ -52,7 +51,7 @@ public class CCamera: CGameObject
 
 
         // Chequear que la camara no se vaya de los bordes.
-        
+
 
         if (_center)
         {
@@ -102,11 +101,17 @@ public class CCamera: CGameObject
                 }
             }else
             {
-                setY(mGameObjectToFollow.getY() - HEIGHT / 4);
+                setY(mGameObjectToFollow.getY() + HEIGHT / 8);
                 //    setX(getGameObjectToFollow().getX() - WIDTH / 2);
                 //    setY(getGameObjectToFollow().getY() - HEIGHT / 2);
             }
         }
+        checkBorder();
+
+        _preShakePos = new Vector2(getX(), getY());
+
+        _wasScreenshakeLastFrame = _screenshake;
+
         if (_screenshake)
         {
             _timer -= Time.deltaTime;
@@ -116,11 +121,6 @@ public class CCamera: CGameObject
             {
                 _screenshake = false;
             }
-        }
-        else
-        {
-            checkBorder();
-
         }
         
     }
@@ -201,9 +201,8 @@ public class CCamera: CGameObject
         return _hasToGoPlayer;
     }
 
-    public void makeItShake(int aStrength)
+    public void makeItShake(float aStrength)
     {
-        Debug.Log("here");
         _preShakePos = new Vector2(getX(), getY());
         _screenshake = true;
         _shakeStrength = aStrength;

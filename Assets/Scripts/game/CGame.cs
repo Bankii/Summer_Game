@@ -101,6 +101,8 @@ public class CGame : MonoBehaviour
 
     private int _score = 0;
 
+    public float _screenshakeBaseIntensity;
+
     void Awake()
 	{
 		if (mInstance != null) 
@@ -244,6 +246,7 @@ public class CGame : MonoBehaviour
         if (_restartGame && _wasRestartLastFrame)
         {
             _restartGame = false;
+            CSaveLoad.setBestScore(_score);
             resetVariables();
 
             createPlatform();
@@ -420,6 +423,7 @@ public class CGame : MonoBehaviour
             _comboMultip = _comboMaxMultip;
         }
         _comboElapsedTime = 0;
+        _camera.makeItShake(_screenshakeBaseIntensity * _comboMultip);
     }
 
 	public void destroy()
