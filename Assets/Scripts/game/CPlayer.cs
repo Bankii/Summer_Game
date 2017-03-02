@@ -52,6 +52,7 @@ public class CPlayer : CGameObject
     public AudioClip _jumpFX1;
     public AudioClip _jumpFX2;
     public AudioClip _gameOverFX;
+    public AudioClip _coinPickUpFX;
 
     //public Text _coinUI;
     //private CText _coinUIScript;
@@ -753,6 +754,8 @@ public class CPlayer : CGameObject
             addCoins(CGame.inst().getCoinMultip());
             GameObject coinParticle = Resources.Load<GameObject>("Prefabs/Coin_Pick_Up_Particle");
             coinParticle = Instantiate(coinParticle, new Vector3(getX() + _width / 2, getY() - _height /2, -900), Quaternion.Euler(-90, 0, 0));
+            _playerFX.clip = _coinPickUpFX;
+            _playerFX.Play();
             Destroy(coll.gameObject);
         }
         if (coll.gameObject.tag == "Box")

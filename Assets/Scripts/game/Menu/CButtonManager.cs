@@ -5,6 +5,13 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class CButtonManager : MonoBehaviour {
+    
+    private AudioSource _as;
+
+    void Start()
+    {
+        _as = GetComponent<AudioSource>();
+    }
 
     public void changeScene(int aScene)
     {
@@ -38,5 +45,10 @@ public class CButtonManager : MonoBehaviour {
     public void setSoundVolume(Slider aSlider)
     {
         CSaveLoad.soundVolume = aSlider.value;
+    }
+
+    public void playSound()
+    {
+        _as.Play();
     }
 }
