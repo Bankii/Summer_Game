@@ -22,11 +22,11 @@ public class CShopManager : MonoBehaviour {
             RectTransform rectTransf = panel.GetComponent<RectTransform>();
             if (i <= 3)
             {
-                rectTransf.localPosition = new Vector3(-450 + _offsetX * i, 220, 0);
+                rectTransf.localPosition = new Vector3(-590 + _offsetX * i, 220, 0);
             }
             else
             {
-                rectTransf.localPosition = new Vector3(-450 + _offsetX * (i -4), -167, 0);
+                rectTransf.localPosition = new Vector3(-590 + _offsetX * (i -4), -220, 0);
             }
             
             rectTransf.sizeDelta = new Vector2(120, 254);

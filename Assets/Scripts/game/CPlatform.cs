@@ -243,6 +243,7 @@ public class CPlatform : CGameObject {
                 _anim.runtimeAnimatorController = null;
                 _spriteRenderer.sprite = null;
                 enabled = false;
+                Destroy(this.gameObject);
             }
                      
         }

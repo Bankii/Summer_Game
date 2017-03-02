@@ -26,15 +26,12 @@ public class CGame : MonoBehaviour
     public float _difficultyIncrement; //Increment for each platform solved
     public int _platformSeparation;
     public float _spawnCoinRate;
-    public float _spawnRewardRate;
+    //public float _spawnRewardRate;
     public CTextGo _goText;
 
 
     public GameObject _platformPrefab;
-    //public GameObject _coinPrefab;
-    //public GameObject _boxPrefab;
     public CCamera _camera;
-    //public GameObject _backgroundPrefab;
 
     public GameObject _canvas;
 
@@ -95,7 +92,7 @@ public class CGame : MonoBehaviour
 
     private float _resetDifficulty;
     public float _resetSpawnCoinRate;
-    public float _resetSpawnRewardRate;
+    //public float _resetSpawnRewardRate;
 
     private bool _pause = false;
 
@@ -136,7 +133,7 @@ public class CGame : MonoBehaviour
 
         _resetDifficulty = _difficulty;
         _resetSpawnCoinRate = _spawnCoinRate;
-        _resetSpawnRewardRate = _spawnRewardRate;
+        //_resetSpawnRewardRate = _spawnRewardRate;
         
 
         _camera.setGameObjectToFollow(_player);
@@ -198,7 +195,7 @@ public class CGame : MonoBehaviour
         _isFirstPlatform = true;
         _difficulty = _resetDifficulty;
         _spawnCoinRate = _resetSpawnCoinRate;
-        _spawnRewardRate = _resetSpawnRewardRate;
+        //_spawnRewardRate = _resetSpawnRewardRate;
         _platformCount = 0;
         _platformNum = 1;
         _platformGreen = null;
@@ -640,31 +637,31 @@ public class CGame : MonoBehaviour
             #endregion
         }
 
-        _spawnDeterminator = CMath.randomIntBetween(0, 100);
-        if (_spawnDeterminator < 100 / _spawnRewardRate)
-        {
-            #region REWARD_SPAWN
-            _platCoinReward = CMath.randomIntBetween(CGameConstants.COLOR_GREEN, CGameConstants.COLOR_BLUE);
-            if (_platCoinReward == CGameConstants.COLOR_GREEN)
-            {
-                createBox(_platformGreen);
-            }
-            else if (_platCoinReward == CGameConstants.COLOR_RED)
-            {
-                createBox(_platformRed);
+        //_spawnDeterminator = CMath.randomIntBetween(0, 100);
+        //if (_spawnDeterminator < 100 / _spawnRewardRate)
+        //{
+        //    #region REWARD_SPAWN
+        //    _platCoinReward = CMath.randomIntBetween(CGameConstants.COLOR_GREEN, CGameConstants.COLOR_BLUE);
+        //    if (_platCoinReward == CGameConstants.COLOR_GREEN)
+        //    {
+        //        createBox(_platformGreen);
+        //    }
+        //    else if (_platCoinReward == CGameConstants.COLOR_RED)
+        //    {
+        //        createBox(_platformRed);
 
-            }
-            else if (_platCoinReward == CGameConstants.COLOR_YELLOW)
-            {
-                createBox(_platformYellow);
+        //    }
+        //    else if (_platCoinReward == CGameConstants.COLOR_YELLOW)
+        //    {
+        //        createBox(_platformYellow);
 
-            }
-            else if (_platCoinReward == CGameConstants.COLOR_BLUE)
-            {
-                createBox(_platformBlue);
-            }
-            #endregion
-        }
+        //    }
+        //    else if (_platCoinReward == CGameConstants.COLOR_BLUE)
+        //    {
+        //        createBox(_platformBlue);
+        //    }
+        //    #endregion
+        //}
 
         _camera.setMax(_randomPlatformY - PLATFORM_HEIGHT + CGameConstants.SCREEN_HEIGHT / 2);
 
@@ -748,16 +745,16 @@ public class CGame : MonoBehaviour
                 _score = (int)(_difficulty * 100);
 
                 _spawnCoinRate -= _difficultyIncrement;
-                if (_spawnCoinRate < 1 )
+                if (_spawnCoinRate < 2 )
                 {
-                    _spawnCoinRate = 1;
+                    _spawnCoinRate = 2;
                 }
 
-                _spawnRewardRate -= _difficultyIncrement;
-                if (_spawnRewardRate < 1)
-                {
-                    _spawnRewardRate = 1;
-                }
+                //_spawnRewardRate -= _difficultyIncrement;
+                //if (_spawnRewardRate < 1)
+                //{
+                //    _spawnRewardRate = 1;
+                //}
                 createPlatform();
             }
             
@@ -794,11 +791,11 @@ public class CGame : MonoBehaviour
         Instantiate(coin, new Vector3(aPlatform.getX() + PLATFORM_WIDTH / 2, aPlatform.getY() + _player.getHeight() / 2, 0), Quaternion.identity);
     }
 
-    public void createBox(CPlatform aPlatform)
-    {
-        Object box = Resources.Load("Prefabs/Box");
-        Instantiate(box, new Vector3(aPlatform.getX() + PLATFORM_WIDTH / 2, aPlatform.getY() + CBox.HEIGHT, 0), Quaternion.identity, aPlatform.gameObject.transform);
-    }
+    //public void createBox(CPlatform aPlatform)
+    //{
+    //    Object box = Resources.Load("Prefabs/Box");
+    //    Instantiate(box, new Vector3(aPlatform.getX() + PLATFORM_WIDTH / 2, aPlatform.getY() + CBox.HEIGHT, 0), Quaternion.identity, aPlatform.gameObject.transform);
+    //}
 
     public int getCoinMultip()
     {
