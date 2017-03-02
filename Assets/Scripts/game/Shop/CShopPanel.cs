@@ -12,6 +12,7 @@ public class CShopPanel : MonoBehaviour {
     public Text _name;
     public Text _unlocksAtText;
     public Text _priceTxt;
+    public Animator _anim;
     private int _price;
     private bool _isUnlocked = false;
     private bool _isBought = false;

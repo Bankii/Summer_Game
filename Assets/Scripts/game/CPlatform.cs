@@ -86,6 +86,8 @@ public class CPlatform : CGameObject {
         float random = CMath.randomFloatBetween(0.1f, 1);
         setY(getY() - _yLerpRange / 2 + _yLerpRange * random);
         _elapsedTime = _yLerpTime *random;
+        int boolRand = CMath.randomIntBetween(0, 1);
+        _goingUp = boolRand == 1;
     }
 
     void Update()

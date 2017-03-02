@@ -88,7 +88,7 @@ public class CCamera: CGameObject
                 if (getX() == _goX && getY() <= _goY)
                 {
                     setVelXY(0, 0);
-                    setY(mGameObjectToFollow.getY() - HEIGHT / 4);
+                    setY(mGameObjectToFollow.getY() + 78);
                     releaseToGo();
                     //setXY(_goX, _goY);
                 }
@@ -101,7 +101,7 @@ public class CCamera: CGameObject
                 }
             }else
             {
-                setY(mGameObjectToFollow.getY() + HEIGHT / 8);
+                setY(mGameObjectToFollow.getY() + 78);
                 //    setX(getGameObjectToFollow().getX() - WIDTH / 2);
                 //    setY(getGameObjectToFollow().getY() - HEIGHT / 2);
             }
@@ -185,7 +185,7 @@ public class CCamera: CGameObject
         //_goX = (int)aX;
         //_goY = (int)aY;
         _goX = (int)getX();
-        _goY = (int)mGameObjectToFollow.getY() - HEIGHT / 4;
+        _goY = (int)mGameObjectToFollow.getY() + 78;
     }
 
     public void releaseToGo()

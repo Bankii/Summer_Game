@@ -34,21 +34,38 @@ public class CShopManager : MonoBehaviour {
             _panels.Add(panel.GetComponent<CShopPanel>());
             CPlayerController controller = CSkinManager.inst.getSkin(i);
             _panels[i].setIndex(i);
-            _panels[i].setPreview(controller._preview);
+            _panels[i]._anim.runtimeAnimatorController = controller._controllerBase;
+            _panels[i]._anim.enabled = true;
+            _panels[i]._anim.Play("ShopPreview");
+            _panels[i]._anim.enabled = false;
             _panels[i].setName(controller._name);
             _panels[i].setEquipped(_panels[i].getIndex() == CSaveLoad.equipped);
+            if (_panels[i].getIndex() == CSaveLoad.equipped)
+            {
+                equip(i);
+            }
             _panels[i].setBought(CSaveLoad.isBought(i));
             _panels[i].setUnlockText(controller._unlockableAt.ToString());
             _panels[i].setUnlocked(CSaveLoad.bestScore >= controller._unlockableAt);
             _panels[i].setPrice(controller._price);
-        }	
-	}
+            _panels[i].setPreview(controller._preview);
+        }
+    }
 	
     public static void equip(int aIndex)
     {
         for (int i = 0; i < _panels.Count; i++)
         {
             _panels[i].setEquipped(_panels[i].getIndex() == aIndex);
+            if (_panels[i].getIndex() == aIndex)
+            {
+                _panels[i]._anim.enabled = true;
+                _panels[i]._anim.Play("ShopPreview");
+            }
+            else
+            {
+                _panels[i]._anim.enabled = false;
+            }
         }
     }
 

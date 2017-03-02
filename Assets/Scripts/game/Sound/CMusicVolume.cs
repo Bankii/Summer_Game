@@ -6,15 +6,28 @@ public class CMusicVolume : MonoBehaviour {
 
     private AudioSource _audioSrc;
 
-	// Use this for initialization
-	void Start () {
+    private float _originalVolume;
+    private float _usedMultip;
+
+    // Use this for initialization
+    void Start()
+    {
         _audioSrc = gameObject.GetComponent<AudioSource>();
-        if (CSaveLoad.musicVolume != 0)
+
+        _originalVolume = _audioSrc.volume;
+
+        _audioSrc.volume = _audioSrc.volume * CSaveLoad.musicVolume;
+
+        _usedMultip = CSaveLoad.musicVolume;
+    }
+
+    void Update()
+    {
+        if (CSaveLoad.musicVolume != _usedMultip)
         {
-            _audioSrc.volume = _audioSrc.volume * CSaveLoad.musicVolume;
+            _audioSrc.volume = _originalVolume * CSaveLoad.musicVolume;
+            _usedMultip = CSaveLoad.musicVolume;
         }
-        else
-            _audioSrc.volume = 0;
-	}
-	
+    }
+
 }
