@@ -18,10 +18,15 @@ public class CShopPanel : MonoBehaviour {
     private bool _isBought = false;
     private bool _isEquipped = false;
 
+    private AudioSource _panelAudio;
+
+    public AudioClip _buildFX;
+    public AudioClip _equipFX;
+
 	// Use this for initialization
 	void Start () {
-		
-	}
+        _panelAudio = GetComponent<AudioSource>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -127,6 +132,8 @@ public class CShopPanel : MonoBehaviour {
     {
         CSkinManager.inst.equip(_index);
         CShopManager.equip(_index);
+        _panelAudio.clip = _equipFX;
+        _panelAudio.Play();        
     }
 
     void buy()
@@ -136,6 +143,8 @@ public class CShopPanel : MonoBehaviour {
             CSaveLoad.money -= _price;
             setBought(true);
             CSaveLoad.bought.Add(_index);
+            _panelAudio.clip = _buildFX;
+            _panelAudio.Play();
         }
     }
 

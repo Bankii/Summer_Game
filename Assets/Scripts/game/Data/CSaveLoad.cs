@@ -13,7 +13,7 @@ public static class CSaveLoad
     public static int bestScore = 0;
 
     public static float soundVolume = 1;
-    public static float musicVolume = 1;
+    public static float musicVolume = 0.2f;
 
     public static void save()
     {
@@ -120,7 +120,7 @@ public static class CSaveLoad
         money = 0;
         unlocked = new List<int>();
         bestScore = 0;
-        musicVolume = 1;
+        musicVolume = 0.2f;
         soundVolume = 1;
         save();
     }

@@ -10,7 +10,7 @@ public class CButtonManager : MonoBehaviour {
 
     void Start()
     {
-        _as = GetComponent<AudioSource>();
+        _as = GetComponent<AudioSource>();        
     }
 
     public void changeScene(int aScene)

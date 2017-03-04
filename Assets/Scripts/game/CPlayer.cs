@@ -522,7 +522,21 @@ public class CPlayer : CGameObject
                 {
                     setY(_maxY + _height);
                 }
-                break;    
+
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 1") || Input.GetKeyDown("joystick button 0"))
+                {
+                    if ((CGame.inst().isShowed() && (CGame.inst().getStateGO() == CTextGo.STATE_OFF ||
+                       CGame.inst().getStateGO() == CTextGo.STATE_REDUCING) || CGame.inst().getStateGO() == CTextGo.STATE_BIG_GO))
+                    {
+                        if (CGame.inst().getStatePlatform() != CPlatform.STATE_INITIAL)
+                        {
+                            playJumpFX();
+                            setState(STATE_JUMPING);
+                        }
+                    }
+                }
+
+                    break;    
             #endregion   
 
             default:
