@@ -100,6 +100,11 @@ public class CGame : MonoBehaviour
 
     public float _screenshakeBaseIntensity;
 
+    private AudioSource _gameAudio;
+
+    public AudioClip _platformAppear;
+    public AudioClip _showSequenceDone;
+
     void Awake()
 	{
 		if (mInstance != null) 
@@ -111,6 +116,8 @@ public class CGame : MonoBehaviour
 
 		CMouse.init();
 		CKeyboard.init ();
+
+        _gameAudio = GetComponent<AudioSource>();
         
 	}
 
@@ -523,6 +530,9 @@ public class CGame : MonoBehaviour
             _platformYellow.setState(STATE_PLATFORM_ON);
             _platformBlue.setState(STATE_PLATFORM_ON);
 
+            _gameAudio.clip = _showSequenceDone;
+            _gameAudio.Play();
+
             _player.setState(CPlayer.STATE_ON);
             /*_camera.releaseToGo();
 
@@ -558,6 +568,10 @@ public class CGame : MonoBehaviour
     {
         _player.setState(CPlayer.STATE_OFF);        
         _comboPause = true;
+
+        _gameAudio.clip = _platformAppear;
+        _gameAudio.Play();
+
         if (_isFirstPlatform)
         {
             _randomPlatformX = CMath.randomIntBetween(300, 450);
