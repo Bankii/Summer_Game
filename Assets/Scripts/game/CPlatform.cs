@@ -60,7 +60,8 @@ public class CPlatform : CGameObject {
     private float _elapsedTime;
     private bool _goingUp = true;
 
-
+    private float _origX;
+    private float _scaleY;
 
     void Awake()
     {
@@ -85,9 +86,11 @@ public class CPlatform : CGameObject {
         _origY = getY();
         float random = CMath.randomFloatBetween(0.1f, 1);
         setY(getY() - _yLerpRange / 2 + _yLerpRange * random);
+        _scaleY = getY();
         _elapsedTime = _yLerpTime *random;
         int boolRand = CMath.randomIntBetween(0, 1);
         _goingUp = boolRand == 1;
+        _origX = getX();
     }
 
     void Update()
@@ -110,7 +113,7 @@ public class CPlatform : CGameObject {
     public override void apiUpdate()
     {
         base.apiUpdate();
-        if (CGame.inst()._PlatformLerp)
+        if (CGame.inst()._PlatformLerp && getState() != STATE_INITIAL)
         {
             if (_goingUp)
             {
@@ -282,9 +285,13 @@ public class CPlatform : CGameObject {
             {
                 float aux = Mathf.Lerp(0, 1, getTimeState() / _initialStateTime);
                 setScale(new Vector3(aux, aux, 1));
+                setX(_origX + PLATFORM_WIDTH / 2 - PLATFORM_WIDTH / 2 * aux);
+                setY(_scaleY - (PLATFORM_HEIGHT) / 2 + (PLATFORM_HEIGHT) / 2 * aux);
             }
             else
             {
+                setX(_origX);
+                setY(_scaleY);
                 setState(STATE_OFF);
             }
         }
