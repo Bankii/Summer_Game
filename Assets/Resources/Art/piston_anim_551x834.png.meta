@@ -1,0 +1,625 @@
+fileFormatVersion: 2
+guid: fc46b9ff67422b248a6568c366668c90
+timeCreated: 1488643721
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: piston_anim_551x834_0
+    21300002: piston_anim_551x834_1
+    21300004: piston_anim_551x834_2
+    21300006: piston_anim_551x834_3
+    21300008: piston_anim_551x834_4
+    21300010: piston_anim_551x834_5
+    21300012: piston_anim_551x834_6
+    21300014: piston_anim_551x834_7
+    21300016: piston_anim_551x834_8
+    21300018: piston_anim_551x834_9
+    21300020: piston_anim_551x834_10
+    21300022: piston_anim_551x834_11
+    21300024: piston_anim_551x834_12
+    21300026: piston_anim_551x834_13
+    21300028: piston_anim_551x834_14
+    21300030: piston_anim_551x834_15
+    21300032: piston_anim_551x834_16
+    21300034: piston_anim_551x834_17
+    21300036: piston_anim_551x834_18
+    21300038: piston_anim_551x834_19
+    21300040: piston_anim_551x834_20
+    21300042: piston_anim_551x834_21
+    21300044: piston_anim_551x834_22
+    21300046: piston_anim_551x834_23
+    21300048: piston_anim_551x834_24
+    21300050: piston_anim_551x834_25
+    21300052: piston_anim_551x834_26
+    21300054: piston_anim_551x834_27
+    21300056: piston_anim_551x834_28
+    21300058: piston_anim_551x834_29
+    21300060: piston_anim_551x834_30
+    21300062: piston_anim_551x834_31
+    21300064: piston_anim_551x834_32
+    21300066: piston_anim_551x834_33
+    21300068: piston_anim_551x834_34
+    21300070: piston_anim_551x834_35
+    21300072: piston_anim_551x834_36
+    21300074: piston_anim_551x834_37
+    21300076: piston_anim_551x834_38
+    21300078: piston_anim_551x834_39
+    21300080: piston_anim_551x834_40
+    21300082: piston_anim_551x834_41
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: piston_anim_551x834_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4170
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_1
+      rect:
+        serializedVersion: 2
+        x: 551
+        y: 4170
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_2
+      rect:
+        serializedVersion: 2
+        x: 1102
+        y: 4170
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_3
+      rect:
+        serializedVersion: 2
+        x: 1653
+        y: 4170
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_4
+      rect:
+        serializedVersion: 2
+        x: 2204
+        y: 4170
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_5
+      rect:
+        serializedVersion: 2
+        x: 2755
+        y: 4170
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_6
+      rect:
+        serializedVersion: 2
+        x: 3306
+        y: 4170
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3336
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_8
+      rect:
+        serializedVersion: 2
+        x: 551
+        y: 3336
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_9
+      rect:
+        serializedVersion: 2
+        x: 1102
+        y: 3336
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_10
+      rect:
+        serializedVersion: 2
+        x: 1653
+        y: 3336
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_11
+      rect:
+        serializedVersion: 2
+        x: 2204
+        y: 3336
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_12
+      rect:
+        serializedVersion: 2
+        x: 2755
+        y: 3336
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_13
+      rect:
+        serializedVersion: 2
+        x: 3306
+        y: 3336
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2502
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_15
+      rect:
+        serializedVersion: 2
+        x: 551
+        y: 2502
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_16
+      rect:
+        serializedVersion: 2
+        x: 1102
+        y: 2502
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_17
+      rect:
+        serializedVersion: 2
+        x: 1653
+        y: 2502
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_18
+      rect:
+        serializedVersion: 2
+        x: 2204
+        y: 2502
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_19
+      rect:
+        serializedVersion: 2
+        x: 2755
+        y: 2502
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_20
+      rect:
+        serializedVersion: 2
+        x: 3306
+        y: 2502
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1668
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_22
+      rect:
+        serializedVersion: 2
+        x: 551
+        y: 1668
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_23
+      rect:
+        serializedVersion: 2
+        x: 1102
+        y: 1668
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_24
+      rect:
+        serializedVersion: 2
+        x: 1653
+        y: 1668
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_25
+      rect:
+        serializedVersion: 2
+        x: 2204
+        y: 1668
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_26
+      rect:
+        serializedVersion: 2
+        x: 2755
+        y: 1668
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_27
+      rect:
+        serializedVersion: 2
+        x: 3306
+        y: 1668
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 834
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_29
+      rect:
+        serializedVersion: 2
+        x: 551
+        y: 834
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_30
+      rect:
+        serializedVersion: 2
+        x: 1102
+        y: 834
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_31
+      rect:
+        serializedVersion: 2
+        x: 1653
+        y: 834
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_32
+      rect:
+        serializedVersion: 2
+        x: 2204
+        y: 834
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_33
+      rect:
+        serializedVersion: 2
+        x: 2755
+        y: 834
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_34
+      rect:
+        serializedVersion: 2
+        x: 3306
+        y: 834
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_35
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_36
+      rect:
+        serializedVersion: 2
+        x: 551
+        y: 0
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_37
+      rect:
+        serializedVersion: 2
+        x: 1102
+        y: 0
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: piston_anim_551x834_38
+      rect:
+        serializedVersion: 2
+        x: 1653
+        y: 0
+        width: 551
+        height: 834
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

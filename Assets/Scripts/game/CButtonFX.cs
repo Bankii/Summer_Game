@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CBackgroundMusic : MonoBehaviour {
-    
-    static public CBackgroundMusic inst;
+public class CButtonFX : MonoBehaviour {
+
+    private AudioSource _as;
+
+    static public CButtonFX inst;
 
     [HideInInspector]
     public bool _hasInstantiated = false;
@@ -13,19 +15,23 @@ public class CBackgroundMusic : MonoBehaviour {
 
     void Start () {
 
-        GameObject other = GameObject.Find("Background_Music");
+        _as = GetComponent<AudioSource>();
+
+        GameObject other = GameObject.Find("Button_FX");
         if (other != null && other != gameObject)
         {
-            Destroy(gameObject);
+            Destroy(other.gameObject);
             _load = false;
-            return;
         }
-        
 
         DontDestroyOnLoad(gameObject);
         inst = this;
-        
+
         _hasInstantiated = true;
     }
-	
+	    
+    public void playSound()
+    {
+        _as.Play();
+    }
 }

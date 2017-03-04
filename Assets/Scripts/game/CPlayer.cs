@@ -53,6 +53,7 @@ public class CPlayer : CGameObject
     public AudioClip _jumpFX2;
     public AudioClip _gameOverFX;
     public AudioClip _coinPickUpFX;
+    public AudioClip _fastFall;
 
     //public Text _coinUI;
     //private CText _coinUIScript;
@@ -368,6 +369,11 @@ public class CPlayer : CGameObject
                 // Saving the last vertical speed before acceleration boost.
                 if (Input.GetAxisRaw("Vertical") < 0)
                 {
+                    _playerFX.clip = _fastFall;
+                    if (!_playerFX.isPlaying)
+                    {
+                        _playerFX.Play();
+                    }                    
                     _preBoostSpeed = getVelY();
                 }
                 // Loading the previous speed.
@@ -614,7 +620,7 @@ public class CPlayer : CGameObject
                 _anim.Play(_playerControllers._OffAnim);
                 stopMove();
                 break;
-            case STATE_ON:
+            case STATE_ON:                
                 _anim.Play(_playerControllers._OnAnim);
                 break;
             default:
@@ -751,12 +757,18 @@ public class CPlayer : CGameObject
         if (randomJump == 0)
         {
             _playerFX.clip = _jumpFX1;
-            _playerFX.Play();
+            if (!_playerFX.isPlaying)
+            {
+                _playerFX.Play();
+            }
         }
         else
         {
             _playerFX.clip = _jumpFX2;
-            _playerFX.Play();
+            if (!_playerFX.isPlaying)
+            {
+                _playerFX.Play();
+            }
         }
 
     }
