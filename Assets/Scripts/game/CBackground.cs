@@ -12,6 +12,12 @@ public class CBackground : CGameObject
 
     private SpriteRenderer sp;
 
+    private int _randomPiston;
+    private int _randomPistonAngle;
+
+    public CPiston _pistonPrefab;
+    
+
     void Start()
     {
         setVelY(SPEED);
@@ -29,7 +35,25 @@ public class CBackground : CGameObject
         //Moves the background when the player goes up
         if (getY() + getHeight() < _camera.getY() + CGameConstants.SCREEN_HEIGHT /2)
         {
-            setY(_otherBg.getY() + _otherBg.getHeight());                    
+            setY(_otherBg.getY() + _otherBg.getHeight());
+
+            _randomPiston = CMath.randomIntBetween(0, 100);
+            if (_randomPiston >= 80)
+            {
+                _randomPiston = CMath.randomIntBetween(1, 2);
+                _randomPistonAngle = CMath.randomIntBetween(60, 90);
+                if (_randomPiston == 1)
+                {
+                    CPiston piston = Instantiate(_pistonPrefab, new Vector3(getX() - 70, getY() - _randomPiston), Quaternion.Euler(0, 0, -_randomPistonAngle));
+                    piston.setCamera(_camera);
+                }
+                else
+                {
+                    CPiston piston = Instantiate(_pistonPrefab, new Vector3(getX() + _otherBg.getWidth() + 70, getY() - _randomPiston), Quaternion.Euler(0, 0, _randomPistonAngle));
+                    piston.setCamera(_camera);
+                }
+                
+            }             
         }
 
         //Moves the background when the player goes down
@@ -38,4 +62,5 @@ public class CBackground : CGameObject
             setY(_otherBg.getY() - _otherBg.getHeight());
         }
     }
+       
 }
