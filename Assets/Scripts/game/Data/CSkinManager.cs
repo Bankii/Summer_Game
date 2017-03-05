@@ -25,7 +25,6 @@ public class CSkinManager : MonoBehaviour {
         GameObject other = GameObject.Find("SkinsManager");
         if (other != null && other != gameObject)
         {
-            Debug.Log("Destroying instance");
             Destroy(gameObject);
             _load = false;
             return;
