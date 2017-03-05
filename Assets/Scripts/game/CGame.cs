@@ -118,10 +118,11 @@ public class CGame : MonoBehaviour
 		CKeyboard.init ();
 
         _gameAudio = GetComponent<AudioSource>();
-        
-	}
 
-	static public CGame inst()
+        _pause = true;
+    }
+
+    static public CGame inst()
 	{
 		return mInstance;
 	}
@@ -146,7 +147,7 @@ public class CGame : MonoBehaviour
         _camera.setGameObjectToFollow(_player);
 
         //Instantiating Platforms
-        createPlatform();    
+        createPlatform();
     }
 	
 	// Update is called once per frame
@@ -156,7 +157,11 @@ public class CGame : MonoBehaviour
         {
             update();
         }
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
+        if (CTransitionManager.inst.finishedTransition())
+        {
+            _pause = false;
+        }
+        if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P)) && !CTransitionManager.inst.isTransitioning())
         {
             _pause = !_pause;
             if (_pause)
