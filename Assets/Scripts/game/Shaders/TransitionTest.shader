@@ -4,7 +4,7 @@
 	{
 		_MainTex("Texture", 2D) = "white" {}
 		_TransitionTex("Transition Texture", 2D) = "white" {}
-		_Magnitude("Cutoff", Range(0,1)) = 1
+		_Cutoff("Cutoff", Range(0,1)) = 1
 		_Color("Color", Color) = (1,1,1,1)
 	}
 
@@ -63,7 +63,7 @@
 			sampler2D _MainTex;
 
 			sampler2D _TransitionTex;
-			float _Magnitude;
+			float _Cutoff;
 			fixed4 _Color;
 
 			/*fixed4 simplefrag(v2f i) : SV_Target
@@ -76,7 +76,7 @@
 			{
 				fixed4 transit = tex2D(_TransitionTex, i.uv1);
 
-				if (transit.b < _Magnitude)
+				if (transit.b < _Cutoff)
 					return _Color;
 				return tex2D(_MainTex, i.uv);
 			}

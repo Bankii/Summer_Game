@@ -32,7 +32,8 @@ public class CPauseMenuController : MonoBehaviour {
 
     public void OnMenu()
     {
-        SceneManager.LoadScene(0);
+        //SceneManager.LoadScene(0);
+        GameObject.Find("Canvas").GetComponent<CButtonManager>().changeScene(0);
     }
 
 	// Update is called once per frame
