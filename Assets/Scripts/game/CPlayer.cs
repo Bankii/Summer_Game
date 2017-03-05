@@ -538,6 +538,7 @@ public class CPlayer : CGameObject
                         {
                             playJumpFX();
                             setState(STATE_JUMPING);
+                            CGame.inst().setComboPause(false);
                         }
                     }
                 }
