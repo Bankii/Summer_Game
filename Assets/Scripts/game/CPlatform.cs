@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class CPlatform : CGameObject {
 
-    private const int STATE_OFF = 0;
-    private const int STATE_ON = 1;    
-    private const int STATE_SHUTDOWN = 2;
-    private const int STATE_DONE = 3;
-    private const int STATE_TRANSITION = 4;
-    private const int STATE_TRANSITION_DONE = 5;
+    public const int STATE_OFF = 0;
+    public const int STATE_ON = 1;
+    public const int STATE_SHUTDOWN = 2;
+    public const int STATE_DONE = 3;
+    public const int STATE_TRANSITION = 4;
+    public const int STATE_TRANSITION_DONE = 5;
     public const int STATE_INITIAL = 6;
 
     public float _initialStateTime;

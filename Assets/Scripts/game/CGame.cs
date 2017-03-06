@@ -32,6 +32,7 @@ public class CGame : MonoBehaviour
 
     public GameObject _platformPrefab;
     public CCamera _camera;
+    public CCoin _coin;
 
     public GameObject _canvas;
 
@@ -767,13 +768,8 @@ public class CGame : MonoBehaviour
                 if (_spawnCoinRate < 2 )
                 {
                     _spawnCoinRate = 2;
-                }
+                }                              
 
-                //_spawnRewardRate -= _difficultyIncrement;
-                //if (_spawnRewardRate < 1)
-                //{
-                //    _spawnRewardRate = 1;
-                //}
                 createPlatform();
             }
             
@@ -806,8 +802,8 @@ public class CGame : MonoBehaviour
 
     public void createCoin(CPlatform aPlatform)
     {
-        Object coin = Resources.Load("Prefabs/Coin");
-        Instantiate(coin, new Vector3(aPlatform.getX() + PLATFORM_WIDTH / 2, aPlatform.getY() + _player.getHeight() / 2, 0), Quaternion.identity);
+        CCoin coin = _coin;
+        coin = Instantiate(coin, new Vector3(aPlatform.getX() + PLATFORM_WIDTH / 2, aPlatform.getY() + _player.getHeight() / 2, 0), Quaternion.identity);       
     }
 
     //public void createBox(CPlatform aPlatform)
@@ -864,5 +860,10 @@ public class CGame : MonoBehaviour
     void OnDestroy()
     {
         CSaveLoad.setBestScore(_score);
+    }
+
+    public CPlayer getPlayer()
+    {
+        return _player;
     }
 }
