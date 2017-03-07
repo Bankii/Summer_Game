@@ -410,7 +410,7 @@ public class CGame : MonoBehaviour
         }
         else
         {
-            if (_wasGroundedLastFrame && _onQueueToShutDown)
+            if ((_wasGroundedLastFrame && _onQueueToShutDown) || (_platformBlue.getY() < _player.getY()))
             {
                 setAllPrevPlatformsInactive();
                 _onQueueToShutDown = false;

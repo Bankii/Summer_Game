@@ -24,6 +24,24 @@ public class CLoadValueToSlider : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+
+        if (_isSound)
+        {
+            if (_slider.value != CSaveLoad.soundVolume)
+            {
+                _slider.value = CSaveLoad.soundVolume;
+            }
+            
+        }
+        else
+        {
+            if (_slider.value != CSaveLoad.musicVolume)
+            {
+                _slider.value = CSaveLoad.musicVolume;
+            }
+        }
+       
 		
 	}
 }
