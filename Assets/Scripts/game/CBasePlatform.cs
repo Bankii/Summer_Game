@@ -11,7 +11,6 @@ public class CBasePlatform : MonoBehaviour {
 
         _collider = GetComponent<Collider2D>();
 
-        Debug.Log(_collider);
 	}
 	
 
