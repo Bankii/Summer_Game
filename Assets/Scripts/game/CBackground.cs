@@ -47,12 +47,12 @@ public class CBackground : CGameObject
                 int _rand = CMath.randomIntBetween(0, 1);
                 if (_rand == 0)
                 {
-                    CCable cable = Instantiate(_cableA, new Vector3(getX(), getY()), Quaternion.identity);
+                    CCable cable = Instantiate(_cableA, new Vector3(getX() - 70, getY()), Quaternion.identity);
                     cable.setCamera(_camera);
                 }
                 else
                 {
-                    CCable cable = Instantiate(_cableB, new Vector3(getX() + getWidth(), getY()), Quaternion.identity);
+                    CCable cable = Instantiate(_cableB, new Vector3(getX() + getWidth() + 70, getY()), Quaternion.identity);
                     cable.setCamera(_camera);
                 }
                 
@@ -69,25 +69,47 @@ public class CBackground : CGameObject
                 }
                 else
                 {
-                    CPiston piston = Instantiate(_pistonPrefab, new Vector3(getX() + _otherBg.getWidth() + 70, getY() - _randomPiston), Quaternion.Euler(0, 0, _randomPistonAngle));
+                    CPiston piston = Instantiate(_pistonPrefab, new Vector3(getX() + getWidth() + 70, getY() - _randomPiston), Quaternion.Euler(0, 0, _randomPistonAngle));
                     piston.setCamera(_camera);
                 }
             }
             else if (_randomDecoration < 79 && _randomDecoration >= 50)
             {
                 _randomDecoration = CMath.randomIntBetween(0, 100);
+                int rand = CMath.randomIntBetween(0, 1);
+
                 if (_randomDecoration > 80)
-                {
-                    CGear gear = Instantiate(_gear, new Vector3(getX(), getY()), Quaternion.identity);
-                    gear.setCamera(_camera);
+                {                
+                    if (rand == 0)
+                    {
+                        CGear gear = Instantiate(_gear, new Vector3(getX(), getY()), Quaternion.identity);
+                        gear.setCamera(_camera);
+                    }
+                    else
+                    {
+                        CGear gear = Instantiate(_gear, new Vector3(getX() + getWidth(), getY()), Quaternion.identity);
+                        gear.setCamera(_camera);
+                    }
+                    
                 }
                 else
                 {
-                    CGear gear = Instantiate(_gear, new Vector3(getX(), getY()), Quaternion.identity);
-                    gear.setCamera(_camera);
-                    CGear gear1 = Instantiate(_gear, new Vector3(getX(), getY() - gear.getHeight()*5), Quaternion.identity);
-                    gear1.setCamera(_camera);
-                    gear1.setCounterClockRotation();
+                    if (rand == 0)
+                    {
+                        CGear gear = Instantiate(_gear, new Vector3(getX(), getY()), Quaternion.identity);
+                        gear.setCamera(_camera);
+                        CGear gear1 = Instantiate(_gear, new Vector3(getX(), getY() - gear.getHeight() * 5), Quaternion.identity);
+                        gear1.setCamera(_camera);
+                        gear1.setCounterClockRotation();
+                    }
+                    else
+                    {
+                        CGear gear = Instantiate(_gear, new Vector3(getX() + getWidth(), getY()), Quaternion.identity);
+                        gear.setCamera(_camera);
+                        CGear gear1 = Instantiate(_gear, new Vector3(getX() + getWidth(), getY() - gear.getHeight() * 5), Quaternion.identity);
+                        gear1.setCamera(_camera);
+                        gear1.setCounterClockRotation();
+                    }
                 }                
             }
 
