@@ -15,6 +15,7 @@ public class CPlayer : CGameObject
     public const int STATE_ON = 7;
 
     public float _horizontalSpeed;
+    public float _horSpeedOnFlight;
     //public float _verticalMaxSpeed;
     //public float _verticalMinSpeed;
     public float _jumpSpeed;
@@ -334,13 +335,13 @@ public class CPlayer : CGameObject
                 // Set vel and flip according to the side.
                 else if (Input.GetAxisRaw("Horizontal") < 0)
                 {
-                    setVelX(-_horizontalSpeed);
+                    setVelX(-_horSpeedOnFlight);
                     _spriteRenderer.flipX = true;
                     _spriteRenderer.gameObject.transform.position = new Vector3(getX() + _width, getY(), getZ());
                 }
                 else if (Input.GetAxisRaw("Horizontal") > 0)
                 {
-                    setVelX(_horizontalSpeed);
+                    setVelX(_horSpeedOnFlight);
                     _spriteRenderer.flipX = false;
                     _spriteRenderer.gameObject.transform.position = getPos();
                 }
@@ -415,13 +416,13 @@ public class CPlayer : CGameObject
                 // Set vel and flip according to the side.
                 else if (Input.GetAxisRaw("Horizontal") < 0)
                 {
-                    setVelX(-_horizontalSpeed);
+                    setVelX(-_horSpeedOnFlight);
                     _spriteRenderer.flipX = true;
                     _spriteRenderer.gameObject.transform.position = new Vector3(getX() + _width, getY(), getZ());
                 }
                 else if (Input.GetAxisRaw("Horizontal") > 0)
                 {
-                    setVelX(_horizontalSpeed);
+                    setVelX(_horSpeedOnFlight);
                     _spriteRenderer.flipX = false;
                     _spriteRenderer.gameObject.transform.position = getPos();
                 }
