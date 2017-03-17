@@ -86,6 +86,7 @@ public class CGame : MonoBehaviour
     public float _comboMaxTime;
     public int _comboMaxMultip;
     private bool _comboPause = false;
+    private int _comboScoreMultip = 0;
 
     
     private float _spawnDeterminator; //Used to determinate if there will be coins or rewards in the platform
@@ -200,6 +201,7 @@ public class CGame : MonoBehaviour
     private void resetVariables()
     {
         _score = 0;
+        _comboScoreMultip = 0;
         _simonSequence = new List<int>();
         _isSolved = true;
         _isShowed = false;
@@ -762,7 +764,8 @@ public class CGame : MonoBehaviour
             {
                 _isSolved = true;
                 _difficulty = _difficulty + _difficultyIncrement;
-                _score = (int)(_difficulty * 100);
+                _comboScoreMultip += _comboMultip;
+                _score = (int)(_difficulty * 100) + _comboScoreMultip;
 
                 _spawnCoinRate -= _difficultyIncrement;
                 if (_spawnCoinRate < 2 )
