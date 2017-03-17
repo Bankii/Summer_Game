@@ -69,6 +69,8 @@ public class CPlayer : CGameObject
 
     private bool _hasPeakedJump = false;
 
+    public GameObject _dustPrefab;
+
     void Start()
     {
         if (CSkinManager.inst != null)
@@ -200,6 +202,7 @@ public class CPlayer : CGameObject
                         if (CGame.inst().getStatePlatform() != CPlatform.STATE_INITIAL)
                         {
                             playJumpFX();
+                            jumpDust();
                             setState(STATE_JUMPING);
                         }                        
                     }                    
@@ -234,6 +237,7 @@ public class CPlayer : CGameObject
                         if (CGame.inst().getStatePlatform() != CPlatform.STATE_INITIAL)
                         {
                             playJumpFX();
+                            jumpDust();
                             setState(STATE_JUMPING);
                         }
                     }
@@ -812,6 +816,12 @@ public class CPlayer : CGameObject
 
         }
     }
+
+    public void jumpDust()
+    {
+        GameObject dust = Instantiate(_dustPrefab, new Vector3(getX() + getWidth()/2, getY() - getHeight() + 40), Quaternion.identity);
+        dust.GetComponent<Animator>().Play("dust");
+    }
 }
 
 [System.Serializable]
@@ -871,6 +881,6 @@ public class CPlayerController
         }
     }
 
-
+    
 
 }
