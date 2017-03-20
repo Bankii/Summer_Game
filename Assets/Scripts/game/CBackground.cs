@@ -8,7 +8,8 @@ public class CBackground : CGameObject
     private float startY;
     
     public CCamera _camera;
-    public CGameObject _otherBg;
+    //public CGameObject _otherBg;
+    public bool _putDeco = false;
     
     private int _randomDecoration;
     private int _randomPiston;
@@ -33,11 +34,11 @@ public class CBackground : CGameObject
         apiUpdate();
 
         //Moves the background when the player goes up
-        if (getY() + getHeight() < _camera.getY() + CGameConstants.SCREEN_HEIGHT /2)
+        if (_putDeco)
         {
-            setY(_otherBg.getY() + _otherBg.getHeight());
+            //setY(_otherBg.getY() + _otherBg.getHeight());
 
-
+            _putDeco = false;
 
             //Set up decorations
             _randomDecoration = CMath.randomIntBetween(0, 100);
@@ -116,11 +117,11 @@ public class CBackground : CGameObject
             
         }
 
-        //Moves the background when the player goes down
-        if (getY() - getHeight()*2 > _camera.getY() - CGameConstants.SCREEN_HEIGHT / 2)
-        {
-            setY(_otherBg.getY() - _otherBg.getHeight());
-        }
+        ////Moves the background when the player goes down
+        //if (getY() - getHeight()*2 > _camera.getY() - CGameConstants.SCREEN_HEIGHT / 2)
+        //{
+        //    setY(_otherBg.getY() - _otherBg.getHeight());
+        //}
     }
        
 }

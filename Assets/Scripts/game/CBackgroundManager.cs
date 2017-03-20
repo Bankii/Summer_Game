@@ -22,14 +22,16 @@ public class CBackgroundManager : MonoBehaviour {
                 _backgrounds[i].gameObject.SetActive(true);
         }
 
-        _backgrounds[_visibleBg1]._otherBg = _backgrounds[_visibleBg2];
-        _backgrounds[_visibleBg2]._otherBg = _backgrounds[_visibleBg1];
+        //_backgrounds[_visibleBg1]._otherBg = _backgrounds[_visibleBg2];
+        //_backgrounds[_visibleBg2]._otherBg = _backgrounds[_visibleBg1];
 
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
+        
+
         if (_backgrounds[_visibleBg1].getY() + _backgrounds[_visibleBg1].getHeight() < _camera.getY() + CGameConstants.SCREEN_HEIGHT / 2)
         {
             int randomIndex = CMath.randomIntBetween(0, _backgrounds.Count -1);
@@ -49,9 +51,10 @@ public class CBackgroundManager : MonoBehaviour {
 
             }
 
-            _backgrounds[_visibleBg1]._otherBg = _backgrounds[_visibleBg2];
-            _backgrounds[_visibleBg2]._otherBg = _backgrounds[_visibleBg1];
+            _backgrounds[_visibleBg1].setY(_backgrounds[_visibleBg2].getY() + _backgrounds[_visibleBg2].getHeight());
+            _backgrounds[_visibleBg1]._putDeco = true;
         }
+
         if (_backgrounds[_visibleBg2].getY() + _backgrounds[_visibleBg2].getHeight() < _camera.getY() + CGameConstants.SCREEN_HEIGHT / 2)
         {
             int randomIndex = CMath.randomIntBetween(0, _backgrounds.Count-1);
@@ -70,8 +73,20 @@ public class CBackgroundManager : MonoBehaviour {
                     _backgrounds[i].gameObject.SetActive(true);
             }
 
-            _backgrounds[_visibleBg1]._otherBg = _backgrounds[_visibleBg2];
-            _backgrounds[_visibleBg2]._otherBg = _backgrounds[_visibleBg1];
+            _backgrounds[_visibleBg2].setY(_backgrounds[_visibleBg1].getY() + _backgrounds[_visibleBg1].getHeight());
+            _backgrounds[_visibleBg2]._putDeco = true;
+
+            
         }
-	}
+        //Moves the background when the player goes down
+        if (_backgrounds[_visibleBg1].getY() - _backgrounds[_visibleBg1].getHeight() * 2 > _camera.getY() - CGameConstants.SCREEN_HEIGHT / 2)
+        {
+            _backgrounds[_visibleBg1].setY(_backgrounds[_visibleBg2].getY() - _backgrounds[_visibleBg2].getHeight());
+        }
+        if (_backgrounds[_visibleBg2].getY() - _backgrounds[_visibleBg2].getHeight() * 2 > _camera.getY() - CGameConstants.SCREEN_HEIGHT / 2)
+        {
+            _backgrounds[_visibleBg2].setY(_backgrounds[_visibleBg1].getY() - _backgrounds[_visibleBg1].getHeight());
+        }
+
+    }
 }
